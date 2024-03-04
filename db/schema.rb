@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_04_154228) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_04_162710) do
   create_table "cards", force: :cascade do |t|
     t.string "content"
     t.integer "user_id", null: false
@@ -30,10 +30,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_154228) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.string "title"
+    t.integer "round_number", default: 1, null: false
     t.integer "game_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "points_per_team"
     t.index ["game_id"], name: "index_rounds_on_game_id"
   end
 
