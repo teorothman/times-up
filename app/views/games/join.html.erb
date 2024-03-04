@@ -1,0 +1,6 @@
+<h1>Join a Game</h1>
+
+<%= simple_form_for :game, url: perform_join_game_path, method: :post do |f| %>
+  <%= f.input :game_code, label: "Enter game code:", required: true %>
+  <%= f.button :submit, "Join Game" %>
+<% end %>
