@@ -2,12 +2,21 @@ class GamesController < ApplicationController
   def index
   end
 
+  def create
+    @game = Game.new(params[:id])
+    @game.is_default = params[:is_default] == 'true'
+    @game.save
+    redirect_to new_game_user_path(@game)
+  end
+
   def join
   end
 
 
   def show
     @game = Game.find(params[:id])
+
+    # check game state, if not started, waiting room
     @users = @game.users
     team_one_id = @game.users.first.team_id
     team_two_id = @game.users.second.team_id
@@ -26,5 +35,4 @@ class GamesController < ApplicationController
     end
   end
 
-  end
 end

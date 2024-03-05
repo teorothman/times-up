@@ -11,7 +11,9 @@ Rails.application.routes.draw do
 
   root "games#index"
 
-  resources :games, only: [:index, :show, :new, :create] do
+  resources :games, only: [:index, :show, :new, :create]
+
+  resources :games, only: :show do
     resources :users, only: [:new, :create]
   end
 end
