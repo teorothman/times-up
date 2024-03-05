@@ -5,6 +5,11 @@ class GamesController < ApplicationController
   def join
   end
 
+
+  def show
+    @game = Game.find(params[:id])
+    # check game state, if not started, waiting room
+
   def perform_join
     @game = Game.find_by(code: params[:game_code])
     if @game
@@ -14,4 +19,5 @@ class GamesController < ApplicationController
     end
   end
 
+  end
 end
