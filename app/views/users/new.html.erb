@@ -1,5 +1,13 @@
 <h1>Create your profile</h1>
 
-form
+form WIP
 
-avatar
+<%= simple_form_for @user do |f| %>
+  <%= f.input :username %>
+  -- CHOOSE avatar
+
+  how to access array, Model?
+  <% avatar_arr.each do |a|%>
+  <img src="<%= a.photo %>" alt="<%= a.photo.filename %>">
+  <%= f.button :submit %>
+<% end %>

@@ -70,3 +70,4 @@ end
 
 gem 'simple_form'
 gem 'sass-rails'
+gem 'faker', '~> 3.2'
