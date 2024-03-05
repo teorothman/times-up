@@ -73,3 +73,5 @@ gem 'sass-rails'
 gem 'faker', '~> 3.2'
 gem "cloudinary"
 gem "font-awesome-sass", "~> 6.5.1"
+
+gem 'pg'
