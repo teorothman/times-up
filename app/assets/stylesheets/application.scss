@@ -1,0 +1,25 @@
+// Colors and fonts
+
+@import "config/colors";
+@import "config/fonts";
+
+
+
+// Default stylings
+@import "components/containers";
+
+// Components
+
+@import "components/btn";
+@import "components/logo";
+
+body{
+  background-color: $white;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
