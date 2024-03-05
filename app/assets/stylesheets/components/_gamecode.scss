@@ -1,0 +1,23 @@
+.text-center {
+  text-align: center;
+  margin-bottom: 5vh;
+  margin-top: 10vh;
+}
+
+.game-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.game-code-input {
+  width: 100%;
+  border: 2px solid $red;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.game-code-label {
+  margin-bottom: 10px;
+}
