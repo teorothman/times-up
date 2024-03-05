@@ -69,3 +69,5 @@ group :test do
 end
 
 gem 'sass-rails'
+
+gem "font-awesome-sass", "~> 6.5.1"

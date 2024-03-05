@@ -9,6 +9,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
-  end
+    # check game state, if not started, waiting room
 
+  end
 end

@@ -1,6 +1,10 @@
 .container{
-  margin-top: 2vh;
-  margin-bottom: 2vh;
   margin-left: 2vw;
   margin-right: 2vw;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
 }
