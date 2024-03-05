@@ -20,6 +20,9 @@
 // Pages
 
 @import "pages/pre_lobby";
+@import "components/new_game";
+@import "components/gamecode";
+
 
 body{
   background-color: $white;

@@ -5,9 +5,13 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
+  get 'games/join', to: 'games#join', as: 'join_game' # displays the join page
+  post 'games/join', to: 'games#perform_join', as: 'perform_join_game' # form submission
   # Defines the root path route ("/")
 
   # root "posts#index"
 
-  resources :games, only: [:show, :new, :create]
+  resources :games, only: [:index, :show, :new, :create] do
+    resources :users, only: [:new, :create]
+  end
 end

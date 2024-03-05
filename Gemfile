@@ -68,6 +68,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
+gem 'simple_form'
 gem 'sass-rails'
 
 gem "font-awesome-sass", "~> 6.5.1"
