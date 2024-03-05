@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   post 'games/join', to: 'games#perform_join', as: 'perform_join_game' # form submission
   # Defines the root path route ("/")
 
-  # root "posts#index"
+  root "games#index"
 
   resources :games, only: [:index, :show, :new, :create]
 

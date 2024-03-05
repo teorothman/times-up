@@ -49,7 +49,7 @@ user = User.new(
   points_round_3: 0
 )
 avatar = avatar_arr.sample
-user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
+user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
 user.save
 
 puts "Creating 3 joiners for team 1..."
@@ -65,7 +65,7 @@ puts "Creating 3 joiners for team 1..."
     points_round_3: 0
   )
   avatar = avatar_arr.sample
-  user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
+  user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
   user.save
 end
 
@@ -82,10 +82,63 @@ puts "Creating 4 joiners for team 2..."
     points_round_3: 0
   )
   avatar = avatar_arr.sample
-  user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
+  user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
   user.save
 end
+
 # 5.times do
 #   Card.new will come here
 # end
+puts "Creating 40 cards"
+times_up_guess_list = [
+  "The Mona Lisa",
+  "Eiffel Tower",
+  "Shrek",
+  "Cleopatra",
+  "The Beatles",
+  "Harry Potter",
+  "Mount Everest",
+  "Albert Einstein",
+  "The Sphinx",
+  "Leonardo da Vinci",
+  "Marilyn Monroe",
+  "Titanic",
+  "Pikachu",
+  "Statue of Liberty",
+  "Michael Jackson",
+  "Sherlock Holmes",
+  "The Colosseum",
+  "Elvis Presley",
+  "Star Wars",
+  "Napoleon Bonaparte",
+  "Spider-Man",
+  "The Hobbit",
+  "Big Ben",
+  "Vincent van Gogh",
+  "Queen Elizabeth II",
+  "The Godfather",
+  "Machu Picchu",
+  "Julius Caesar",
+  "Batman",
+  "Stonehenge",
+  "William Shakespeare",
+  "Frida Kahlo",
+  "Jurassic Park",
+  "King Arthur",
+  "Charlie Chaplin",
+  "James Bond",
+  "The Grand Canyon",
+  "Mozart",
+  "The Wizard of Oz",
+  "Steve Jobs",
+]
 
+times_up_guess_list.each do |word|
+  card = Card.new(
+    content: word,
+    user_id: User.first.id,
+    is_guessed: false,
+    is_skipped: false
+  )
+  card.save
+end
