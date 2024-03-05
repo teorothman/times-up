@@ -68,4 +68,8 @@ group :test do
   gem "selenium-webdriver"
 end
 
+gem 'simple_form'
 gem 'sass-rails'
+gem 'faker', '~> 3.2'
+gem "cloudinary"
+gem "font-awesome-sass", "~> 6.5.1"
