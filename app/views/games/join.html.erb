@@ -1,6 +1,11 @@
-<h1>Join a Game</h1>
+<div class="container">
+  <div class="logo-container">
+    <%= image_tag 'logo.png', alt: 'Logo', class:"logo" %>
+  </div>
+  <h1 class="text-center">Enter Code to Join</h1>
 
-<%= simple_form_for :game, url: perform_join_game_path, method: :post do |f| %>
-  <%= f.input :game_code, label: "Enter game code:", required: true %>
-  <%= f.button :submit, "Join Game" %>
-<% end %>
+  <%= simple_form_for :game, url: perform_join_game_path, method: :post do |f| %>
+    <%= f.input :game_code, required: true, label: false, input_html: { class: 'game-code-input' }, label_html: { class: 'game-code-label' } %>
+    <%= f.button :submit, "Join Game", class: 'btn btn-red mt-5'%>
+  <% end %>
+</div>
