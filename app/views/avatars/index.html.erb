@@ -1,0 +1,8 @@
+
+
+<div class="grid-player">
+  <%= @avatars.each do |a| %>
+    <div>
+    <%= cl_image_tag a.photo.key %>
+    </div>
+</div>
