@@ -3,4 +3,5 @@ class User < ApplicationRecord
   belongs_to :team
   has_many :turns
   has_many :cards
+  has_one_attached :photo
 end
