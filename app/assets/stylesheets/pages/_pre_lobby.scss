@@ -1,8 +1,19 @@
 .pre-lobby-top-text{
-  margin-top: 15vh;
+  margin-top: 13vh;
+  margin-bottom: 2vh;
+
+}
+
+.pre-lobby-bottom-text{
+  display: flex;
+  justify-content: center;
 
 }
 
 .pre-lobby-top-text > i{
+  color: $beige;
+}
+
+i{
   color: $beige;
 }
