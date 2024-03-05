@@ -40,7 +40,7 @@ avatar_arr = [avatar_monkey, avatar_bear, avatar_giraffe, avatar_gorila, avatar_
 puts "Creating 1 creator for team 1..."
 
 user = User.new(
-  username: Faker::Name.first_name,
+  username: Faker::Name.unique.first_name,
   game_id: Game.first.id,
   is_creator: true,
   team_id: Team.find_by(name: 1).id,
@@ -49,14 +49,15 @@ user = User.new(
   points_round_3: 0
 )
 avatar = avatar_arr.sample
-user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
+# here is where it uploads to cloudinary
+user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
 user.save
 
 puts "Creating 3 joiners for team 1..."
 3.times do
   # avatar = select random img from avatar range
   user = User.new(
-    username: Faker::Name.first_name,
+    username: Faker::Name.unique.first_name,
     game_id: Game.first.id,
     is_creator: false,
     team_id: Team.find_by(name: 1).id,
@@ -65,7 +66,7 @@ puts "Creating 3 joiners for team 1..."
     points_round_3: 0
   )
   avatar = avatar_arr.sample
-  user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
+  user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
   user.save
 end
 
@@ -73,7 +74,7 @@ puts "Creating 4 joiners for team 2..."
 4.times do
   # avatar = select random img from avatar range
   user = User.new(
-    username: Faker::Name.first_name,
+    username: Faker::Name.unique.first_name,
     game_id: Game.first.id,
     is_creator: false,
     team_id: Team.find_by(name: 2).id,
@@ -82,10 +83,9 @@ puts "Creating 4 joiners for team 2..."
     points_round_3: 0
   )
   avatar = avatar_arr.sample
-  user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
+  user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
   user.save
 end
 # 5.times do
 #   Card.new will come here
 # end
-

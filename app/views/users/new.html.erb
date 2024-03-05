@@ -4,9 +4,19 @@ form WIP
 
 <%= simple_form_for @user do |f| %>
   <%= f.input :username %>
-  -- CHOOSE avatar
 
-  how to access array, Model?
+  -- CHOOSE avatar
+  seed avatars
+  user.attach avatar.image ()
+
+  migration Avatar
+  g Avatar model
+
+
+
+  button radio
+
+  how to access array, Model? - from the seeds
   <% avatar_arr.each do |a|%>
   <img src="<%= a.photo %>" alt="<%= a.photo.filename %>">
   <%= f.button :submit %>
