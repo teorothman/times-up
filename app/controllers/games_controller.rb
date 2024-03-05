@@ -8,6 +8,13 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    @users = @game.users
+    team_one_id = @game.users.first.team_id
+    team_two_id = @game.users.second.team_id
+    @team_one = @game.users.where(team: team_one_id)
+    @team_two = @game.users.where(team: team_two_id)
+    render 'lobby'
+    # render 'pre_lobby'
     # check game state, if not started, waiting room
 
   def perform_join
