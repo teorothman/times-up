@@ -1,4 +1,7 @@
 class GamesController < ApplicationController
+  def index
+  end
+
   def join
   end
 
@@ -10,4 +13,5 @@ class GamesController < ApplicationController
       redirect_to join_game_path, notice: 'Game not found.'
     end
   end
+
 end
