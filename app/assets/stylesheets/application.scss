@@ -16,13 +16,15 @@
 @import "components/logo";
 @import "components/player_grid";
 @import "components/avatar_rounded";
+@import 'components/form';
+@import "components/new_game";
+@import "components/gamecode";
 
 // Pages
 
 @import "pages/pre_lobby";
-@import "components/new_game";
-@import "components/gamecode";
 @import 'pages/lobby';
+@import 'pages/index';
 
 
 body{

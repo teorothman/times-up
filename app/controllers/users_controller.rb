@@ -6,17 +6,20 @@ class UsersController < ApplicationController
 
   def create
     @game = Game.find(params[:game_id])
+    @team_one = Team.where(game_id: @game.id).first
+    @team_two = Team.where(game_id: @game.id).last
     @user = User.new(user_params)
     @user.game = @game
-    @team = Team.create(name: "")
-    @user.team = @team
+    if User.where(game_id: @game.id).count.zero?
+      @user.is_creator = true
+      @user.team_id = @team_one.id
+    elsif User.where(game_id: @game.id).count.odd?
+      @user.team_id = @team_two.id
+    else
+      @user.team_id = @team_one.id
+    end
     if @user.save
-      @game.users << @user
-      @user.is_creator = true if @game.users.length == 1
-      @user.team.name = 'Team 1' if @game.users[0] == @user || @game.users[2] == @user
-      @user.team.name = 'Team 2' if @game.users[1] == @user || @game.users[3] == @user
-      @user.save
-      @team.save
+      session[:user_id] = @user.id
       redirect_to game_path(@game)
     else
       render :new

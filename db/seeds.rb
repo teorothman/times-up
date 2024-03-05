@@ -8,11 +8,11 @@ Game.destroy_all
 
 
 puts "Creating 1 game"
-Game.create! code: 123456, url: "https://www.instagram.com/p/y-al3LtwsQ/", is_default: true
+game = Game.create! code: 123456, url: "https://www.instagram.com/p/y-al3LtwsQ/", is_default: true
 
 puts "Creating 2 teams"
-Team.create! name: 1
-Team.create! name: 2
+Team.create! name: 1, game_id: game.id
+Team.create! name: 2, game_id: game.id
 
 puts "Loading avatars..."
 
