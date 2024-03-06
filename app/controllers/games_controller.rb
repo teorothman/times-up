@@ -18,17 +18,36 @@ class GamesController < ApplicationController
 
 
   def show
+    #NECCESSARY INSTANCE VARIABLES
     @game = Game.find(params[:id])
-
-    # check game state, if not started, waiting room
     @users = @game.users
     team_one_id = @game.users.first.team_id
     team_two_id = @game.users.second.team_id unless @game.users.second.nil?
     @team_one = @game.users.where(team: team_one_id)
     @team_two = @game.users.where(team: team_two_id) unless @game.users.second.nil?
-    render 'pre_lobby'
-    # render 'pre_lobby'
-    # check game state, if not started, waiting room
+    @game_state = Game_state.find(@game)
+
+    # ACTUAL LOGIC FOR THE GAME
+    case @game_state.status
+    when 'pre-lobby'
+      render 'pre_lobby'
+    when 'lobby'
+      render 'lobby'
+    when 'cards'
+      render 'cards'
+    when 'round_one'
+      render 'round_one'
+    when 'round_two'
+      render 'round_two'
+    when 'round_three'
+      render 'round_three'
+    when 'results'
+      render 'results'
+    when 'play_again'
+      render 'play_again'
+    else
+      render 'show'
+    end
   end
 
   def perform_join
