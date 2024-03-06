@@ -25,16 +25,16 @@ class GamesController < ApplicationController
     team_two_id = @game.users.second.team_id unless @game.users.second.nil?
     @team_one = @game.users.where(team: team_one_id)
     @team_two = @game.users.where(team: team_two_id) unless @game.users.second.nil?
-    @game_state = Game_state.find(@game)
+    @game_state = GamesStatus.find_by(game_id: @game.id)
 
     # ACTUAL LOGIC FOR THE GAME
-    case @game_state.status
+    case @game_state.first.status
     when 'pre-lobby'
       render 'pre_lobby'
     when 'lobby'
       render 'lobby'
     when 'cards'
-      render 'cards'
+      redirect_to new_game_card_path(@game)
     when 'round'
       render 'round'
     when 'results'
