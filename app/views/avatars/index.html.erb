@@ -1,0 +1,9 @@
+
+avatar grid to be rendered on New/user page
+<div>
+  <%= @avatars.each do |a| %>
+    <div>
+    <%= cl_image_tag a.photo.key %>
+    </div>
+  <% end %>
+</div>
