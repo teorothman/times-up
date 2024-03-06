@@ -22,6 +22,7 @@
 @import "pages/pre_lobby";
 @import "components/new_game";
 @import "components/gamecode";
+@import 'pages/lobby';
 
 
 body{
@@ -33,4 +34,8 @@ body{
   padding: 0;
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
+}
+
+a{
+  text-decoration: none;
 }

@@ -5,7 +5,8 @@
     <p class="link">Show QR</p>
   </div>
   <div class="player-grid">
-    <%= render partial: 'player_grid' %>
+    <%= render partial: 'player_grid', collection: @users, as: :user %>
+  </div>
   </div>
 <div class="pre-lobby-bottom-text">
   <h1>Waiting for more<br> players to join...</h1>
