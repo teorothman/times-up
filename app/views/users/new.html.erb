@@ -1,19 +1,21 @@
-<h1>Create your profile</h1>
+<div class="form-wrapper">
+  <h1>Create your profile</h1>
+  <%= simple_form_for [@game, @user] do |f| %>
+    <%= f.input :username, input_html: { class: 'form-input', placeholder: 'Enter username' }, label: false %>
+    <%# -- CHOOSE avatar
 
-form WIP
-
-<%= simple_form_for [@game, @user] do |f| %>
-  <%= f.input :username %>
-
-
+  
   button radio
 
-  how to access array, Model? - from the seeds
-  <% avatar_arr.each do |a|%>
-  <img src="<%= a.photo %>" alt="<%= a.photo.filename %>">
+    how to access array, Model? - from the seeds
+    <% avatar_arr.each do |a|%>
+    <img src="<%= a.photo %>" alt="<%= a.photo.filename %>">
+  
+    <%= f.button :submit, class:'btn btn-red' %>
+  
+    <% end %>
+</div>
 
-  <%# -- CHOOSE avatar
 
-  how to access array, Model? %>
-  <%= f.button :submit %>
-<% end %>
+
+

@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_05_160350) do
+
+ActiveRecord::Schema[7.1].define(version: 2024_03_05_180407) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -75,6 +79,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_160350) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "game_id"
+    t.index ["game_id"], name: "index_teams_on_game_id"
   end
 
   create_table "turns", force: :cascade do |t|
@@ -107,6 +113,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_160350) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cards", "users"
   add_foreign_key "rounds", "games"
+  add_foreign_key "teams", "games"
   add_foreign_key "turns", "rounds"
   add_foreign_key "turns", "users"
   add_foreign_key "users", "games"

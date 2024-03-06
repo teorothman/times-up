@@ -1,0 +1,23 @@
+.form-input{
+height: 5vh;
+border-radius: 8px;
+}
+
+.mb-3{
+  display: flex;
+  flex-direction: column;
+  margin-top: 2vh;
+}
+
+.form-label{
+  font-family: inherit;
+
+}
+
+.form-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}

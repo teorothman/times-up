@@ -22,3 +22,21 @@
   color: $black;
   font-weight: bold;
 }
+
+input{
+  margin-top: 2vh;
+  border: none;
+  text-align: center;
+}
+
+.btn-center{
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  margin-left: 10vw;
+
+}

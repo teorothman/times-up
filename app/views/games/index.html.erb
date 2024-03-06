@@ -1,17 +1,29 @@
 <div class="container">
-  <div class="logo-container">
-    <%= image_tag 'logo.png', alt: 'Logo', class:"logo" %>
-  </div>
-  <div>
-    <%= link_to 'Host a game', '#' , class: 'btn btn-red' %>
-  </div>
+  <div class="index-wrapper">
+    <div>
+      <%= image_tag 'logo.png', alt: 'Logo', class:"logo" %>
+    </div>
+    <div>
+      <%= link_to 'Host a game', new_game_path , class: 'btn btn-red' %>
+    </div>
 
-  <div>
-    <%= link_to 'Join a game', join_game_path, class: 'btn btn-yellow' %>
-  </div>
+    <div>
+      <%= link_to 'Join a game', join_game_path, class: 'btn btn-yellow' %>
+    </div>
 
-  <div>
-    <%= link_to 'How to play', '#', class: 'btn' %>
-    <%= link_to 'About us', '#', class: 'btn' %>
+    <div class="index-links">
+      <%= link_to '#', class: 'btn' do %>
+            <p>
+              How to play
+              <i class="fa-solid fa-chevron-right"></i>
+            </p>
+          <% end %>
+          <%= link_to 'about', class: 'btn' do %>
+            <p>
+              About us
+              <i class="fa-solid fa-chevron-right"></i>
+            </p>
+          <% end %>
+    </div>
   </div>
 </div>
