@@ -1,12 +1,103 @@
-
-<div class="about-us-wrapper">
-<div class="about-us-first">
-  <%= image_tag "laura_avatar.png", class: "avatar_top"%>
-  <%= image_tag "leo_avatar.png", class: "avatar_bottom"%>
-  <%= image_tag "teo_avatar.png", class: "avatar_left" %>
-  <%= image_tag "martin_avatar.png", class: "avatar_right" %>
+<div class="about-us-wrapper" data-controller="about-us">
+  <div class="all" data-about-us-target='all'>
+    <div data-name="laura" data-action="click->about-us#showAsFirstPicture">
+      <%= image_tag "laura_avatar.png", class: "avatar_top"%>
+    </div>
+    <div data-name="leo" data-action="click->about-us#showAsFirstPicture">
+      <%= image_tag "leo_avatar.png", class: "avatar_bottom"%>
+    </div>
+    <div data-name="teo" data-action="click->about-us#showAsFirstPicture">
+      <%= image_tag "teo_avatar.png", class: "avatar_left" %>
+    </div>
+    <div data-name="martin" data-action="click->about-us#showAsFirstPicture">
+      <%= image_tag "martin_avatar.png", class: "avatar_right" %>
+    </div>
   </div>
-  <div>
-  <%= image_tag "laura_avatar.png", class: "avatar_top"%>
+  <div class="d-none leo" data-about-us-target='user' data-name="leo">
+    <%= image_tag "leo_avatar.png", class: "avatar_on_click_top"%>
+    <p class="p_tag">"Segundo Francia"</p>
+    <div class="icons">
+      <%= link_to "http://www.facebook.com/user" do %>
+        <i class="fa-brands fa-github"></i>
+      <% end %>
+      <%= link_to "http://www.facebook.com/user" do %>
+        <i class="fa-brands fa-linkedin"></i>
+      <% end %>
+      <%= link_to "http://www.facebook.com/user" do %>
+        <i class="fa-solid fa-globe"></i>
+      <% end %>
+    </div>
+
+    <div class="avatars_on_click">
+      <%= image_tag "laura_avatar.png", class: "avatar_on_click_bottom", data: {action: "click->about-us#showAsFirstPicture", name: "laura"}%>
+      <%= image_tag "teo_avatar.png", class: "avatar_on_click_left", data: {action: "click->about-us#showAsFirstPicture", name: "teo"} %>
+      <%= image_tag "martin_avatar.png", class: "avatar_on_click_right", data: {action:"click->about-us#showAsFirstPicture", name: "martin"} %>
+    </div>
+
+  </div>
+  <div class="d-none laura" data-about-us-target='user' data-name="laura">
+    <%= image_tag "laura_avatar.png", class: "avatar_on_click_top"%>
+    <p class="p_tag">"Viva España"</p>
+    <div class="icons">
+        <%= link_to "http://www.facebook.com/user" do %>
+          <i class="fa-brands fa-github"></i>
+      <% end %>
+      <%= link_to "http://www.facebook.com/user" do %>
+          <i class="fa-brands fa-linkedin"></i>
+      <% end %>
+      <%= link_to "http://www.facebook.com/user" do %>
+          <i class="fa-solid fa-globe"></i>
+      <% end %>
+    </div>
+
+    <div class="avatars_on_click">
+      <%= image_tag "leo_avatar.png", class: "avatar_on_click_bottom", data: {action:"click->about-us#showAsFirstPicture", name: "leo"}%>
+      <%= image_tag "teo_avatar.png", class: "avatar_on_click_left", data: {action:"click->about-us#showAsFirstPicture", name: "teo"} %>
+      <%= image_tag "martin_avatar.png", class: "avatar_on_click_right", data: {action:"click->about-us#showAsFirstPicture", name: "martin"} %>
+    </div>
+
+  </div>
+  <div class="d-none teo" data-about-us-target='user' data-name="teo">
+    <%= image_tag "teo_avatar.png", class: "avatar_on_click_top"%>
+    <p class="p_tag">"Never Stop Coding"</p>
+    <div class="icons">
+        <%= link_to "http://www.facebook.com/user" do %>
+          <i class="fa-brands fa-github"></i>
+      <% end %>
+      <%= link_to "http://www.facebook.com/user" do %>
+          <i class="fa-brands fa-linkedin"></i>
+      <% end %>
+      <%= link_to "http://www.facebook.com/user" do %>
+          <i class="fa-solid fa-globe"></i>
+      <% end %>
+    </div>
+
+    <div class="avatars_on_click">
+      <%= image_tag "leo_avatar.png", class: "avatar_on_click_bottom", data: {action:"click->about-us#showAsFirstPicture", name: "leo"}%>
+      <%= image_tag "laura_avatar.png", class: "avatar_on_click_left", data: {action:"click->about-us#showAsFirstPicture", name: "laura"} %>
+      <%= image_tag "martin_avatar.png", class: "avatar_on_click_right", data: {action:"click->about-us#showAsFirstPicture", name: "martin"} %>
+    </div>
+
+  </div>
+  <div class="d-none martin" data-about-us-target='user' data-name="martin">
+    <%= image_tag "martin_avatar.png", class: "avatar_on_click_top"%>
+    <p class="p_tag">"It is 6pm!!!"</p>
+    <div class="icons">
+        <%= link_to "http://www.facebook.com/user" do %>
+          <i class="fa-brands fa-github"></i>
+      <% end %>
+      <%= link_to "http://www.facebook.com/user" do %>
+          <i class="fa-brands fa-linkedin"></i>
+      <% end %>
+      <%= link_to "http://www.facebook.com/user" do %>
+          <i class="fa-solid fa-globe"></i>
+      <% end %>
+    </div>
+
+    <div class="avatars_on_click">
+      <%= image_tag "leo_avatar.png", class: "avatar_on_click_bottom", data: {action:"click->about-us#showAsFirstPicture", name: "leo"}%>
+      <%= image_tag "teo_avatar.png", class: "avatar_on_click_left", data: {action:"click->about-us#showAsFirstPicture", name: "teo"} %>
+      <%= image_tag "laura_avatar.png", class: "avatar_on_click_right", data: {action:"click->about-us#showAsFirstPicture", name: "laura"} %>
+    </div>
   </div>
 </div>
