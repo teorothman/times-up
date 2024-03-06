@@ -39,6 +39,7 @@ class GamesController < ApplicationController
       render 'round'
     when 'results'
       render 'results'
+    # Laura
     when 'play_again'
       render 'play_again'
     else
