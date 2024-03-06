@@ -4,7 +4,18 @@
     <%= f.input :username, input_html: { class: 'form-input', placeholder: 'Enter username' }, label: false %>
     <%# -- CHOOSE avatar
 
-    how to access array, Model? %>
+  
+  button radio
+
+    how to access array, Model? - from the seeds
+    <% avatar_arr.each do |a|%>
+    <img src="<%= a.photo %>" alt="<%= a.photo.filename %>">
+  
     <%= f.button :submit, class:'btn btn-red' %>
-  <% end %>
+  
+    <% end %>
 </div>
+
+
+
+

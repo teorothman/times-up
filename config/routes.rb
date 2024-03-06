@@ -18,4 +18,7 @@ Rails.application.routes.draw do
       resources :cards, only: [:new, :create, :show]
     end
   end
+
+  resources :avatars, only: :index
+  
 end
