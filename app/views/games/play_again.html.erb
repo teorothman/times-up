@@ -1,8 +1,9 @@
 <h1>Let's play again!</h1>
 
-      <div class="lobby-buttons">
-        # double check if instance game is same teams etc
-        <%= link_to "Same team", "#", class: 'btn btn-red' %>
-        # double check which instance game is for new teams etc
-        <%= link_to "Host a new game", new_game_path(game) ,class: 'btn btn-yellow'%>
-      </div>
+  <div class="lobby-buttons">
+    # double check if instance game is same teams etc
+    # go to game/show + game.games_status = "lobby" to render lobby -link?"game_path(game)
+    <%= link_to "Same team", "#", class: 'btn btn-red' %>
+    # double check which instance game is for new teams etc -link?new_game_path(game)
+    <%= link_to "Host a new game", "#",class: 'btn btn-yellow'%>
+  </div>
