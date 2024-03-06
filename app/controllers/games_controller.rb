@@ -25,7 +25,7 @@ class GamesController < ApplicationController
     team_two_id = @game.users.second.team_id unless @game.users.second.nil?
     @team_one = @game.users.where(team: team_one_id)
     @team_two = @game.users.where(team: team_two_id) unless @game.users.second.nil?
-    @game_state = Game_state.find(@game)
+    @game_state = GamesStatus.find(@game)
 
     # ACTUAL LOGIC FOR THE GAME
     case @game_state.status
