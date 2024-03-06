@@ -11,9 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_03_05_180407) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -49,7 +46,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_180407) do
 
   create_table "cards", force: :cascade do |t|
     t.string "content"
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.boolean "is_guessed"
     t.boolean "is_skipped"
     t.datetime "created_at", null: false
@@ -66,8 +63,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_180407) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.string "title"
-    t.bigint "game_id", null: false
+    t.integer "round_number", default: 1, null: false
+    t.integer "game_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "points_per_team"
@@ -78,14 +75,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_180407) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "game_id"
+    t.integer "game_id"
     t.index ["game_id"], name: "index_teams_on_game_id"
   end
 
   create_table "turns", force: :cascade do |t|
     t.integer "points"
-    t.bigint "round_id", null: false
-    t.bigint "user_id", null: false
+    t.integer "round_id", null: false
+    t.integer "user_id", null: false
     t.boolean "skip_used"
     t.integer "timer"
     t.datetime "created_at", null: false
@@ -96,9 +93,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_180407) do
 
   create_table "users", force: :cascade do |t|
     t.string "username"
-    t.bigint "game_id", null: false
+    t.integer "game_id", null: false
     t.boolean "is_creator"
-    t.bigint "team_id", null: false
+    t.integer "team_id", null: false
     t.integer "points_round_1"
     t.integer "points_round_2"
     t.integer "points_round_3"

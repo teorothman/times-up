@@ -1,0 +1,39 @@
+.about-us-wrapper{
+ height: 90vh;
+}
+
+.avatar_top{
+ position: absolute;
+ top: 30%;
+ left: 38%;
+ width: 87px;
+ height: 85px;
+}
+
+.avatar_bottom{
+ position: absolute;
+ bottom: 30%;
+ left: 38vw;
+ width: 87px;
+ height: 85px;
+}
+
+.avatar_left{
+ position: absolute;
+ top: 44%;
+ left: 21vw;
+ width: 87px;
+ height: 85px;
+}
+
+.avatar_right{
+ position: absolute;
+ top: 44%;
+ left: 58vw;
+ width: 87px;
+ height: 85px;
+}
+
+.about-us-first{
+  display: none;
+}
