@@ -10,7 +10,10 @@
   </div>
 <div class="pre-lobby-bottom-text">
   <% if current_user.is_creator == true %>
-    <%= link_to "Start game", "#", class: 'btn btn-red', data: { turbo_confirm: 'Are you sure?' } %>
+    <%= form_with url: game_path(@game), method: :get, class: 'inline-form' do |form| %>
+      <%= form.hidden_field :update_game, value: true %>
+      <%= form.button "Start game", class: 'btn btn-red', data: { turbo_confirm: 'Are you sure?' } %>
+    <% end %>
   <% else %>
     <h1>Waiting for more<br> players to join...</h1>
   <% end %>

@@ -8,12 +8,23 @@ class GamesController < ApplicationController
     @game = Game.new(params[:id])
     @game.is_default = params[:is_default] == 'true'
     @game.save
+    @game_state = GamesStatus.create(game_id: @game.id)
     @team_one = Team.create!(name: 1, game_id: @game.id)
     @team_two = Team.create!(name: 2, game_id: @game.id)
     redirect_to new_game_user_path(@game)
   end
 
   def join
+  end
+
+  def update_state
+    @game = Game.find(params[:id])
+    @game_state = GamesStatus.find_by(game_id: @game.id)
+    case @game_state.status
+    when "pre-lobby"
+      @game_state.status = "lobby"
+    end
+    render :show
   end
 
 
@@ -28,7 +39,7 @@ class GamesController < ApplicationController
     @game_state = GamesStatus.find_by(game_id: @game.id)
 
     # ACTUAL LOGIC FOR THE GAME
-    case @game_state.first.status
+    case @game_state.status
     when 'pre-lobby'
       render 'pre_lobby'
     when 'lobby'
