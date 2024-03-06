@@ -4,11 +4,7 @@
   </div>
   <h1 class="text-center">Enter Code to Join</h1>
 
-<<<<<<< HEAD
-  <%= simple_form_for :users, url: new_game_user_path(22), method: :get do |f| %>
-=======
-  <%= simple_form_for :users, url: new_game_user_path(38), method: :get do |f| %>
->>>>>>> main
+  <%= simple_form_for :users, url: new_game_user_path(23), method: :get do |f| %>
     <%= f.input :game_id, required: true, label: false, input_html: { class: 'game-code-input' }, label_html: { class: 'game-code-label' }, placeholder: 'Enter code and join' %>
     <%= f.button :submit, "Join Game", class: 'btn btn-red mt-5'%>
   <% end %>
