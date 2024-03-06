@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   get 'about', to: 'about_us#index'
 
+  get 'state_check', to: 'games#update_state'
+
   resources :games, only: [:index, :show, :new, :create] do
     resources :users, only: [:new, :create] do
       resources :cards, only: [:new, :create, :show]
@@ -20,5 +22,5 @@ Rails.application.routes.draw do
   end
 
   resources :avatars, only: :index
-  
+
 end
