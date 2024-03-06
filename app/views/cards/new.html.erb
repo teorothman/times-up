@@ -1,16 +1,16 @@
 <div class="container">
   <h1>Write something fun to guess <%= session[:card_count] %>/5</h1>
 
-  <%= simple_form_for [@game, @user, @card], url: game_user_cards_path(@game, @user), method: :post do |form| %>
+  <%= simple_form_for [@game, @user, @card] do |form| %>
     <div class="field">
-      <%= form.input :content, placeholder: "Write here...", label: false, input_html: { class: "game-code-input" } %>
+      <%= form.input :content, input_html: { class: "game-code-input", required: true, id: 'word-input' }, placeholder: "Write here...", label: false %>
     </div>
     <div>
       <p>Some examples:</p>
       <p>“<%= @examples.join('”, “') %>”</p>
     </div>
     <div>
-      <%= form.button :submit, "Enter a word", class: "btn btn-primary" %>
+      <%= form.button :submit, "Enter a word", class: "btn btn-primary", id: 'submit-button' %>
     </div>
   <% end %>
 
@@ -20,3 +20,29 @@
     </script>
   <% end %>
 </div>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('word-input');
+    const submitButton = document.getElementById('submit-button');
+
+    function checkInput() {
+      if (input.value.trim() === '') {
+        submitButton.disabled = true;
+      } else {
+        submitButton.disabled = false;
+      }
+    }
+
+    checkInput();
+
+    input.addEventListener('input', checkInput);
+
+    submitButton.addEventListener('click', function(e) {
+      if (input.value.trim() === '') {
+        e.preventDefault();
+        alert('Please fill a word');
+      }
+    });
+  });
+</script>
