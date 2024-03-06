@@ -40,7 +40,7 @@ class GamesController < ApplicationController
     if params[:update_game]
       case @game_state.status
       when "pre-lobby"
-        @game_state.update(status: "lobby")
+        @game_state.update(status: 'lobby')
       when "lobby"
         @game_state.update(status: 'cards')
       when "cards"
@@ -49,6 +49,8 @@ class GamesController < ApplicationController
         @game_state.update(status: 'results')
       when "results"
         @game_state.update(status: 'play_again')
+      when "play_again"
+        @game_state.update(status: 'lobby')
       end
     end
 
@@ -64,8 +66,13 @@ class GamesController < ApplicationController
       render 'round'
     when 'results'
       render 'results'
+    # Laura
     when 'play_again'
-      render 'play_again'
+      if current_user.is_creator == true
+        render 'play_again'
+      else
+        render 'results'
+      end
     else
       render 'show'
     end
