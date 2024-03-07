@@ -1,7 +1,7 @@
 class Game < ApplicationRecord
   has_many :rounds, dependent: :destroy
   has_many :users, dependent: :destroy
-  has_many :games_statuses, dependent: :destroy
+  has_one :games_statuses, dependent: :destroy
   has_many :teams, dependent: :destroy
 
   # WIP LAURA --> adding points/team in DB

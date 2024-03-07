@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   get 'state_check', to: 'games#update_state'
 
-  resources :games, only: [:index, :show, :new, :create] do
+  resources :games, only: [:index, :show, :new, :create, :update] do
     resources :users, only: [:new, :create] do
       resources :cards, only: [:new, :create, :show]
     end

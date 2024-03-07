@@ -21,7 +21,7 @@ class CardsController < ApplicationController
       else
         session[:card_count] = nil
         if check_all_users_submitted
-          @games_status.update(status: "round")
+          @games_status.update(status: "round1_play")
           redirect_to game_path(@game)
         else
           redirect_to new_game_user_card_path(@game, @user, button_disabled: true)
