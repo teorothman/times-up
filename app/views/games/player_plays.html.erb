@@ -1,0 +1,37 @@
+<div class="container">
+  <h1>Your Turn!</h1>
+  <p>Speak out!</p>
+
+<% @card_round = @cards_round1_playable.sample %>
+<% if @card_round.nil? %>
+  <p>Congrats, you guessed all the cards!</p>
+<% else %>
+  <% @card_to_guess = Card.find(@card_round.card_id) %>
+  <%= @card_to_guess.content %>
+  <%= button_to 'Guess', guess_card_game_path(card_round_id: @card_round.id), method: :post, class: "btn-guess" %>
+  <% unless session[:has_skipped] %>
+  <%= button_to 'Skip', skip_card_game_path, method: :post %>
+  <% end %>
+<% end %>
+
+<div class="timer">
+  Time left: <span id="timer">30</span> seconds
+</div>
+
+</div>
+
+<script>
+  let timeLeft = 30;
+  const timerElement = document.getElementById('timer');
+  const gameId = "<%= @game.id %>";
+
+  const countdown = setInterval(() => {
+    if (timeLeft <= 0) {
+      clearInterval(countdown);
+      window.location.href = `/games/${gameId}/update_turn_status_to_player_score`;
+    } else {
+      timerElement.innerText = timeLeft;
+      timeLeft -= 1;
+    }
+  }, 1000);
+</script>

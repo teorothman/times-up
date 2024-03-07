@@ -19,6 +19,11 @@ Rails.application.routes.draw do
 
   get 'state_check', to: 'games#update_state'
 
+  post '/games/:id/guess_card', to: 'games#guess_card', as: 'guess_card_game'
+  post '/games/:id/skip_card', to: 'games#skip_card', as: 'skip_card_game'
+  get '/games/:id/update_turn_status_to_player_score', to: 'games#update_turn_status_to_player_score', as: 'update_turn_status_to_player_score'
+
+
   resources :games, only: [:index, :show, :new, :create, :update] do
     resources :users, only: [:new, :create] do
       resources :cards, only: [:new, :create, :show]
