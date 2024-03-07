@@ -2,7 +2,6 @@ require "open-uri"
 
 puts "Dropping current data"
 Round.destroy_all
-Turn.destroy_all
 User.destroy_all
 Team.destroy_all
 Game.destroy_all

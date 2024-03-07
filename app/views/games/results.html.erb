@@ -1,26 +1,41 @@
 <div class="container">
+    <% pT1 = @game.total_points_T1(@game) %>
+    <% pT2 = @game.total_points_T2(@game) %>
+    <% winner = [pT1, pT2].max %>
     <div class="index-wrapper">
     <h1>The winner is...</h1>
-    <div>
-      <h1><%= @team %></h1>
-    </div>
+    <% if pT1 > pT2 %>
+      <h1>Team <%= @team_one_obj.name %></h1>
+    <% else %>
+      <h1>Team <%= @team_two_obj.name %></h1>
+    <% end %>
 
-    lobby-team-text div styling needs fix to look as Figma
-    <div class="lobby-team-text">
-      <h1>Team one</h1>
-      <p><%= @game.total_points_T1(@game) %> points</p>
-      <h1>Team two</h1>
-      <p><%= @game.total_points_T2(@game) %> points</p>
-    </div>
-
-      <div class="team-grid-container">
-        <div class="team-grid">
+    <div class="team-grid-container">
+      <% if pT1 > pT2 %>
+        <div class="player-grid">
         <%= render partial: 'player_grid', collection: @team_one, as: :user %>
-        </div>
-        <div class="team-grid">
+        # needs Styling Div for MVP
+        <div>
+      <% else %>
+        <div class="player-grid">
           <%= render partial: 'player_grid', collection: @team_two, as: :user %>
+          # needs Styling Div for MVP
+          <div>
+          </div>
         </div>
-      </div>
+      <% end %>
+    </div>
+    <h1>Your best player is</h1>
+    <% if pT1 > pT2 %>
+      <%= @game.mvp_user(@team_one_obj.name) %>
+    <% else %>
+      <%= @game.mvp_user(@team_two_obj.name) %>
+    <% end %>
+    <h1>Score Sum Up</h1>
+    <div>
+      <p>Team 2 scored <%= @game.total_points_T1(@game) %> points</p>
+      <p>Team 2 scored <%= @game.total_points_T2(@game) %> points</p>
+    </div>
 
   </div>
 </div>
