@@ -1,4 +1,4 @@
 <div>
-  <%= image_tag 'https://res.cloudinary.com/wagon/image/upload/c_fill,g_face,h_200,w_200/v1705164506/ygdha8tz1xtkqu8rywms.jpg', class: 'avatar-rounded' %>
+<%= image_tag("avatar_#{rand(1..16)}.png", class: 'avatar-rounded') %>
   <p><%= user.username %></p>
 </div>
