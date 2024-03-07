@@ -1,7 +1,7 @@
 <div class="container">
     <% pT1 = @game.total_points_T1(@game) %>
     <% pT2 = @game.total_points_T2(@game) %>
-    <% winner = [pT1, pT2].max %>
+
     <div class="index-wrapper">
     <h1>The winner is...</h1>
     <% if pT1 > pT2 %>
@@ -14,18 +14,17 @@
       <% if pT1 > pT2 %>
         <div class="player-grid">
         <%= render partial: 'player_grid', collection: @team_one, as: :user %>
-        # needs Styling Div for MVP
         <div>
       <% else %>
         <div class="player-grid">
           <%= render partial: 'player_grid', collection: @team_two, as: :user %>
-          # needs Styling Div for MVP
           <div>
           </div>
         </div>
       <% end %>
     </div>
     <h1>Your best player is</h1>
+    # Needs fixing after game is done
     <% if pT1 > pT2 %>
       <%= @game.mvp_user(@team_one_obj.name) %>
     <% else %>
