@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="index-wrapper">
+    <h1>The winner is...</h1>
+    <div>
+      <h1><%= @team %></h1>
+    </div>
+
+    lobby-team-text div styling needs fix to look as Figma
+    <div class="lobby-team-text">
+      <h1>Team one</h1>
+      <p><%= @game.total_points_T1(@game) %> points</p>
+      <h1>Team two</h1>
+      <p><%= @game.total_points_T2(@game) %> points</p>
+    </div>
+
+      <div class="team-grid-container">
+        <div class="team-grid">
+        <%= render partial: 'player_grid', collection: @team_one, as: :user %>
+        </div>
+        <div class="team-grid">
+          <%= render partial: 'player_grid', collection: @team_two, as: :user %>
+        </div>
+      </div>
+
+  </div>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_07_141205) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_07_140713) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,9 +49,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_07_141205) do
 
   create_table "cards", force: :cascade do |t|
     t.string "content"
-    t.integer "user_id", null: false
-    t.boolean "is_guessed"
-    t.boolean "is_skipped"
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_cards_on_user_id"
@@ -70,6 +68,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_07_141205) do
     t.bigint "game_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "turn_status", default: "player_selected"
+    t.datetime "start_time"
+    t.boolean "card_skipped", default: false
+    t.integer "current_player"
+    t.integer "turn_counter", default: 0
     t.index ["game_id"], name: "index_games_statuses_on_game_id"
   end
 
@@ -78,16 +81,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_07_141205) do
     t.bigint "card_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_guessed", default: false
     t.index ["card_id"], name: "index_round_cards_on_card_id"
     t.index ["round_id"], name: "index_round_cards_on_round_id"
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.integer "round_number", default: 1, null: false
-    t.integer "game_id", null: false
+    t.integer "round_number", default: 1
+    t.bigint "game_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "points_per_team"
+    t.integer "points_team1"
+    t.integer "points_team2"
     t.index ["game_id"], name: "index_rounds_on_game_id"
   end
 
@@ -104,18 +109,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_07_141205) do
     t.datetime "updated_at", null: false
     t.integer "game_id"
     t.index ["game_id"], name: "index_teams_on_game_id"
-  end
-
-  create_table "turns", force: :cascade do |t|
-    t.integer "points"
-    t.integer "round_id", null: false
-    t.integer "user_id", null: false
-    t.boolean "skip_used"
-    t.integer "timer"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["round_id"], name: "index_turns_on_round_id"
-    t.index ["user_id"], name: "index_turns_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -140,8 +133,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_07_141205) do
   add_foreign_key "round_cards", "rounds"
   add_foreign_key "rounds", "games"
   add_foreign_key "teams", "games"
-  add_foreign_key "turns", "rounds"
-  add_foreign_key "turns", "users"
   add_foreign_key "users", "games"
   add_foreign_key "users", "teams"
 end

@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="index-wrapper">
+    <h1>Let's play again!</h1>
+    <div>
+      <p>This page is only visible for the Game Creator</p>
+    </div>
+    <div class="lobby-buttons">
+
+      <%= link_to "Same team", game_path(@game, {update_game: true} ), method: :get, class: 'btn btn-red' %>
+
+      <%= link_to "Host a new game", new_game_path(@game),class: 'btn btn-yellow'%>
+    </div>
+  </div>
+</div>

@@ -76,5 +76,6 @@ gem "cloudinary"
 gem "font-awesome-sass", "~> 6.5.1"
 
 gem 'pg'
-
-gem 'will_paginate', '~> 3.3'
+#gem to view app on phone
+gem 'ngrok-tunnel'
+gem 'ngrok', '~> 1.6', '>= 1.6.1'

@@ -13,13 +13,21 @@ class CardsController < ApplicationController
 
   def create
     @card = @user.cards.new(card_params)
+    @games_status = GamesStatus.find_by(game_id: @game.id)
     if @card.save
       session[:card_count] += 1
       if session[:card_count] <= 5
         redirect_to new_game_user_card_path(@game, @user)
       else
         session[:card_count] = nil
-        redirect_to '#'
+        if check_all_users_submitted
+          @games_status.update(status: "round1_play")
+          redirect_to game_path(@game)
+        else
+          redirect_to new_game_user_card_path(@game, @user, button_disabled: true)
+          @games_status.update(status: "loading")
+          redirect_to game_path(@game)
+        end
       end
     else
       render :new
@@ -41,5 +49,10 @@ class CardsController < ApplicationController
     @user = User.find(params[:user_id])
   rescue ActiveRecord::RecordNotFound
     # Handle cases where Game or User doesn't exist
+  end
+
+  def check_all_users_submitted
+    total_cards_needed = @game.users.count * 5
+    Card.joins(user: :game).where(users: {game_id: @game.id}).count >= total_cards_needed
   end
 end

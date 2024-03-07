@@ -13,12 +13,14 @@ Rails.application.routes.draw do
 
   get 'about', to: 'about_us#index'
 
-  resources :games, only: [:index, :show, :new, :create] do
+  get 'state_check', to: 'games#update_state'
+
+  resources :games, only: [:index, :show, :new, :create, :update] do
     resources :users, only: [:new, :create] do
       resources :cards, only: [:new, :create, :show]
     end
   end
 
   resources :avatars, only: :index
-  
+
 end
