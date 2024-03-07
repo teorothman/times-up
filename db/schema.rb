@@ -102,7 +102,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_07_104720) do
     t.bigint "game_id"
     t.index ["game_id"], name: "index_teams_on_game_id"
   end
-  
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.bigint "game_id", null: false
