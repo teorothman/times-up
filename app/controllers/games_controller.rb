@@ -85,8 +85,9 @@ class GamesController < ApplicationController
 
   def update
     @game = Game.find(params[:id])
-    game_status = @game.games_statuses
+    game_status = @game.games_status
     game_status.update(status: 'lobby')
+    redirect_to game_path(@game)
   end
 
   private
