@@ -34,7 +34,8 @@ class Game < ApplicationRecord
 
     # returns the user with the highest total_points
     # users_from_team(team_name).select(total_points.max)
-    top_user = users.max_by { |user| user.total_points }
-    top_user.username
+
+    # top_user = users.max_by { |user| user.total_points }
+    # top_user.username
   end
 end
