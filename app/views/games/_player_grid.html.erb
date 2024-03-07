@@ -2,6 +2,8 @@
   <%= image_tag("avatar_#{rand(1..16)}.png", class: 'avatar-rounded') %>
   <p><%= user.username %></p>
   <%if user.game.games_status.status == 'lobby' && user.is_ready == true %>
-  <p><i class="fa-solid fa-check"></i></p>
+    <div class="black">
+      <p><i class="fa-solid fa-check"></i></p>
+    </div>
   <% end %>
 </div>
