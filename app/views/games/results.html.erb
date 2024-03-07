@@ -8,9 +8,9 @@
     lobby-team-text div styling needs fix to look as Figma
     <div class="lobby-team-text">
       <h1>Team one</h1>
-      <p>X points</p>
+      <p><%= @game.total_points_T1(@game) %> points</p>
       <h1>Team two</h1>
-      <p>X points</p>
+      <p><%= @game.total_points_T2(@game) %> points</p>
     </div>
 
       <div class="team-grid-container">

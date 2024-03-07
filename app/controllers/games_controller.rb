@@ -11,17 +11,10 @@ class GamesController < ApplicationController
     @game_state = GamesStatus.create(game_id: @game.id)
     @team_one = Team.create!(name: 1, game_id: @game.id)
     @team_two = Team.create!(name: 2, game_id: @game.id)
+    @round_one = Round.create!(games_id: @game, round_number: 1)
+    @round_two = Round.create!(games_id: @game, round_number: 2)
+    @round_three = Round.create!(games_id: @game, round_number: 3)
     redirect_to new_game_user_path(@game)
-  end
-
-  #WIP LAURA --> adding points/team in DB
-  def total_points_T1(game)
-    all_rounds_T1 = game.rounds.all
-    total_points_T1 = 0
-    all_rounds_T1.each do |r1|
-      total_points_T1 += r1.points_team1
-    end
-    total_points_T1
   end
 
   def join
