@@ -74,7 +74,7 @@ class GamesController < ApplicationController
       case @game_state.turn_status
       when 'player_selected'
         render 'player_selected'
-      when 'player_plays'
+      when 'player-plays'
         render 'player_plays'
       when 'player_score'
         render 'player_score'
@@ -133,6 +133,7 @@ class GamesController < ApplicationController
       game_status.update(status: 'lobby')
     when 'lobby'
       current_user.update(is_ready: true)
+      # READY CHECKER:
       !User.where(game_id: @game.id, is_ready: false).exists? ? game_status.update(status: 'cards') : ''
     when 'cards'
       game_status.update(status: 'round1_play')
