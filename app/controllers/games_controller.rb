@@ -61,7 +61,7 @@ class GamesController < ApplicationController
     when 'lobby'
       render 'lobby'
     when 'cards'
-      render 'cards'
+      redirect_to new_game_user_card_path(@game, current_user.id)
     when 'round'
       render 'round'
     when 'results'
