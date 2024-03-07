@@ -13,6 +13,9 @@ Rails.application.routes.draw do
 
   get 'about', to: 'about_us#index'
 
+  get 'play', to: 'games#play'
+  get 'ready', to: 'games#ready'
+
   get 'state_check', to: 'games#update_state'
 
   resources :games, only: [:index, :show, :new, :create, :update] do

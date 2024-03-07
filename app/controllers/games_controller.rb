@@ -116,6 +116,29 @@ class GamesController < ApplicationController
     redirect_to game_path(@game)
   end
 
+  def play
+    @game = Game.find(params[:game_id])
+    @game_status = @game.games_status
+    case @game_status.turn_status
+    when 'player_selected'
+      @game_status.update(turn_status: 'player-plays')
+    when 'player-plays'
+      @game_status.update(turn_status: 'player-score')
+    when 'player-score'
+      @game_status.update(turn_counter: @game_status.turn_counter + 1)
+      # NEED IF STATEMENT IF TURN SHOULD ADVANCE!
+    end
+    redirect_to game_path(@game)
+  end
+
+  def ready
+    @game = Game.find(params[:game_id])
+    # NEED TO ADD A CHECK IF ALL PLAYERS ARE READY
+    @game_status = @game.games_status
+    @game_status.update(status: 'cards')
+    redirect_to game_path(@game)
+  end
+
   private
 
   def current_user
