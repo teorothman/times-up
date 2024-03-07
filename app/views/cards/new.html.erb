@@ -1,6 +1,5 @@
 <div class="container">
   <h1>Write something fun to guess <%= session[:card_count] %>/5</h1>
-
   <%= simple_form_for [@game, @user, @card] do |form| %>
     <div class="field">
       <%= form.input :content, input_html: { class: "game-code-input", required: true, id: 'word-input' }, placeholder: "Write here...", label: false %>
@@ -13,36 +12,36 @@
       <%= form.button :submit, "Enter a word", class: "btn btn-primary", id: 'submit-button' %>
     </div>
   <% end %>
-
   <% if session[:card_count] == 6 %>
     <script type="text/javascript">
-      window.location = "<%= waiting_path %>"; // Adjust this to your actual waiting path
+      window.location = "<%= waiting_path %>";
     </script>
   <% end %>
 </div>
-
 <script type="text/javascript">
-  document.addEventListener('DOMContentLoaded', function () {
-    const input = document.getElementById('word-input');
-    const submitButton = document.getElementById('submit-button');
-
-    function checkInput() {
-      if (input.value.trim() === '') {
-        submitButton.disabled = true;
-      } else {
-        submitButton.disabled = false;
-      }
+  document.addEventListener('turbo:load', () => {
+  const input = document.getElementById('word-input');
+  const submitButton = document.getElementById('submit-button');
+  function checkInput() {
+    submitButton.disabled = input.value.trim() === '';
+  }
+  checkInput();
+  input.addEventListener('input', checkInput);
+  document.querySelector('form').addEventListener('submit', (e) => {
+    if (input.value.trim() === '') {
+      e.preventDefault();
+      alert('Please fill a word');
     }
-
-    checkInput();
-
-    input.addEventListener('input', checkInput);
-
-    submitButton.addEventListener('click', function(e) {
-      if (input.value.trim() === '') {
-        e.preventDefault();
-        alert('Please fill a word');
-      }
-    });
+  });
   });
 </script>
+<% if params[:button_disabled] %>
+<script type="text/javascript">
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const submitButton = document.getElementById('submit-button');
+    if (submitButton) {
+      submitButton.disabled = true;
+    }
+  });
+</script>
+<% end %>
