@@ -14,6 +14,16 @@ class GamesController < ApplicationController
     redirect_to new_game_user_path(@game)
   end
 
+  #WIP LAURA --> adding points/team in DB
+  def total_points_T1(game)
+    all_rounds_T1 = game.rounds.all
+    total_points_T1 = 0
+    all_rounds_T1.each do |r1|
+      total_points_T1 += r1.points_team1
+    end
+    total_points_T1
+  end
+
   def join
   end
 
