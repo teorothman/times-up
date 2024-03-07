@@ -45,6 +45,15 @@ class GamesController < ApplicationController
     @team_one.each{|player| team1 << player}
     @team_two.each{|player| team2 << player} unless @team_two.nil?
     @player_order = team1.zip(team2).flatten
+    @round1 = Round.find_by(round_number: 1, game_id: @game.id)
+    @round2 = Round.find_by(round_number: 2, game_id: @game.id)
+    @round3 = Round.find_by(round_number: 3, game_id: @game.id)
+    @cards_round1 = RoundCard.where(round_id: @round1.id)
+    @cards_round2 = RoundCard.where(round_id: @round1.id)
+    @cards_round3 = RoundCard.where(round_id: @round1.id)
+    @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
+    @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
+    @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
 
     # ACTUAL LOGIC FOR THE GAME
     case @game_state.status
@@ -114,6 +123,32 @@ class GamesController < ApplicationController
     game_status = @game.games_status
     game_status.update(status: 'lobby')
     redirect_to game_path(@game)
+  end
+
+  def guess_card
+    @game = Game.find(params[:id])
+    card_round = RoundCard.find(params[:card_round_id])
+    card_round.update!(is_guessed: true)
+    redirect_to game_path(@game)
+  end
+
+  def skip_card
+    @game = Game.find(params[:id])
+    unless session[:has_skipped]
+      session[:has_skipped] = true
+      redirect_to game_path(@game)
+    else
+      redirect_to game_path(@game), alert: "You can only skip once!"
+    end
+  end
+
+  def update_turn_status_to_player_score
+    @game = Game.find(params[:id])
+    @game_status = @game.games_status
+
+    @game_status.update(turn_status: 'player_score')
+
+    redirect_to game_path(@game), notice: 'Time’s up! Moving to score.'
   end
 
   private
