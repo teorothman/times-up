@@ -16,21 +16,6 @@
         <%= render partial: 'player_grid', collection: @team_one, as: :user %>
         # needs Styling Div for MVP
         <div>
-        # identify points per user
-        team1_totals = []
-        u_total = 0
-        @team_one.each do |u|
-          u_total += u.points_round_1 + u.points_round_2 + u.points_round_3
-          team1_totals << u_total
-        end
-
-        team1_totals.max
-
-        # get the user w max points
-        hash.each { |k, v| puts k if v == hash.values.max }
-
-        </div>
-        </div>
       <% else %>
         <div class="player-grid">
           <%= render partial: 'player_grid', collection: @team_two, as: :user %>
@@ -40,6 +25,12 @@
         </div>
       <% end %>
     </div>
+    <h1>Your best player is</h1>
+    <% if pT1 > pT2 %>
+      <%= @game.mvp_user(@team_one_obj.name) %>
+    <% else %>
+      <%= @game.mvp_user(@team_two_obj.name) %>
+    <% end %>
     <h1>Score Sum Up</h1>
     <div>
       <p>Team 2 scored <%= @game.total_points_T1(@game) %> points</p>
