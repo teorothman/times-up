@@ -90,7 +90,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_07_101625) do
     t.bigint "game_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "points_per_team"
+    t.integer "points_team1"
+    t.integer "points_team2"
     t.index ["game_id"], name: "index_rounds_on_game_id"
   end
 
