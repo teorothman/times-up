@@ -1,23 +1,27 @@
 <div class="container">
-  <h1>Your Turn!</h1>
-  <p>Speak out!</p>
+  <div class="word-wrapper">
+    <h1>Round 1</h1>
+    <p>Speak out!</p>
 
-<% @card_round = @cards_round1_playable.sample %>
-<% if @card_round.nil? %>
-  <p>Congrats, you guessed all the cards!</p>
-<% else %>
-  <% @card_to_guess = Card.find(@card_round.card_id) %>
-  <%= @card_to_guess.content %>
-  <%= button_to 'Guess', guess_card_game_path(card_round_id: @card_round.id), method: :post, class: "btn-guess" %>
-  <% unless session[:has_skipped] %>
-  <%= button_to 'Skip', skip_card_game_path, method: :post %>
-  <% end %>
-<% end %>
+    <% @card_round = @cards_round1_playable.sample %>
+    <% if @card_round.nil? %>
+      <h1>Congrats, you guessed all the cards!</h1>
+      <h1><i class="fa-solid fa-trophy"></i></h1>
+    <% else %>
+    <div class="player-word-display">
+        <% @card_to_guess = Card.find(@card_round.card_id) %>
+        <h1><%= @card_to_guess.content %></h1>
+    </div>
+        <%= button_to 'Correct', guess_card_game_path(card_round_id: @card_round.id), method: :post, class: "btn btn-yellow correct" %>
+        <% unless session[:has_skipped] %>
+        <%= button_to 'Skip', skip_card_game_path, method: :post, class:'btn btn-red' %>
+        <% end %>
+    <% end %>
+    <div class="timer">
+      <h1>Time left: <span id="timer">30</span> seconds</h1>
+    </div>
 
-<div class="timer">
-  Time left: <span id="timer">30</span> seconds
-</div>
-
+  </div>
 </div>
 
 <script>
