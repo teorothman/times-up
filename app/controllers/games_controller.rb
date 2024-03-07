@@ -48,6 +48,8 @@ class GamesController < ApplicationController
 
     # ACTUAL LOGIC FOR THE GAME
     case @game_state.status
+    when 'loading'
+      render 'loading'
     when 'pre-lobby'
       render 'pre_lobby'
     when 'lobby'
@@ -110,9 +112,31 @@ class GamesController < ApplicationController
   end
 
   def update
-    @game = Game.find(params[:id])
+    @game = Game.find(params[:game_id])
     game_status = @game.games_status
-    game_status.update(status: 'lobby')
+    case game_status.status
+    when 'pre-lobby'
+      game_status.update(status: 'lobby')
+    when 'lobby'
+      game_status.update(status: 'cards')
+    when 'cards'
+      game_status.update(status: 'round1_play')
+    when 'round1_play'
+      game_status.update(status: 'round1_results')
+    when 'round1_results'
+      game_status.update(status: 'round2_play')
+    when 'round2_play'
+      game_status.update(status: 'round2_results')
+    when 'round2_results'
+      game_status.update(status: 'round3_play')
+    when 'round3_play'
+      game_status.update(status: 'round3_results')
+    when 'round3_results'
+      game_status.update(status: 'results')
+    when 'results'
+      game_status.update(status: 'play_again')
+    end
+
     redirect_to game_path(@game)
   end
 
