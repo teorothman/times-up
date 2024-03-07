@@ -8,12 +8,21 @@ export default class extends Controller {
   }
 
   showAsFirstPicture(event) {
-    this.allTarget.classList.add("d-none")
+    this.allTarget.style.opacity = "0";
+    this.allTarget.style.visibility = "hidden";
+
+    this.userTargets.forEach((user) => {
+      user.style.opacity = "0";
+      user.style.visibility = "hidden";
+    });
+
+
     this.userTargets.forEach((user) => {
       if (event.currentTarget.dataset.name === user.dataset.name) {
-        user.classList.remove("d-none")
-      } else {
-        user.classList.add("d-none")
+        setTimeout(() => {
+          user.style.opacity = "1";
+          user.style.visibility = "visible";
+        }, 10);
       }
     })
   }

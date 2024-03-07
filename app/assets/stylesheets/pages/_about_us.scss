@@ -8,6 +8,7 @@
  left: 38%;
  width: 87px;
  height: 85px;
+
 }
 
 .avatar_bottom{
@@ -16,6 +17,7 @@
  left: 38vw;
  width: 87px;
  height: 85px;
+
 }
 
 .avatar_left{
@@ -24,6 +26,7 @@
  left: 21vw;
  width: 87px;
  height: 85px;
+
 }
 
 .avatar_right{
@@ -32,10 +35,17 @@
  left: 58vw;
  width: 87px;
  height: 85px;
+
 }
 
 .d-none{
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
+[data-about-us-target='user']{
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0;
 }
 
 .avatar_on_click_top{
@@ -44,6 +54,7 @@
   left: 38%;
   width: 87px;
   height: 85px;
+
 }
 
 .p_tag{
@@ -80,4 +91,5 @@
   display: flex;
   flex-direction: row;
   gap: 4vw;
+
 }
