@@ -43,7 +43,7 @@ class GamesController < ApplicationController
     team1 = []
     team2 = []
     @team_one.each{|player| team1 << player}
-    @team_two.each{|player| team2 << player}
+    @team_two.each{|player| team2 << player} unless @team_two.nil?
     @player_order = team1.zip(team2).flatten
 
     # ACTUAL LOGIC FOR THE GAME
