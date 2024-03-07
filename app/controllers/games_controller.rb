@@ -37,8 +37,13 @@ class GamesController < ApplicationController
     @users = @game.users
     team_one_id = @game.users.first.team_id
     team_two_id = @game.users.second.team_id unless @game.users.second.nil?
+    # for clarity these should be named @team_one_users
     @team_one = @game.users.where(team: team_one_id)
     @team_two = @game.users.where(team: team_two_id) unless @game.users.second.nil?
+    # for clarity these should be named @team_one as in the #create method
+    @team_one_obj = Team.create!(name: 1, game_id: @game.id)
+    @team_two_obj = Team.create!(name: 2, game_id: @game.id)
+    # -
     @game_state = GamesStatus.find_by(game_id: @game.id)
     if params[:update_game]
       case @game_state.status
