@@ -155,14 +155,6 @@ class GamesController < ApplicationController
     redirect_to game_path(@game)
   end
 
-  def ready
-    @game = Game.find(params[:game_id])
-    # NEED TO ADD A CHECK IF ALL PLAYERS ARE READY
-    @game_status = @game.games_status
-    @game_status.update(status: 'cards')
-    redirect_to game_path(@game)
-  end
-
   private
 
   def current_user
