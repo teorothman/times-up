@@ -2,6 +2,7 @@ class GamesController < ApplicationController
   helper_method :current_user
 
   def index
+    @products = Rules.all.paginate(page: params[:page], per_page: 3)
   end
 
   def create

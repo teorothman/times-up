@@ -76,3 +76,5 @@ gem "cloudinary"
 gem "font-awesome-sass", "~> 6.5.1"
 
 gem 'pg'
+
+gem 'will_paginate', '~> 3.3'
