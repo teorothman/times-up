@@ -123,7 +123,8 @@ class GamesController < ApplicationController
     when 'pre-lobby'
       game_status.update(status: 'lobby')
     when 'lobby'
-      game_status.update(status: 'cards')
+      current_user.update(is_ready: true)
+      !User.where(game_id: @game.id, is_ready: false).exists? ? game_status.update(status: 'cards') : ''
     when 'cards'
       game_status.update(status: 'round1_play')
     when 'round1_play'
