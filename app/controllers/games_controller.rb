@@ -40,6 +40,11 @@ class GamesController < ApplicationController
     @team_one = @game.users.where(team: team_one_id)
     @team_two = @game.users.where(team: team_two_id) unless @game.users.second.nil?
     @game_state = GamesStatus.find_by(game_id: @game.id)
+    team1 = []
+    team2 = []
+    @team_one.each{|player| team1 << player}
+    @team_two.each{|player| team2 << player}
+    @player_order = team1.zip(team2).flatten
 
     # ACTUAL LOGIC FOR THE GAME
     case @game_state.status
