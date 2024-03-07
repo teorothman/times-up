@@ -1,7 +1,7 @@
 <div class="container">
     <% pT1 = @game.total_points_T1(@game) %>
     <% pT2 = @game.total_points_T2(@game) %>
-    <% winner = [pT1, pT2].max %>
+
     <div class="index-wrapper">
     <h1>The winner is...</h1>
     <% if pT1 > pT2 %>
@@ -26,6 +26,7 @@
       <% end %>
     </div>
     <h1>Your best player is</h1>
+    
     <% if pT1 > pT2 %>
       <%= @game.mvp_user(@team_one_obj.name) %>
     <% else %>

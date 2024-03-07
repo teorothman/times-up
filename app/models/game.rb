@@ -25,17 +25,17 @@ class Game < ApplicationRecord
     # Iterate over each user in the team
     users = users_from_team(team_name)
     users.each do |user|
-      # Calculate the total points for the current user
+      # 🟢 The sum should be done at end of each round BC points are too spread
       sum_points = user.points_round_1 + user.points_round_2 + user.points_round_3
 
       # Store the user ID and total points in the hash
-      user.total_points << sum_points
+      user.update(total_points: sum_points)
     end
 
     # returns the user with the highest total_points
     # users_from_team(team_name).select(total_points.max)
 
-    # top_user = users.max_by { |user| user.total_points }
-    # top_user.username
+    top_user = users.max_by { |user| user.total_points }
+    top_user.username
   end
 end
