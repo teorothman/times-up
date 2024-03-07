@@ -72,6 +72,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_07_153031) do
     t.datetime "start_time"
     t.boolean "card_skipped", default: false
     t.integer "current_player"
+    t.integer "turn_counter", default: 0
     t.index ["game_id"], name: "index_games_statuses_on_game_id"
   end
 

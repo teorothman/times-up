@@ -1,0 +1,8 @@
+<h1>THE CHOSEN PLAYER IS:</h1>
+<%= @player_order[@game_state.turn_counter].username %>
+<% if current_user == @player_order[@game_state.turn_counter] %>
+  <h1>YOU HARE THE CHOSEN PLAYER</h1>
+<%= link_to 'Play', play_path(game_id: @game.id) %>
+<%else %>
+  <h1>Nothing here</h1>
+<% end %>

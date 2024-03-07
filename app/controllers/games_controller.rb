@@ -11,9 +11,9 @@ class GamesController < ApplicationController
     @game_state = GamesStatus.create(game_id: @game.id)
     @team_one = Team.create!(name: 1, game_id: @game.id)
     @team_two = Team.create!(name: 2, game_id: @game.id)
-    @round_one = Round.create!(games_id: @game, round_number: 1)
-    @round_two = Round.create!(games_id: @game, round_number: 2)
-    @round_three = Round.create!(games_id: @game, round_number: 3)
+    @round_one = Round.create!(game_id: @game.id, round_number: 1)
+    @round_two = Round.create!(game_id: @game.id, round_number: 2)
+    @round_three = Round.create!(game_id: @game.id, round_number: 3)
     redirect_to new_game_user_path(@game)
   end
 
@@ -45,22 +45,11 @@ class GamesController < ApplicationController
     @team_two_obj = Team.create!(name: 2, game_id: @game.id)
     # -
     @game_state = GamesStatus.find_by(game_id: @game.id)
-    if params[:update_game]
-      case @game_state.status
-      when "pre-lobby"
-        @game_state.update(status: 'lobby')
-      when "lobby"
-        @game_state.update(status: 'cards')
-      when "cards"
-        @game_state.update(status: 'round')
-      when "round"
-        @game_state.update(status: 'results')
-      when "results"
-        @game_state.update(status: 'play_again')
-      when "play_again"
-        @game_state.update(status: 'lobby')
-      end
-    end
+    team1 = []
+    team2 = []
+    @team_one.each{|player| team1 << player}
+    @team_two.each{|player| team2 << player} unless @team_two.nil?
+    @player_order = team1.zip(team2).flatten
 
     # ACTUAL LOGIC FOR THE GAME
     case @game_state.status
@@ -70,11 +59,41 @@ class GamesController < ApplicationController
       render 'lobby'
     when 'cards'
       redirect_to new_game_user_card_path(@game, current_user.id)
-    when 'round'
-      render 'round'
+    when 'round1_play'
+      case @game_state.turn_status
+      when 'player_selected'
+        render 'player_selected'
+      when 'player_plays'
+        render 'player_plays'
+      when 'player_score'
+        render 'player_score'
+      end
+    when 'round1_results'
+      render 'round1_results'
+    when 'round2_play'
+      case @game_state.turn_status
+      when 'player_selected'
+        render 'player_selected'
+      when 'player_plays'
+        render 'player_plays'
+      when 'player_score'
+        render 'player_score'
+      end
+    when 'round2_results'
+      render 'round2_results'
+    when 'round3_play'
+      case @game_state.turn_status
+      when 'player_selected'
+        render 'player_selected'
+      when 'player_plays'
+        render 'player_plays'
+      when 'player_score'
+        render 'player_score'
+      end
+    when 'round3_results'
+      render 'round3_results'
     when 'results'
       render 'results'
-    # Laura
     when 'play_again'
       if current_user.is_creator == true
         render 'play_again'
@@ -93,6 +112,36 @@ class GamesController < ApplicationController
     else
       redirect_to join_game_path, notice: 'Game not found.'
     end
+  end
+
+  def update
+    @game = Game.find(params[:id])
+    game_status = @game.games_status
+    game_status.update(status: 'lobby')
+    redirect_to game_path(@game)
+  end
+
+  def play
+    @game = Game.find(params[:game_id])
+    @game_status = @game.games_status
+    case @game_status.turn_status
+    when 'player_selected'
+      @game_status.update(turn_status: 'player-plays')
+    when 'player-plays'
+      @game_status.update(turn_status: 'player-score')
+    when 'player-score'
+      @game_status.update(turn_counter: @game_status.turn_counter + 1)
+      # NEED IF STATEMENT IF TURN SHOULD ADVANCE!
+    end
+    redirect_to game_path(@game)
+  end
+
+  def ready
+    @game = Game.find(params[:game_id])
+    # NEED TO ADD A CHECK IF ALL PLAYERS ARE READY
+    @game_status = @game.games_status
+    @game_status.update(status: 'cards')
+    redirect_to game_path(@game)
   end
 
   private
