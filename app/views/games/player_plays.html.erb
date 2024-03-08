@@ -3,7 +3,9 @@
     <h1>Round 1</h1>
     <p>Speak out!</p>
 
-    <% @card_round = @cards_round1_playable.sample %>
+    <% @card_round = @cards_round1_playable.sample if @game.games_status.status == "round1_play" %>
+    <% @card_round = @cards_round2_playable.sample if @game.games_status.status == "round2_play" %>
+    <% @card_round = @cards_round3_playable.sample if @game.games_status.status == "round3_play" %>
     <% if @card_round.nil? %>
       <h1>Congrats, you guessed all the cards!</h1>
       <h1><i class="fa-solid fa-trophy"></i></h1>
