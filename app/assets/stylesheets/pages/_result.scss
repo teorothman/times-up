@@ -1,0 +1,30 @@
+.result-wrapper{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5vh;
+  h1{
+    line-height: 2.5rem;
+  }
+}
+
+.result-bottom{
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+
+}
+
+.result-mvp{
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  gap: 5vw;
+  line-height: 1.2rem;
+  width: 100%;
+  h1, p{
+    text-align: left;
+  }
+}
