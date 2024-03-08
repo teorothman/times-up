@@ -26,6 +26,7 @@
 @import 'pages/lobby';
 @import 'pages/index';
 @import 'pages/about_us';
+@import 'pages/rules';
 
 
 body{
@@ -41,4 +42,8 @@ body{
 
 a{
   text-decoration: none;
+}
+
+.hidden{
+  display: none;
 }

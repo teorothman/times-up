@@ -2,7 +2,6 @@ class GamesController < ApplicationController
   helper_method :current_user
 
   def index
-    @products = Rules.all.paginate(page: params[:page], per_page: 3)
   end
 
   def create
@@ -15,6 +14,7 @@ class GamesController < ApplicationController
     @round_one = Round.create!(game_id: @game.id, round_number: 1)
     @round_two = Round.create!(game_id: @game.id, round_number: 2)
     @round_three = Round.create!(game_id: @game.id, round_number: 3)
+    @rules = Rule.all.paginate(page: params[:page], per_page: 1)
     redirect_to new_game_user_path(@game)
   end
 
@@ -43,9 +43,10 @@ class GamesController < ApplicationController
     @game_state = GamesStatus.find_by(game_id: @game.id)
     team1 = []
     team2 = []
-    @team_one.each{|player| team1 << player}
-    @team_two.each{|player| team2 << player}
+    @team_one.each{ |player| team1 << player }
+    @team_two.each{ |player| team2 << player } unless @team_two.nil?
     @player_order = team1.zip(team2).flatten
+    @rules = Rule.all
 
     # ACTUAL LOGIC FOR THE GAME
     case @game_state.status

@@ -1,20 +1,25 @@
-<div class="container">
-  <div class="pre-lobby-top-text">
-    <h1>Code to join: </h1>
-    <h1><%= @game.id %> <i class="fa-solid fa-copy"></i></h1>
-    <p class="link">Show QR</p>
+<div class="container" data-controller="show-rules">
+  <div class="rules-wrapper hidden" data-show-rules-target="rules">
+    <%= render partial: 'game_rules' %>
   </div>
-  <div class="player-grid">
-    <%= render partial: 'player_grid', collection: @users, as: :user %>
-  </div>
-  </div>
-<div class="pre-lobby-bottom-text">
-  <% if current_user.is_creator == true %>
-    <%= form_with url: game_path(@game), method: :patch, class: 'inline-form', data: { turbo: false } do |form| %>
-      <%= form.button "Start game", class: 'btn btn-red', data: { turbo_confirm: 'Are you sure?' } %>
+  <div class="pre-lobby-wrapper" data-show-rules-target="wrapper">
+    <div class="pre-lobby-top-text">
+      <h1>Code to join: </h1>
+      <h1><%= @game.id %> <i class="fa-solid fa-copy"></i></h1>
+      <p class="link">Show QR</p>
+    </div>
+    <div class="player-grid">
+      <%= render partial: 'player_grid', collection: @users, as: :user %>
+    </div>
+    <div class="pre-lobby-bottom-text">
+    <% if current_user.is_creator == true %>
+      <%= form_with url: game_path(@game), method: :patch, class: 'inline-form', data: { turbo: false } do |form| %>
+        <%= form.button "Start game", class: 'btn btn-red', data: { turbo_confirm: 'Are you sure?' } %>
+      <% end %>
+    <% else %>
+      <h1>Waiting for more<br> players to join...</h1>
     <% end %>
-  <% else %>
-    <h1>Waiting for more<br> players to join...</h1>
-  <% end %>
-</div>
+    </div>
+  </div>
+  <button data-show-rules-target="rulesbutton" data-action="click->show-rules#show" class="btn btn-yellow">Show Rules</button>
 </div>
