@@ -32,6 +32,10 @@
   gap: 5vh;
   align-items: center;
   height: 90vh;
+  line-height: 2.5rem;
+  i {
+    color: $beige;
+  }
 }
 
 .hidden {

@@ -1,51 +1,41 @@
-<div class="container">
+<div class="result-wrapper">
     <% pT1 = @game.total_points_T1(@game) %>
     <% pT2 = @game.total_points_T2(@game) %>
-
-    <div class="index-wrapper">
-    <h1>The winner is...</h1>
-    <% if pT1 > pT2 %>
-      <h1>Team <%= @team_one_obj.name %></h1>
-    <% else %>
-      <h1>Team <%= @team_two_obj.name %></h1>
-    <% end %>
-
-    <div class="team-grid-container">
+    <div class="result-top-text">
+      <h1>The winner is...</h1>
       <% if pT1 > pT2 %>
-        <div class="player-grid">
+        <h1>TEAM <%= @team_one_obj.name %></h1>
+      <% else %>
+        <h1>TEAM <%= @team_two_obj.name %></h1>
+      <% end %>
+    </div>
+    <div class="result-players">
+      <% if pT1 > pT2 %>
         <%= render partial: 'player_grid', collection: @team_one, as: :user %>
-        <div>
       <% else %>
-        <div class="player-grid">
           <%= render partial: 'player_grid', collection: @team_two, as: :user %>
-          <div>
-          </div>
-        </div>
       <% end %>
     </div>
-
-    <div>
-      <h1>Your best player is...</h1>
-    </div>
-    <div>
+    <div class="mvp-text" >
       <% if pT1 > pT2 %>
+      <h1>Best player is...</h1>
         <h1><%= @game.mvp_1.username %></h1>
+        <%= image_tag "teo_avatar.png", class: "avatar-rounded" %>
         <p><%= @game.mvp_1.total_points %> points</p>
-        <%= image_tag "teo_avatar.png", class: "avatar_left" %>
+    </div>
+    <div class="mvp-text">
       <% else %>
+        <h1>Best player is...</h1>
         <h1><%= @game.mvp_2.username %></h1>
+        <%= image_tag "teo_avatar.png", class: "avatar-rounded" %>
         <p><%= @game.mvp_2.total_points %> points</p>
-        <%= image_tag "teo_avatar.png", class: "avatar_left" %>
+    </div>
       <% end %>
+    <div class="result-bottom">
+      <h1>Score Sum Up</h1>
+        <p>Team 1 scored <%= @game.total_points_T1(@game) %> points</p>
+        <p>Team 2 scored <%= @game.total_points_T2(@game) %> points</p>
+      <%= link_to "Play again", update_path(game_id: params[:id]), class: 'btn btn-red' %>
     </div>
-
-    <h1>Score Sum Up</h1>
-    <div>
-      <p>Team 1 scored <%= @game.total_points_T1(@game) %> points</p>
-      <p>Team 2 scored <%= @game.total_points_T2(@game) %> points</p>
-    </div>
-
-    <%= link_to "Play again", update_path(game_id: params[:id]), class: 'btn btn-red' %>
-
   </div>
 </div>
