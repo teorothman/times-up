@@ -19,24 +19,28 @@ class Game < ApplicationRecord
     users.where(team_id: team.id)
   end
 
-  # to be called on game. & ¿passing a team?
-  # FILLING user.total_points column
-  
-  def mvp_user(team_name)
-    # Iterate over each user in the team
-    users = users_from_team(team_name)
-    users.each do |user|
-      # 🟢 The sum should be done at end of each round BC points are too spread
-      sum_points = user.points_round_1 + user.points_round_2 + user.points_round_3
+  def mvp_1
+    team_one_id = users.first.team_id
+    team_one_users = users.where(team: team_one_id)
+    team_one_users.order(:total_points).first
+  end
 
-      # Store the user ID and total points in the hash
-      user.update(total_points: sum_points)
-    end
+  def mvp_2
+    team_two_id = users.second.team_id unless users.second.nil?
+    team_two_users = users.where(team: team_two_id) unless users.second.nil?
+    team_two_users.order(:total_points).first
+  end
 
-    # returns the user with the highest total_points
-    # users_from_team(team_name).select(total_points.max)
+  # to call .points_team_1 on it
+  def round_1
+    rounds.find_by(round_number: 1)
+  end
 
-    top_user = users.max_by { |user| user.total_points }
-    top_user.username
+  def round_2
+    rounds.find_by(round_number: 2)
+  end
+
+  def round_3
+    rounds.find_by(round_number: 3)
   end
 end
