@@ -1,2 +1,8 @@
-<h1>Round1 Results:</h1>
-<%= link_to "Next player", update_path(game_id: params[:id]) %>
+<div class="index-wrapper">
+  <h1>Round 1 | Results</h1>
+
+  <div> <%= render partial: 'results_round' %> </div>
+
+  # change button to "Start Round 2"
+  <%= link_to "Start Round 2", update_path(game_id: params[:id]) %>
+</div>

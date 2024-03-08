@@ -1,2 +1,16 @@
-<h1>This is the player score:</h1>
-<%= link_to "Next path", update_path(game_id: params[:id]) %>
+<div class="index-wrapper">
+  <div class="center-wrapper">
+    <div>
+      <h1>Time's Up</h1>
+      <%= image_tag ('avatar_1.png'), class: 'avatar-rounded-big' %>
+      <h1>"player.name" scored X points!</h1>
+    </div>
+    <div>
+      <h1><i class="fa-solid fa-trophy fa-2xl"></i></h1>
+    </div>
+    <div>
+      # change link to "Next Player"
+      <%= link_to "Next path", update_path(game_id: params[:id]) %>
+    </div>
+  </div>
+</div>
