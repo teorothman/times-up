@@ -173,6 +173,30 @@ class GamesController < ApplicationController
 
   def guess_card
     @game = Game.find(params[:id])
+    @team_number = current_user.team.name.to_i
+    @round1 = @game.rounds.find_by(round_number: 1)
+    @round2 = @game.rounds.find_by(round_number: 2)
+    @round3 = @game.rounds.find_by(round_number: 3)
+    if @game.games_status.status == 'round1_play'
+      @round1.points_team1 += 1 if @team_number == 1
+      @round1.points_team2 += 1 if @team_number == 2
+      current_user.points_round_1 += 1
+      @round1.save!
+    elsif @game.games_status.status == 'round2_play'
+      @round2.points_team1 += 1 if @team_number == 1
+      @round2.points_team2 += 1 if @team_number == 2
+      current_user.points_round_2 += 1
+      @round2.save!
+    elsif @game.games_status.status == 'round3_play'
+      @round3.points_team1 += 1 if @team_number == 1
+      @round3.points_team2 += 1 if @team_number == 2
+      current_user.points_round_3 += 1
+      @round3.save!
+    end
+    current_user.total_points += 1
+    current_user.save
+    @game.player_turn_point += 1
+    @game.save
     card_round = RoundCard.find(params[:card_round_id])
     card_round.update!(is_guessed: true)
     redirect_to game_path(@game)
