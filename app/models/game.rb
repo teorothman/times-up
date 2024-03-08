@@ -21,6 +21,7 @@ class Game < ApplicationRecord
 
   # to be called on game. & ¿passing a team?
   # FILLING user.total_points column
+  
   def mvp_user(team_name)
     # Iterate over each user in the team
     users = users_from_team(team_name)

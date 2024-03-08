@@ -1,1 +1,8 @@
-<%= link_to "Next player", update_path(game_id: params[:id]) %>
+<div class="index-wrapper">
+  <h1>Round 3 | Results</h1>
+
+  <div> <%= render partial: 'results_round' %> </div>
+
+  
+  <%= link_to "See Game Results", update_path(game_id: params[:id]) %>
+</div>
