@@ -22,6 +22,7 @@
     <div class="timer">
       <h1>Time left: <span id="timer">30</span> seconds</h1>
     </div>
+    <%= link_to 'Next', play_path(game_id: @game.id), class: 'btn btn-red hidden', id: 'next-button' %>
 
   </div>
 </div>
@@ -29,12 +30,14 @@
 <script>
   let timeLeft = 5;
   const timerElement = document.getElementById('timer');
-  const gameId = "<%= @game.id %>";
+  function showNextButton() {
+    document.getElementById('next-button').classList.remove('hidden');
+  }
 
   const countdown = setInterval(() => {
     if (timeLeft <= 0) {
       clearInterval(countdown);
-      window.location.href = `/games/${gameId}/update_turn_status_to_player_score`;
+      showNextButton();
     } else {
       timerElement.innerText = timeLeft;
       timeLeft -= 1;
