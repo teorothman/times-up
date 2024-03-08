@@ -25,24 +25,27 @@
     </div>
 
     <div>
-      <h1>Your best player is</h1>
+      <h1>Your best player is...</h1>
+    </div>
+    <div>
+      <% if pT1 > pT2 %>
+        <h1><%= @game.mvp_1.username %></h1>
+        <p><%= @game.mvp_1.total_points %> points</p>
+        <%= image_tag "teo_avatar.png", class: "avatar_left" %>
+      <% else %>
+        <h1><%= @game.mvp_2.username %></h1>
+        <p><%= @game.mvp_2.total_points %> points</p>
+        <%= image_tag "teo_avatar.png", class: "avatar_left" %>
+      <% end %>
     </div>
 
-    # Needs fixing after game is done
-    <% if pT1 > pT2 %>
-      @game.mvp_user(@team_one_obj.name)
-      <%= image_tag "teo_avatar.png", class: "avatar_left" %>
-    <% else %>
-      @game.mvp_user(@team_two_obj.name)
-      <%= image_tag "teo_avatar.png", class: "avatar_left" %>
-    <% end %>
     <h1>Score Sum Up</h1>
     <div>
-      <p>Team 2 scored <%= @game.total_points_T1(@game) %> points</p>
+      <p>Team 1 scored <%= @game.total_points_T1(@game) %> points</p>
       <p>Team 2 scored <%= @game.total_points_T2(@game) %> points</p>
     </div>
 
-    <%= link_to "Play again", update_path(game_id: params[:id]) %>
+    <%= link_to "Play again", update_path(game_id: params[:id]), class: 'btn btn-red' %>
 
   </div>
 </div>
