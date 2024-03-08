@@ -189,7 +189,6 @@ class GamesController < ApplicationController
         @game_status.update(turn_counter: 0) if @game_status.turn_counter > @player_order.count - 1
         @game_status.update(turn_status: 'player_selected')
         @game_status.update(status: 'round3_results')
-
       elsif @cards_round2_playable.count.zero?
         @game_status.update(turn_counter: @game_status.turn_counter + 1)
         @game_status.update(turn_counter: 0) if @game_status.turn_counter > @player_order.count - 1
@@ -207,6 +206,7 @@ class GamesController < ApplicationController
         @game_status.update(turn_counter: 0) if @game_status.turn_counter > @player_order.count - 1
         @game_status.update(turn_status: 'player_selected')
       end
+      @game.player_turn_point = 0
     end
     redirect_to game_path(@game)
   end
