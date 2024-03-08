@@ -24,7 +24,7 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     @game_state = GamesStatus.find_by(game_id: @game.id)
     case @game_state.status
-    when "pre-lobby"
+    when "pre_lobby"
       @game_state.status = "lobby"
     end
     render :show
@@ -64,7 +64,7 @@ class GamesController < ApplicationController
     case @game_state.status
     when 'loading'
       render 'loading'
-    when 'pre-lobby'
+    when 'pre_lobby'
       render 'pre_lobby'
     when 'lobby'
       render 'lobby'
@@ -74,7 +74,7 @@ class GamesController < ApplicationController
       case @game_state.turn_status
       when 'player_selected'
         render 'player_selected'
-      when 'player-plays'
+      when 'player_plays'
         render 'player_plays'
       when 'player_score'
         render 'player_score'
@@ -129,7 +129,7 @@ class GamesController < ApplicationController
     @game = Game.find(params[:game_id])
     game_status = @game.games_status
     case game_status.status
-    when 'pre-lobby'
+    when 'pre_lobby'
       game_status.update(status: 'lobby')
     when 'lobby'
       current_user.update(is_ready: true)
@@ -159,14 +159,52 @@ class GamesController < ApplicationController
   def play
     @game = Game.find(params[:game_id])
     @game_status = @game.games_status
+    @round1 = Round.find_by(round_number: 1, game_id: @game.id)
+    @round2 = Round.find_by(round_number: 2, game_id: @game.id)
+    @round3 = Round.find_by(round_number: 3, game_id: @game.id)
+    @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
+    @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
+    @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
+    team_one_id = @game.users.first.team_id
+    team_two_id = @game.users.second.team_id unless @game.users.second.nil?
+    # for clarity these should be named @team_one_users
+    @team_one = @game.users.where(team: team_one_id)
+    @team_two = @game.users.where(team: team_two_id) unless @game.users.second.nil?
+    team1 = []
+    team2 = []
+    @team_one.each{|player| team1 << player}
+    @team_two.each{|player| team2 << player} unless @team_two.nil?
+    @player_order = team1.zip(team2).flatten
+
     case @game_status.turn_status
     when 'player_selected'
-      @game_status.update(turn_status: 'player-plays')
-    when 'player-plays'
-      @game_status.update(turn_status: 'player-score')
-    when 'player-score'
-      @game_status.update(turn_counter: @game_status.turn_counter + 1)
-      # NEED IF STATEMENT IF TURN SHOULD ADVANCE!
+      @game_status.update(turn_status: 'player_plays')
+    when 'player_plays'
+      @game_status.update(turn_status: 'player_score')
+    when 'player_score'
+      if @cards_round3_playable.count.zero?
+        @game_status.update(turn_counter: @game_status.turn_counter + 1)
+        @game_status.update(turn_counter: 0) if @game_status.turn_counter > @player_order.count - 1
+        @game_status.update(turn_status: 'player_selected')
+        @game_status.update(status: 'round3_results')
+
+      elsif @cards_round2_playable.count.zero?
+        @game_status.update(turn_counter: @game_status.turn_counter + 1)
+        @game_status.update(turn_counter: 0) if @game_status.turn_counter > @player_order.count - 1
+        @game_status.update(turn_status: 'player_selected')
+        @game_status.update(status: 'round2_results')
+
+      elsif @cards_round1_playable.count.zero?
+        @game_status.update(turn_counter: @game_status.turn_counter + 1)
+        @game_status.update(turn_counter: 0) if @game_status.turn_counter > @player_order.count - 1
+        @game_status.update(turn_status: 'player_selected')
+        @game_status.update(status: 'round1_results')
+
+      else
+        @game_status.update(turn_counter: @game_status.turn_counter + 1)
+        @game_status.update(turn_counter: 0) if @game_status.turn_counter > @player_order.count - 1
+        @game_status.update(turn_status: 'player_selected')
+      end
     end
     redirect_to game_path(@game)
   end
@@ -218,7 +256,7 @@ class GamesController < ApplicationController
 
     @game_status.update(turn_status: 'player_score')
 
-    redirect_to game_path(@game), notice: 'Time’s up! Moving to score.'
+    redirect_to game_path(@game), notice: 'Time´s up! Moving to score.'
   end
 
   private
