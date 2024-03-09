@@ -1,24 +1,32 @@
-<div class="container">
-    <div class="index-wrapper">
-      <h1>Round 3 | Results</h1>
+<div class="round-result-wrapper">
 
-    #fix styling to look as Figma
-    <div class="lobby-team-text">
-      <h1>Team 1</h1>
-      <p><%= @game.round_2.points_team1 %> points</p>
-      <h1>Team 2</h1>
-      <p><%= @game.round_2.points_team2 %> points</p>
+  <div class="round-result-top">
+    <h1>Round 3 results</h1>
+  </div>
+
+  <div class="round-result-middle">
+    <div class="round-result-middle-text">
+      <div class="round-result-middle-text-div">
+        <h1><%= @game.round_3.points_team1 %></h1>
+        <p>points</p>
+      </div>
+      <div class="round-result-middle-text-div">
+        <h1><%= @game.round_3.points_team1 %></h1>
+        <p>points</p>
+      </div>
     </div>
-
     <div class="team-grid-container">
       <div class="team-grid">
-      <%= render partial: 'player_grid', collection: @team_one, as: :user %>
+        <%= render partial: 'player_grid', collection: @team_one, as: :user %>
       </div>
       <div class="team-grid">
         <%= render partial: 'player_grid', collection: @team_two, as: :user %>
       </div>
     </div>
-
-     <%= link_to "See Game Results", update_path(game_id: params[:id]), class: 'btn btn-red' %>
   </div>
+
+  <div class="round-result-bottom">
+    <%= link_to "Game Results", update_path(game_id: params[:id]), class: 'btn btn-red' %>
+  </div>
+
 </div>

@@ -1,0 +1,29 @@
+.round-result-wrapper{
+  height: 96vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5vh;
+
+}
+
+.round-result-middle-text{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 5vw;
+  margin-bottom: 5vh;
+}
+
+.round-result-middle-text-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  gap: 1vw;
+}
+
+.round-result-bottom{
+  width: 60%;
+}
