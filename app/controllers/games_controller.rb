@@ -41,6 +41,8 @@ class GamesController < ApplicationController
     @team_one = @game.users.where(team: team_one_id)
     @team_two = @game.users.where(team: team_two_id) unless @game.users.second.nil?
 
+
+
     @game_state = GamesStatus.find_by(game_id: @game.id)
     team1 = []
     team2 = []
@@ -54,65 +56,13 @@ class GamesController < ApplicationController
     @cards_round2 = RoundCard.where(round_id: @round1.id)
     @cards_round3 = RoundCard.where(round_id: @round1.id)
 
+    redirect_to new_game_user_card_path(@game, current_user.id) if @game_state.status == 'cards'
+
     # Returns cards per round that are not guessed yet (either skipped or unused)
     @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
     @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
     @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
 
-    # ACTUAL LOGIC FOR THE GAME
-    case @game_state.status
-    when 'loading'
-      render 'loading'
-    when 'pre_lobby'
-      render 'pre_lobby'
-    when 'lobby'
-      render 'lobby'
-    when 'cards'
-      redirect_to new_game_user_card_path(@game, current_user.id)
-    when 'round1_play'
-      case @game_state.turn_status
-      when 'player_selected'
-        render 'player_selected'
-      when 'player_plays'
-        render 'player_plays'
-      when 'player_score'
-        render 'player_score'
-      end
-    when 'round1_results'
-      render 'round1_results'
-    when 'round2_play'
-      case @game_state.turn_status
-      when 'player_selected'
-        render 'player_selected'
-      when 'player_plays'
-        render 'player_plays'
-      when 'player_score'
-        render 'player_score'
-      end
-    when 'round2_results'
-      render 'round2_results'
-    when 'round3_play'
-      case @game_state.turn_status
-      when 'player_selected'
-        render 'player_selected'
-      when 'player_plays'
-        render 'player_plays'
-      when 'player_score'
-        render 'player_score'
-      end
-    when 'round3_results'
-      render 'round3_results'
-    when 'results'
-      render 'results'
-    when 'play_again'
-      if current_user.is_creator == true
-        render 'play_again'
-      else
-        render 'results'
-      end
-    else
-      render 'show'
-    end
   end
 
   def perform_join

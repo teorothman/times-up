@@ -1,1 +1,11 @@
-
+<% if @game_state.status == 'round1_play' %>
+  <%= render partial: @game_state.turn_status %>
+<% elsif @game_state.status == 'round2_play' %>
+  <%= render partial: @game_state.turn_status %>
+<% elsif @game_state.status == 'round3_play' %>
+  <%= render partal: @game_state.turn_status %>
+<% elsif @game_state.status == 'cards' %>
+  <% redirect_to new_game_user_card_path(@game, current_user.id) %>
+<% else %>
+  <%= render partial: @game_state.status, locals: {game: @game, users: @game.users} %>
+<% end %>
