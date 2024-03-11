@@ -48,7 +48,7 @@ class GamesController < ApplicationController
     team2 = []
     @team_one.each{|player| team1 << player}
     @team_two.each{|player| team2 << player} unless @team_two.nil?
-    @player_order = team1.zip(team2).flatten
+    @player_order = team1.to_a.zip(team2).flatten
     @round1 = Round.find_by(round_number: 1, game_id: @game.id)
     @round2 = Round.find_by(round_number: 2, game_id: @game.id)
     @round3 = Round.find_by(round_number: 3, game_id: @game.id)
@@ -80,6 +80,8 @@ class GamesController < ApplicationController
     case game_status.status
     when 'pre_lobby'
       game_status.update(status: 'lobby')
+      BroadCastService::broadcast(content: )
+
     when 'lobby'
       current_user.update(is_ready: true)
       # READY CHECKER:
@@ -101,7 +103,7 @@ class GamesController < ApplicationController
     when 'results'
       game_status.update(status: 'play_again')
     end
-
+    # delete redirect useless AFTER BROADCAST IMPLEMENTATION
     redirect_to game_path(@game)
   end
 
@@ -137,6 +139,7 @@ class GamesController < ApplicationController
         @game_status.update(turn_counter: 0) if @game_status.turn_counter > @player_order.count - 1
         @game_status.update(turn_status: 'player_selected')
         @game_status.update(status: 'round3_results')
+
       elsif @cards_round2_playable.count.zero?
         @game_status.update(turn_counter: @game_status.turn_counter + 1)
         @game_status.update(turn_counter: 0) if @game_status.turn_counter > @player_order.count - 1
