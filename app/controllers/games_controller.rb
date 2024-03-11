@@ -35,20 +35,9 @@ class GamesController < ApplicationController
     #NECCESSARY INSTANCE VARIABLES
     @game = Game.find(params[:id])
     @users = @game.users
-    team_one_id = @game.users.first.team_id
-    team_two_id = @game.users.second.team_id unless @game.users.second.nil?
-    # for clarity these should be named @team_one_users
-    @team_one = @game.users.where(team: team_one_id)
-    @team_two = @game.users.where(team: team_two_id) unless @game.users.second.nil?
-
-
 
     @game_state = GamesStatus.find_by(game_id: @game.id)
-    team1 = []
-    team2 = []
-    @team_one.each{|player| team1 << player}
-    @team_two.each{|player| team2 << player} unless @team_two.nil?
-    @player_order = team1.to_a.zip(team2).flatten
+    @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
     @round1 = Round.find_by(round_number: 1, game_id: @game.id)
     @round2 = Round.find_by(round_number: 2, game_id: @game.id)
     @round3 = Round.find_by(round_number: 3, game_id: @game.id)
@@ -80,8 +69,6 @@ class GamesController < ApplicationController
     case game_status.status
     when 'pre_lobby'
       game_status.update(status: 'lobby')
-      BroadCastService::broadcast(content: )
-
     when 'lobby'
       current_user.update(is_ready: true)
       # READY CHECKER:
