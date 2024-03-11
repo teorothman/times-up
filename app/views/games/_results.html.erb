@@ -5,9 +5,9 @@
     <div class="result-top-text">
       <h1>The winner is...</h1>
       <% if pT1 > pT2 %>
-        <h1>TEAM <%= Team.find(@game.users.second.team_id).name %></h1>
+        <h1>TEAM 1</h1>
       <% else %>
-        <h1>TEAM <%= Team.find(@game.users.second.team_id).name %></h1>
+        <h1>TEAM 2</h1>
       <% end %>
     </div>
 
