@@ -21,15 +21,17 @@ label {
   cursor: pointer;
 }
 
-input[type="radio"]:checked + label .avatar-rounded-new {
+input:checked {
+  radio {
   border: 5px solid;
-  border-color: #CE5A67; /* Direct color value */
+  border-color: #CE5A67;
+} /* Direct color value */
 }
 
 .form-input{
   height: 10vh;
   border-radius: 8px;
-  width: 60vw;
+  width: 100%;
   font-size: large;
   margin-bottom: 5vh;
 }
