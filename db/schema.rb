@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_07_140713) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_08_114556) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,10 +61,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_07_140713) do
     t.boolean "is_default"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "player_turn_point", default: 0
   end
 
   create_table "games_statuses", force: :cascade do |t|
-    t.string "status", default: "pre-lobby"
+    t.string "status", default: "pre_lobby"
     t.bigint "game_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -91,8 +92,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_07_140713) do
     t.bigint "game_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "points_team1"
-    t.integer "points_team2"
+    t.integer "points_team1", default: 0
+    t.integer "points_team2", default: 0
     t.index ["game_id"], name: "index_rounds_on_game_id"
   end
 
@@ -115,12 +116,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_07_140713) do
     t.string "username"
     t.integer "game_id", null: false
     t.boolean "is_creator"
-    t.integer "team_id", null: false
-    t.integer "points_round_1"
-    t.integer "points_round_2"
-    t.integer "points_round_3"
+    t.bigint "team_id", null: false
+    t.integer "points_round_1", default: 0
+    t.integer "points_round_2", default: 0
+    t.integer "points_round_3", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "total_points", default: 0
+    t.boolean "is_ready", default: false
     t.index ["game_id"], name: "index_users_on_game_id"
     t.index ["team_id"], name: "index_users_on_team_id"
   end

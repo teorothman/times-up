@@ -1,26 +1,48 @@
-<div class="container">
-    <div class="index-wrapper">
-    <h1>The winner is...</h1>
-    <div>
-      <h1><%= @team %></h1>
+<% pT1 = @game.total_points_T1(@game) %>
+<% pT2 = @game.total_points_T2(@game) %>
+
+<div class="result-wrapper">
+    <div class="result-top-text">
+      <h1>The winner is...</h1>
+      <% if pT1 > pT2 %>
+        <h1>TEAM <%= Team.find(@game.users.second.team_id).name %></h1>
+      <% else %>
+        <h1>TEAM <%= Team.find(@game.users.second.team_id).name %></h1>
+      <% end %>
     </div>
 
-    lobby-team-text div styling needs fix to look as Figma
-    <div class="lobby-team-text">
-      <h1>Team one</h1>
-      <p><%= @game.total_points_T1(@game) %> points</p>
-      <h1>Team two</h1>
-      <p><%= @game.total_points_T2(@game) %> points</p>
-    </div>
-
-      <div class="team-grid-container">
-        <div class="team-grid">
+    <div class="result-players">
+      <% if pT1 > pT2 %>
         <%= render partial: 'player_grid', collection: @team_one, as: :user %>
-        </div>
-        <div class="team-grid">
+      <% else %>
           <%= render partial: 'player_grid', collection: @team_two, as: :user %>
-        </div>
-      </div>
+      <% end %>
+    </div>
 
+    <div class="mvp-text" >
+      <% if pT1 > pT2 %>
+      <h1>Best player is...</h1>
+        <h1><%= @game.mvp_1.username %></h1>
+        <%= image_tag "teo_avatar.png", class: "avatar-rounded" %>
+        <p><%= @game.mvp_1.total_points %> points</p>
+    </div>
+
+    <div class="mvp-text">
+      <% else %>
+      <div>
+        <h1>Best player is...</h1>
+        <h1><%= @game.mvp_2.username %></h1>
+        <p><%= @game.mvp_2.total_points %> points</p>
+      </div>
+        <%= image_tag "teo_avatar.png", class: "avatar-rounded" %>
+    </div>
+      <% end %>
+
+    <div class="result-bottom">
+      <h1>Score Sum Up</h1>
+        <p>Team 1 scored <%= @game.total_points_T1(@game) %> points</p>
+        <p>Team 2 scored <%= @game.total_points_T2(@game) %> points</p>
+      <%= link_to "Play again", update_path(game_id: params[:id]), class: 'btn btn-red' %>
+    </div>
   </div>
 </div>

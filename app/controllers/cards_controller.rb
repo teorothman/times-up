@@ -14,7 +14,11 @@ class CardsController < ApplicationController
   def create
     @card = @user.cards.new(card_params)
     @games_status = GamesStatus.find_by(game_id: @game.id)
+    @games_status.update(status: "loading")
     if @card.save
+      RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 1).id, card_id: @card.id)
+      RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 2).id, card_id: @card.id)
+      RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 3).id, card_id: @card.id)
       session[:card_count] += 1
       if session[:card_count] <= 5
         redirect_to new_game_user_card_path(@game, @user)
@@ -24,8 +28,6 @@ class CardsController < ApplicationController
           @games_status.update(status: "round1_play")
           redirect_to game_path(@game)
         else
-          redirect_to new_game_user_card_path(@game, @user, button_disabled: true)
-          @games_status.update(status: "loading")
           redirect_to game_path(@game)
         end
       end

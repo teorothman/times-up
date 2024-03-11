@@ -16,8 +16,8 @@
         </div>
       </div>
       <div class="lobby-buttons">
-        <%= link_to "Ready up", "#", class: 'btn btn-red' %>
-       <button data-show-rules-target="rulesbutton" data-action="click->show-rules#show" class="btn btn-yellow">Show Rules</button>
+        <%= link_to 'Ready Up', update_path(game_id: @game.id), class: 'btn btn-red'%>
+        <%= link_to "Rules", "#" ,class: 'btn btn-yellow'%>
       </div>
   </div>
 </div>

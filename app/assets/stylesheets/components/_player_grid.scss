@@ -6,3 +6,11 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1vh;
 }
+
+.black{
+  color: $black;
+  i{
+    color: $red;
+    font-size: large;
+  }
+}
