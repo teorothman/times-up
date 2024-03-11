@@ -1,10 +1,10 @@
-.loading {
+.loading-spin {
   display: flex;
   flex-direction: column;
   align-items: center; /* Center horizontally */
   justify-content: center; /* Center vertically */
   text-align: center; /* Ensure text inside is centered as well */
-  height: calc(100vh - 10em);
+  height: calc(90vh - 10em);
 }
 
 .top-padding {
@@ -13,22 +13,22 @@
 
 @keyframes spinAndResize {
   0%, 100% {
-    transform: rotate(0deg) scale(1.2); /* Start and end with no rotation and original size */
+    transform: rotate(0deg) scale(0.7); /* Start and end with no rotation and original size */
   }
   25% {
-    transform: rotate(90deg) scale(0.7); /* Quarter spin and scale down */
+    transform: rotate(90deg) scale(0.3); /* Quarter spin and scale down */
   }
   50% {
-    transform: rotate(180deg) scale(1.2); /* Half spin and back to original size */
+    transform: rotate(180deg) scale(0.7); /* Half spin and back to original size */
   }
   75% {
-    transform: rotate(270deg) scale(0.7); /* Three-quarter spin and scale down */
+    transform: rotate(270deg) scale(0.3); /* Three-quarter spin and scale down */
   }
   to {
-    transform: rotate(360deg) scale(1.2); /* Full spin and back to original size */
+    transform: rotate(360deg) scale(0.7); /* Full spin and back to original size */
   }
 }
 
-.logo-container .logo {
+.logo-container-spin .logo-spin {
   animation: spinAndResize 5s linear infinite;
 }
