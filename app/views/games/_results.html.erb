@@ -14,7 +14,7 @@
       <% if pT1 > pT2 %>
         <%= render partial: 'player_grid', collection: game.teams.first.users, as: :user %>
       <% else %>
-          <%= render partial: 'player_grid', collection: game.teams.first.users, as: :user %>
+          <%= render partial: 'player_grid', collection: game.teams.second.users, as: :user %>
       <% end %>
     </div>
 

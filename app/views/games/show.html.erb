@@ -7,5 +7,5 @@
 <% elsif @game_state.status == 'cards' %>
   <% redirect_to new_game_user_card_path(@game, current_user.id) %>
 <% else %>
-  <%= render @game_state.status, game: @game, users: @game.users, game_state: @game_state, player_order: @player_order %>
+  <%= render @game_state.status, game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules %>
 <% end %>
