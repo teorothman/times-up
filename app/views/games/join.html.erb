@@ -4,8 +4,21 @@
   </div>
   <h1 class="text-center">Enter Code to Join</h1>
 
-  <%= simple_form_for :users, url: new_game_user_path(Game.last.id), method: :get do |f| %>
-    <%= f.input :game_id, required: true, label: false, input_html: { class: 'game-code-input' }, label_html: { class: 'game-code-label' }, placeholder: 'Enter code and join' %>
-    <%= f.button :submit, "Join Game", class: 'btn btn-red mt-5'%>
+  <%= simple_form_for :users, url: "#", method: :get, html: { id: 'join_game_form' } do |f| %>
+    <%= f.input :game_id, required: true, label: false, input_html: { id: 'game_id_input', class: 'game-code-input' }, label_html: { class: 'game-code-label' }, placeholder: 'Enter code and join' %>
+    <%= f.button :submit, "Join Game", class: 'btn btn-red mt-5' %>
   <% end %>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var gameIdInput = document.getElementById('game_id_input');
+    var joinGameForm = document.getElementById('join_game_form');
+
+    gameIdInput.addEventListener('input', function() {
+      var gameId = this.value;
+      var actionUrl = "/games/" + gameId + "/users/new";
+      joinGameForm.action = actionUrl;
+    });
+  });
+</script>
