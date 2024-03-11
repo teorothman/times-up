@@ -1,8 +1,5 @@
-<div class="container" data-controller="show-rules">
-  <div class="rules-wrapper hidden" data-show-rules-target="rules">
-    <%= render partial: 'game_rules' %>
-  </div>
-  <div class="pre-lobby-wrapper" data-show-rules-target="wrapper">
+<div class="container">
+  <div class="pre-lobby-wrapper">
     <div class="pre-lobby-top-text">
       <h1>Code to join: </h1>
       <h1><%= @game.id %> <i class="fa-solid fa-copy"></i></h1>
@@ -21,5 +18,4 @@
     <% end %>
     </div>
   </div>
-  <button data-show-rules-target="rulesbutton" data-action="click->show-rules#show" class="btn btn-yellow">Show Rules</button>
 </div>

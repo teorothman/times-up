@@ -14,7 +14,7 @@ class GamesController < ApplicationController
     @round_one = Round.create!(game_id: @game.id, round_number: 1)
     @round_two = Round.create!(game_id: @game.id, round_number: 2)
     @round_three = Round.create!(game_id: @game.id, round_number: 3)
-    @rules = Rule.all.paginate(page: params[:page], per_page: 1)
+    @rules = Rule.all
     redirect_to new_game_user_path(@game)
   end
 

@@ -1,5 +1,8 @@
-<div class="container">
-  <div class="lobby-wrapper">
+<div class="container" data-controller="show-rules">
+<div class="rules-wrapper hidden" data-show-rules-target="rules">
+    <%= render partial: 'game_rules' %>
+  </div>
+  <div class="lobby-wrapper" data-show-rules-target="wrapper">
     <div class="lobby-team-text">
     <h1>Team one</h1>
     <h1>Team two</h1>
@@ -14,7 +17,7 @@
       </div>
       <div class="lobby-buttons">
         <%= link_to "Ready up", "#", class: 'btn btn-red' %>
-        <%= link_to "Rules", "#" ,class: 'btn btn-yellow'%>
+       <button data-show-rules-target="rulesbutton" data-action="click->show-rules#show" class="btn btn-yellow">Show Rules</button>
       </div>
   </div>
 </div>
