@@ -4,14 +4,14 @@
     <div>
       <h1>Time's Up</h1>
       <%= image_tag ('avatar_1.png'), class: 'avatar-rounded-big' %>
-      <h1> <%= @player_order[@game_state.turn_counter].username.capitalize %> <br> scored <%= @game.player_turn_point %> points!</h1>
+      <h1> <%= player_order[game_state.turn_counter].username.capitalize %> <br> scored <%= game.player_turn_point %> points!</h1>
     </div>
     <div>
       <h1><i class="fa-solid fa-trophy fa-2xl"></i></h1>
     </div>
     <div class="player-score-wrapper">
-      <% if current_user == @player_order[@game_state.turn_counter] %>
-      <%= link_to 'Next player', play_path(game_id: @game.id), class: 'btn btn-red', data: {turbo: false} %>
+      <% if current_user == player_order[game_state.turn_counter] %>
+      <%= link_to 'Next player', play_path(game_id: game.id), class: 'btn btn-red', data: {turbo: false} %>
       <% end %>
     </div>
   </div>
