@@ -1,11 +1,27 @@
 <div class="container">
   <div class="word-wrapper">
-    <h1>Round 1</h1>
+
+    <% if @game_state.status == 'round1_play' || @game_state.status == 'round1_results' %>
+      <h1>Round 1</h1>
+    <% elsif @game_state.status == 'round2_play' || @game_state.status == 'round2_results' %>
+      <h1>Round 2</h1>
+    <% elsif @game_state.status == 'round3_play' || @game_state.status == 'round3_results' %>
+      <h1>Round 3</h1>
+    <% else %>
+    <% end %>
+
     <% if current_user != @player_order[@game_state.turn_counter] %>
       <h3>One player is playing...</h3>
+      <h4>Last card found :</h4>
+      <div class="player-word-display">
+        <% @last_card_round = RoundCard.where(round_id: @round1.id, is_guessed: true).order(updated_at: :asc).last if @game.games_status.status == "round1_play" %>
+        <% @last_card_round = RoundCard.where(round_id: @round2.id, is_guessed: true).order(updated_at: :asc).last if @game.games_status.status == "round2_play" %>
+        <% @last_card_round = RoundCard.where(round_id: @round3.id, is_guessed: true).order(updated_at: :asc).last if @game.games_status.status == "round3_play" %>
+        <% @last_card_to_guess = Card.find(@last_card_round.card_id) if @last_card_round != nil %>
+        <h1><%= @last_card_to_guess.content if @last_card_to_guess != nil%></h1>
+      </div>
     <% end %>
     <% if current_user == @player_order[@game_state.turn_counter] %>
-
 
     <% @card_round = @cards_round1_playable.sample if @game.games_status.status == "round1_play" %>
     <% @card_round = @cards_round2_playable.sample if @game.games_status.status == "round2_play" %>
@@ -24,7 +40,7 @@
         <%= button_to 'Skip', skip_card_game_path, method: :post, class:'btn btn-red play-button' %>
         <% end %>
     <% end %>
-    <%= link_to 'Next', play_path(game_id: @game.id), class: 'btn btn-red hidden', id: 'next-button' %>
+    <%= link_to 'Next', play_path(game_id: @game.id), class: 'btn btn-red hidden', id: 'next-button', data: {turbo: false} %>
     <% end %>
   </div>
 </div>

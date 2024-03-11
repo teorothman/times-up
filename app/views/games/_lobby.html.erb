@@ -18,6 +18,10 @@
       <div class="lobby-buttons">
         <%= link_to 'Ready Up', update_path(game_id: @game.id), class: 'btn btn-red'%>
         <%= link_to "Rules", "#", class: 'btn btn-yellow'%>
+        <%= link_to 'Ready Up', update_path(game_id: @game.id), class: 'btn btn-red'%>
+        <%= link_to "Rules", "#", class: 'btn btn-yellow'%>
+        <%= link_to 'Ready Up', update_path(game_id: @game.id), class: 'btn btn-red', data: {turbo: false}%>
+        <%= link_to "Rules", "#" ,class: 'btn btn-yellow', data: {turbo: false}%>
       </div>
   </div>
 </div>

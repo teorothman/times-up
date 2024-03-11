@@ -19,6 +19,6 @@
       </div>
     </div>
 
-     <%= link_to "See Game Results", update_path(game_id: params[:id]), class: 'btn btn-red' %>
+     <%= link_to "See Game Results", update_path(game_id: params[:id]), class: 'btn btn-red', data: {turbo: false} %>
   </div>
 </div>
