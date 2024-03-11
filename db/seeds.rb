@@ -7,6 +7,8 @@ Team.destroy_all
 Game.destroy_all
 Round.destroy_all
 Avatar.destroy_all
+Rule.destroy_all
+
 
 
 puts "Creating 1 game"
@@ -95,6 +97,53 @@ puts "Creating 3 joiners for team 1..."
   user.save
 end
 
+puts "Creating 1 creator for team 1..."
+user = User.new(
+  username: Faker::Name.first_name,
+  game_id: Game.first.id,
+  is_creator: true,
+  team_id: Team.find_by(name: 1).id,
+  points_round_1: 0,
+  points_round_2: 0,
+  points_round_3: 0
+)
+avatar = avatar_arr.sample
+user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
+user.save!
+
+puts "Creating 3 joiners for team 1..."
+3.times do
+  user = User.new(
+    username: Faker::Name.first_name,
+    game_id: Game.first.id,
+    is_creator: false,
+    team_id: Team.find_by(name: 1).id,
+    points_round_1: 0,
+    points_round_2: 0,
+    points_round_3: 0
+  )
+  # Select random img from avatar array seems to need File.open to open img from variable
+  avatar = avatar_arr.sample
+  user.photo.attach(io: File.open(avatar_cat), filename: "#{user.username}.png", content_type: "image/png")
+  user.save
+end
+
+puts "Creating 4 joiners for team 2..."
+4.times do
+  # avatar = select random img from avatar range
+  user = User.new(
+    username: Faker::Name.first_name,
+    game_id: Game.first.id,
+    is_creator: false,
+    team_id: Team.find_by(name: 2).id,
+    points_round_1: 0,
+    points_round_2: 0,
+    points_round_3: 0
+  )
+  avatar = avatar_arr.sample
+  user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
+  user.save
+end
 
 # puts "Creating 40 cards"
 # times_up_guess_list = [
@@ -139,3 +188,52 @@ end
 #   "The Wizard of Oz",
 #   "Steve Jobs",
 # ]
+
+
+# times_up_guess_list.each do |word|
+#   card = Card.new(
+#     content: word,
+#     user_id: User.first.id,
+#     is_guessed: false,
+#     is_skipped: false
+#   )
+#   card.save
+# end
+
+rule = Rule.create!(
+  title: "Times Up",
+  content: "Time's up is played in three different rounds. and the team with the most points at the end of the three rounds win. Easy, right?
+
+  Before we start however, each player must enter five words. The words can be whatever, so use your imagination. But it should be something everyone knows. Maybe your favorite food, an actor you adore or a famous building."
+)
+rule.save
+
+rule = Rule.create!(
+  title: "Round 1",
+  content: "A player from team 1 is chosen at random. The player will be notified on the screen and has to stand up and get ready. The player will see a card with a word written by one of you on it. The players task is to make you guess the word, but you can't obviously say the word (in any language). No pointing either!!!
+
+  If you guess right, you get a point! And the chosen player can advance to the next card. Continue until the Time's up. Next up is Team 2.
+
+  This continues until all words in the pool are guessed correctly."
+)
+rule.save
+
+rule = Rule.create!(
+  title: "Round 2",
+  content: "This round is a lot similar to the first. But with one key difference. You can't speak. Your task is now to mimic and act out the word to the best of your ability. Release your inner Hollywood superstar and make your teammates proud.
+
+  To make this not all out impossible. The words you have to act out, are the same words your team managed to successfully guess correct in the first round!
+
+  Each team gets 1 minute each. "
+)
+rule.save
+
+rule = Rule.create!(
+  title: "Round 3",
+  content: "The final round. This time it's no more acting and you can finally use your sweet voice again. But there is one catch. You can only use one word. After you have said one word, you can't speak again until your team guesses correctly or you pass!
+
+  So chose your word carefully!
+
+  Each team gets 1 minute. "
+)
+rule.save

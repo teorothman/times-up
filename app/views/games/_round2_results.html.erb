@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="index-wrapper">
+      <h1>Round 2 | Results</h1>
+
+    #fix styling to look as Figma
+    <div class="lobby-team-text">
+      <h1>Team 1</h1>
+      <p><%= game.round_2.points_team1 %> points</p>
+      <h1>Team 2</h1>
+      <p><%= game.round_2.points_team2 %> points</p>
+    </div>
+
+    <div class="team-grid-container">
+      <div class="team-grid">
+      <%= render partial: 'player_grid', collection: game.teams.first.users, as: :user %>
+      </div>
+      <div class="team-grid">
+        <%= render partial: 'player_grid', collection: game.teams.second.users, as: :user %>
+      </div>
+    </div>
+
+     <%= link_to "Start Round 3", update_path(game_id: params[:id]), class: 'btn btn-red', data: {turbo: false} %>
+  </div>
+</div>

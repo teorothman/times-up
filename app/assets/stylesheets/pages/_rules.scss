@@ -1,0 +1,42 @@
+.rules-wrapper{
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rules-title{
+  size: 10px;
+}
+
+.rule-text{
+  text-align: left;
+  font-weight: 300;
+  padding: 10%;
+}
+
+.btn-play{
+  button{
+    background-color: transparent;
+    i {
+      font-size: 3rem;
+      color: $red
+    }
+  }
+}
+
+.btn-rules{
+  button{
+    background-color: transparent;
+    i {
+      font-size: 3rem;
+      color: $red;
+    }
+  }
+}
+
+.btn-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}

@@ -1,0 +1,48 @@
+<% pT1 = game.total_points_T1(game) %>
+<% pT2 = game.total_points_T2(game) %>
+<div class="result-wrapper">
+    <div class="result-top-text">
+      <h1>The winner is...</h1>
+      <% if pT1 > pT2 %>
+        <h1>TEAM 1</h1>
+      <% else %>
+        <h1>TEAM 2</h1>
+      <% end %>
+    </div>
+
+    <div class="result-players">
+      <% if pT1 > pT2 %>
+        <%= render partial: 'player_grid', collection: game.teams.first.users, as: :user %>
+      <% else %>
+          <%= render partial: 'player_grid', collection: game.teams.second.users, as: :user %>
+      <% end %>
+    </div>
+
+    <% if pT1 > pT2 %>
+      <div class="mvp-text" >
+        <div>
+          <h1>Best player is...</h1>
+          <h1><%= game.mvp_1.username %></h1>
+          <p><%= game.mvp_1.total_points %> points</p>
+        </div>
+          <%= image_tag "teo_avatar.png", class: "avatar-rounded" %>
+      </div>
+    <% else %>
+      <div class="mvp-text">
+        <div>
+          <h1>Best player is...</h1>
+          <h1><%= game.mvp_2.username %></h1>
+          <p><%= game.mvp_2.total_points %> points</p>
+        </div>
+        <%= image_tag "teo_avatar.png", class: "avatar-rounded" %>
+    </div>
+      <% end %>
+
+    <div class="result-bottom">
+      <h1>Score Sum Up</h1>
+        <p>Team 1 scored <%= game.total_points_T1(game) %> points</p>
+        <p>Team 2 scored <%= game.total_points_T2(game) %> points</p>
+      <%= link_to "Play again", update_path(game_id: params[:id]), class: 'btn btn-red', data: {turbo: false} %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,87 @@
+<div class="rules-wrapper">
+  <div class="rule" data-name="rule-1">
+    <div class="page-1 page-1-on-click">
+      <h1 class="rules-title"><%= rules.first.title %></h1>
+    </div>
+    <div class="page-1 page-1-on-click">
+      <h3 class="rule-text"><%= rules.first.content %></h3>
+      <div class="btn-wrapper">
+      <div class="btn-rules">
+        <%= button_tag data: { name: "rule-1", action: "click->show-rules#next" } do %>
+          <i class="fa-solid fa-right-long"></i>
+          <h3>NEXT</h3>
+        <% end %>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule hidden" data-name="rule-2">
+    <div class="page-2 page-2-on-click">
+      <h1 class="rules-title"><%= rules.second.title %></h1>
+    </div>
+    <div class="page-2 page-2-on-click">
+      <h3 class="rule-text"><%= rules.second.content %></h3>
+      <div class="btn-wrapper">
+      <div class="btn-rules">
+        <%= button_tag data: { name: "rule-2", action: "click->show-rules#back" } do %>
+          <i class="fa-solid fa-left-long"></i>
+          <h3>BACK</h3>
+        <% end %>
+      </div>
+      <div class="btn-rules">
+        <%= button_tag data: { name: "rule-2", action: "click->show-rules#next" } do %>
+          <i class="fa-solid fa-right-long"></i>
+          <h3>NEXT</h3>
+        <% end %>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule hidden" data-name="rule-3">
+    <div class="page-3 page-3-on-click">
+      <h1 class="rules-title"><%= rules.third.title %></h1>
+    </div>
+    <div class="page-3 page-3-on-click">
+      <h3 class="rule-text"><%= rules.third.content %></h3>
+      <div class="btn-wrapper">
+      <div class="btn-rules">
+        <%= button_tag data: { name: "rule-3", action: "click->show-rules#back" } do %>
+          <i class="fa-solid fa-left-long"></i>
+          <h3>BACK</h3>
+        <% end %>
+      </div>
+      <div class="btn-rules">
+        <%= button_tag data: { name: "rule-3", action: "click->show-rules#next" } do %>
+          <i class="fa-solid fa-right-long"></i>
+          <h3>NEXT</h3>
+        <% end %>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule hidden" data-name="rule-4">
+    <div class="page-4 page-4-on-click">
+      <h1 class="rules-title"><%= rules.last.title %></h1>
+    </div>
+    <div class="page-4 page-4-on-click">
+      <h3 class="rule-text"><%= rules.last.content %></h3>
+      <div class="btn-wrapper">
+      <div class="btn-rules">
+        <%= button_tag data: { name: "rule-4", action: "click->show-rules#back" } do %>
+          <i class="fa-solid fa-left-long"></i>
+          <h3>BACK</h3>
+        <% end %>
+      </div>
+      <div class="btn-play">
+        <%= button_tag data: { action: "click->show-rules#hide" } do %>
+          <i class="fa-solid fa-gamepad"></i>
+          <h3>PLAY</h3>
+        <% end %>
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
