@@ -21,11 +21,8 @@ label {
   cursor: pointer;
 }
 
-input:checked {
-  radio {
-  border: 5px solid;
-  border-color: #CE5A67;
-} /* Direct color value */
+input:checked + img {
+    border: 5px solid $red;
 }
 
 .form-input{
