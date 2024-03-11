@@ -5,10 +5,8 @@
       <p>This page is only visible for the Game Creator</p>
     </div>
     <div class="lobby-buttons">
-
-      <%= link_to "Same team", game_path(game, {update_game: true} ), method: :get, class: 'btn btn-red' %>
-
-      <%= link_to "Host a new game", new_game_path(game),class: 'btn btn-yellow'%>
+      <%= link_to "Same team", game_path(@game, {update_game: true} ), method: :get, data: {turbo: false} class: 'btn btn-red' %>
+      <%= link_to "Host a new game", new_game_path(@game),class: 'btn btn-yellow', data: {turbo: false}%>
     </div>
   </div>
 </div>
