@@ -1,7 +1,16 @@
 <div class="container">
   <div class="center-wrapper">
     <div class="top-wrapper">
-      <h1>Round 1 #tbfixed</h1>
+    
+      <% if @game_state.status == 'round1_play' || @game_state.status == 'round1_results' %>
+        <h1>Round 1</h1>
+      <% elsif @game_state.status == 'round2_play' || @game_state.status == 'round2_results' %>
+        <h1>Round 2</h1>
+      <% elsif @game_state.status == 'round3_play' || @game_state.status == 'round3_results' %>
+        <h1>Round 3</h1>
+      <% else %>
+      <% end %>
+
       <h1> Team <%= current_user.team.name %></h1>
       <h1><%= @player_order[@game_state.turn_counter].username %></h1>
     </div>

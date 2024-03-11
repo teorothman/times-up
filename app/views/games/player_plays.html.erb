@@ -1,11 +1,19 @@
 <div class="container">
   <div class="word-wrapper">
-    <h1>Round 1</h1>
+
+    <% if @game_state.status == 'round1_play' || @game_state.status == 'round1_results' %>
+      <h1>Round 1</h1>
+    <% elsif @game_state.status == 'round2_play' || @game_state.status == 'round2_results' %>
+      <h1>Round 2</h1>
+    <% elsif @game_state.status == 'round3_play' || @game_state.status == 'round3_results' %>
+      <h1>Round 3</h1>
+    <% else %>
+    <% end %>
+
     <% if current_user != @player_order[@game_state.turn_counter] %>
       <h3>One player is playing...</h3>
     <% end %>
     <% if current_user == @player_order[@game_state.turn_counter] %>
-
 
     <% @card_round = @cards_round1_playable.sample if @game.games_status.status == "round1_play" %>
     <% @card_round = @cards_round2_playable.sample if @game.games_status.status == "round2_play" %>
