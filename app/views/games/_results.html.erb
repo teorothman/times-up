@@ -42,7 +42,7 @@
       <h1>Score Sum Up</h1>
         <p>Team 1 scored <%= @game.total_points_T1(@game) %> points</p>
         <p>Team 2 scored <%= @game.total_points_T2(@game) %> points</p>
-      <%= link_to "Play again", update_path(game_id: params[:id]), class: 'btn btn-red' %>
+      <%= link_to "Play again", update_path(game_id: params[:id]), class: 'btn btn-red', data: {turbo: false} %>
     </div>
   </div>
 </div>

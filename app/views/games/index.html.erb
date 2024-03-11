@@ -4,21 +4,21 @@
       <%= image_tag 'logo.png', alt: 'Logo', class:"logo" %>
     </div>
     <div>
-      <%= link_to 'Host a game', new_game_path , class: 'btn btn-red' %>
+      <%= link_to 'Host a game', new_game_path , class: 'btn btn-red', data: {turbo: false} %>
     </div>
 
     <div>
-      <%= link_to 'Join a game', join_game_path, class: 'btn btn-yellow' %>
+      <%= link_to 'Join a game', join_game_path, class: 'btn btn-yellow', data: {turbo: false} %>
     </div>
 
     <div class="index-links">
-      <%= link_to '#', class: 'btn' do %>
+      <%= link_to '#', class: 'btn', data: {turbo: false} do %>
             <p>
               How to play
               <i class="fa-solid fa-chevron-right"></i>
             </p>
           <% end %>
-          <%= link_to 'about', class: 'btn' do %>
+          <%= link_to 'about', class: 'btn', data: {turbo: false} do %>
             <p>
               About us
               <i class="fa-solid fa-chevron-right"></i>
