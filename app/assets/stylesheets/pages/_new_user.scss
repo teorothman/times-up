@@ -1,4 +1,13 @@
-.avatar-rounded{
+.player-grid{
+  margin-top: 2vh;;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1vh;
+  margin-bottom: 5vh;
+}
+
+.avatar-rounded-new{
   border-radius: 50%;
   height: 10vh;
 }
@@ -12,7 +21,23 @@ label {
   cursor: pointer;
 }
 
-input[type='radio']:checked + label .avatar-rounded {
-  border: 2px solid transparent;
+input[type="radio"]:checked + label .avatar-rounded-new {
+  border: 5px solid;
   border-color: #CE5A67; /* Direct color value */
+}
+
+.form-input{
+  height: 10vh;
+  border-radius: 8px;
+  width: 60vw;
+  font-size: large;
+  margin-bottom: 5vh;
+}
+
+.form-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
 }
