@@ -1,11 +1,14 @@
 require "open-uri"
 
 puts "Dropping current data"
-Round.destroy_all
 User.destroy_all
+Card.destroy_all
 Team.destroy_all
 Game.destroy_all
+Round.destroy_all
+Avatar.destroy_all
 Rule.destroy_all
+
 
 
 puts "Creating 1 game"
@@ -94,10 +97,6 @@ puts "Creating 3 joiners for team 1..."
   user.save
 end
 
-# 5.times do
-#   Card.new will come here
-# end
-
 puts "Creating 1 creator for team 1..."
 user = User.new(
   username: Faker::Name.first_name,
@@ -146,9 +145,6 @@ puts "Creating 4 joiners for team 2..."
   user.save
 end
 
-# 5.times do
-#   Card.new will come here
-# end
 # puts "Creating 40 cards"
 # times_up_guess_list = [
 #   "The Mona Lisa",
@@ -192,6 +188,7 @@ end
 #   "The Wizard of Oz",
 #   "Steve Jobs",
 # ]
+
 
 # times_up_guess_list.each do |word|
 #   card = Card.new(
