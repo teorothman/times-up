@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_08_114556) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_11_102605) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -117,6 +117,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_08_114556) do
     t.datetime "updated_at", null: false
     t.integer "total_points", default: 0
     t.boolean "is_ready", default: false
+    t.bigint "avatar_id"
+    t.index ["avatar_id"], name: "index_users_on_avatar_id"
     t.index ["game_id"], name: "index_users_on_game_id"
     t.index ["team_id"], name: "index_users_on_team_id"
   end
@@ -129,6 +131,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_08_114556) do
   add_foreign_key "round_cards", "rounds"
   add_foreign_key "rounds", "games"
   add_foreign_key "teams", "games"
+  add_foreign_key "users", "avatars"
   add_foreign_key "users", "games"
   add_foreign_key "users", "teams"
 end

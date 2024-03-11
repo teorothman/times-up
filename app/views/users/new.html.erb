@@ -2,6 +2,21 @@
   <h1>Create your profile</h1>
   <%= simple_form_for [@game, @user] do |f| %>
     <%= f.input :username, input_html: { class: 'form-input', placeholder: 'Enter username' }, label: false %>
+
+<%# select avatar as checkbox with radio-button , display w class "player-grid" %>
+
+    <div class ="player-grid">
+      <% Avatar.all.each do |a| %>
+      <label>
+        <%= f.radio_button :avatar_id, a.id %>
+        <%= cl_image_tag(a.photo.key, class: "avatar-rounded") %>
+      </label>
+      <% end %>
+    </div>
     <%= f.button :submit, class:'btn btn-red' %>
     <% end %>
 </div>
+
+<%# for simple_form :avatar_id needs to exist in the table of the (users) object i want to create form input %>
+
+<%# add defaul checked box in HTML in input autocomplete="on" %>

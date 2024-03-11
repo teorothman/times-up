@@ -3,6 +3,7 @@ class User < ApplicationRecord
   belongs_to :team
   has_many :turns
   has_many :cards, dependent: :destroy
+  belongs_to :avatar, optional: true
 
   has_one_attached :photo
 

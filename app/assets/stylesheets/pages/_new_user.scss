@@ -1,0 +1,18 @@
+.avatar-rounded{
+  border-radius: 50%;
+  height: 10vh;
+}
+
+input[type='radio'] {
+  display: none;
+}
+
+label {
+  display: inline-block;
+  cursor: pointer;
+}
+
+input[type='radio']:checked + label .avatar-rounded {
+  border: 2px solid transparent;
+  border-color: #CE5A67; /* Direct color value */
+}

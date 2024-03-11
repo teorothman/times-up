@@ -1,10 +1,12 @@
 require "open-uri"
 
 puts "Dropping current data"
-Round.destroy_all
 User.destroy_all
+Card.destroy_all
 Team.destroy_all
 Game.destroy_all
+Round.destroy_all
+Avatar.destroy_all
 
 
 puts "Creating 1 game"
@@ -16,22 +18,22 @@ Team.create! name: 2, game_id: game.id
 
 # AVATAR SEEDS TO KEEP FOR PRODUCTION > DISPLAY Avatar.all
 puts "Loading images for avatars..."
-  avatar_monkey = File.open("app/assets/images/times up _ avatar -01.png")
-  avatar_bear = File.open("app/assets/images/times up _ avatar -02.png")
-  avatar_giraffe = File.open("app/assets/images/times up _ avatar -03.png")
-  avatar_gorila = File.open("app/assets/images/times up _ avatar -04.png")
-  avatar_chicken = File.open("app/assets/images/times up _ avatar -05.png")
-  avatar_lion = File.open("app/assets/images/times up _ avatar -06.png")
-  avatar_sheep = File.open("app/assets/images/times up _ avatar -07.png")
-  avatar_tiger = File.open("app/assets/images/times up _ avatar -08.png")
-  avatar_owl = File.open("app/assets/images/times up _ avatar -09.png")
-  avatar_polar = File.open("app/assets/images/times up _ avatar -10.png")
-  avatar_lea = File.open("app/assets/images/times up _ avatar -11.png")
-  avatar_simba = File.open("app/assets/images/times up _ avatar -12.png")
-  avatar_fox = File.open("app/assets/images/times up _ avatar -13.png")
-  avatar_monkey2 = File.open("app/assets/images/times up _ avatar -14.png")
-  avatar_gorila2 = File.open("app/assets/images/times up _ avatar -15.png")
-  avatar_cat = File.open("app/assets/images/times up _ avatar -16.png")
+  avatar_monkey = File.open("app/assets/images/avatar_1.png")
+  avatar_bear = File.open("app/assets/images/avatar_2.png")
+  avatar_giraffe = File.open("app/assets/images/avatar_3.png")
+  avatar_gorila = File.open("app/assets/images/avatar_4.png")
+  avatar_chicken = File.open("app/assets/images/avatar_5.png")
+  avatar_lion = File.open("app/assets/images/avatar_6.png")
+  avatar_sheep = File.open("app/assets/images/avatar_7.png")
+  avatar_tiger = File.open("app/assets/images/avatar_8.png")
+  avatar_owl = File.open("app/assets/images/avatar_9.png")
+  avatar_polar = File.open("app/assets/images/avatar_10.png")
+  avatar_lea = File.open("app/assets/images/avatar_11.png")
+  avatar_simba = File.open("app/assets/images/avatar_12.png")
+  avatar_fox = File.open("app/assets/images/avatar_13.png")
+  avatar_monkey2 = File.open("app/assets/images/avatar_14.png")
+  avatar_gorila2 = File.open("app/assets/images/avatar_15.png")
+  avatar_cat = File.open("app/assets/images/avatar_16.png")
 
 avatar_arr = [
   avatar_monkey, avatar_bear, avatar_giraffe, avatar_gorila, avatar_chicken, avatar_lion, avatar_sheep, avatar_tiger, avatar_owl, avatar_polar, avatar_lea, avatar_simba, avatar_fox, avatar_monkey2, avatar_gorila2, avatar_cat
@@ -93,59 +95,47 @@ puts "Creating 3 joiners for team 1..."
   user.save
 end
 
-# 5.times do
-#   Card.new will come here
-# end
-puts "Creating 40 cards"
-times_up_guess_list = [
-  "The Mona Lisa",
-  "Eiffel Tower",
-  "Shrek",
-  "Cleopatra",
-  "The Beatles",
-  "Harry Potter",
-  "Mount Everest",
-  "Albert Einstein",
-  "The Sphinx",
-  "Leonardo da Vinci",
-  "Marilyn Monroe",
-  "Titanic",
-  "Pikachu",
-  "Statue of Liberty",
-  "Michael Jackson",
-  "Sherlock Holmes",
-  "The Colosseum",
-  "Elvis Presley",
-  "Star Wars",
-  "Napoleon Bonaparte",
-  "Spider-Man",
-  "The Hobbit",
-  "Big Ben",
-  "Vincent van Gogh",
-  "Queen Elizabeth II",
-  "The Godfather",
-  "Machu Picchu",
-  "Julius Caesar",
-  "Batman",
-  "Stonehenge",
-  "William Shakespeare",
-  "Frida Kahlo",
-  "Jurassic Park",
-  "King Arthur",
-  "Charlie Chaplin",
-  "James Bond",
-  "The Grand Canyon",
-  "Mozart",
-  "The Wizard of Oz",
-  "Steve Jobs",
-]
 
-times_up_guess_list.each do |word|
-  card = Card.new(
-    content: word,
-    user_id: User.first.id,
-    is_guessed: false,
-    is_skipped: false
-  )
-  card.save
-end
+# puts "Creating 40 cards"
+# times_up_guess_list = [
+#   "The Mona Lisa",
+#   "Eiffel Tower",
+#   "Shrek",
+#   "Cleopatra",
+#   "The Beatles",
+#   "Harry Potter",
+#   "Mount Everest",
+#   "Albert Einstein",
+#   "The Sphinx",
+#   "Leonardo da Vinci",
+#   "Marilyn Monroe",
+#   "Titanic",
+#   "Pikachu",
+#   "Statue of Liberty",
+#   "Michael Jackson",
+#   "Sherlock Holmes",
+#   "The Colosseum",
+#   "Elvis Presley",
+#   "Star Wars",
+#   "Napoleon Bonaparte",
+#   "Spider-Man",
+#   "The Hobbit",
+#   "Big Ben",
+#   "Vincent van Gogh",
+#   "Queen Elizabeth II",
+#   "The Godfather",
+#   "Machu Picchu",
+#   "Julius Caesar",
+#   "Batman",
+#   "Stonehenge",
+#   "William Shakespeare",
+#   "Frida Kahlo",
+#   "Jurassic Park",
+#   "King Arthur",
+#   "Charlie Chaplin",
+#   "James Bond",
+#   "The Grand Canyon",
+#   "Mozart",
+#   "The Wizard of Oz",
+#   "Steve Jobs",
+# ]

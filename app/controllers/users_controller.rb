@@ -1,3 +1,5 @@
+require "open-uri"
+
 class UsersController < ApplicationController
   def new
     @user = User.new
@@ -10,6 +12,12 @@ class UsersController < ApplicationController
     @team_two = Team.where(game_id: @game.id).last
     @user = User.new(user_params)
     @user.game = @game
+
+    # wip 🟢
+    @avatar = Avatar.find(@user.avatar_id)
+    file = URI.open(@avatar.photo.url)
+    @user.photo.attach(io: file, filename: "avatar#{@user.id}.png", content_type: "image/png")
+
     if User.where(game_id: @game.id).count.zero?
       @user.is_creator = true
       @user.team_id = @team_one.id
@@ -18,17 +26,18 @@ class UsersController < ApplicationController
     else
       @user.team_id = @team_one.id
     end
+
     if @user.save
       session[:user_id] = @user.id
       redirect_to game_path(@game)
     else
-      render 'new'
+      render 'new', status: :unprocessable_entity
     end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:username)
+    params.require(:user).permit(:username, :avatar_id)
   end
 end
