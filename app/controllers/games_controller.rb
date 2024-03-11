@@ -177,6 +177,7 @@ class GamesController < ApplicationController
 
     case @game_status.turn_status
     when 'player_selected'
+      @game.update(player_turn_point: 0)
       @game_status.update(turn_status: 'player_plays')
     when 'player_plays'
       @game_status.update(turn_status: 'player_score')
@@ -203,7 +204,6 @@ class GamesController < ApplicationController
         @game_status.update(turn_counter: 0) if @game_status.turn_counter > @player_order.count - 1
         @game_status.update(turn_status: 'player_selected')
       end
-      @game.player_turn_point = 0
     end
     redirect_to game_path(@game)
   end
