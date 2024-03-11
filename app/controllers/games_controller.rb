@@ -51,8 +51,8 @@ class GamesController < ApplicationController
     @round2 = Round.find_by(round_number: 2, game_id: @game.id)
     @round3 = Round.find_by(round_number: 3, game_id: @game.id)
     @cards_round1 = RoundCard.where(round_id: @round1.id)
-    @cards_round2 = RoundCard.where(round_id: @round1.id)
-    @cards_round3 = RoundCard.where(round_id: @round1.id)
+    @cards_round2 = RoundCard.where(round_id: @round2.id)
+    @cards_round3 = RoundCard.where(round_id: @round3.id)
 
     # Returns cards per round that are not guessed yet (either skipped or unused)
     @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)

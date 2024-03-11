@@ -3,6 +3,13 @@
     <h1>Round 1</h1>
     <% if current_user != @player_order[@game_state.turn_counter] %>
       <h3>One player is playing...</h3>
+      <div class="player-word-display">
+          <% @last_card_round = RoundCard.where(round_id: @round1.id, is_guessed: true).last if @game.games_status.status == "round1_play" %>
+          <% @last_card_round = RoundCard.where(round_id: @round2.id, is_guessed: true).last if @game.games_status.status == "round2_play" %>
+          <% @last_card_round = RoundCard.where(round_id: @round3.id, is_guessed: true).last if @game.games_status.status == "round3_play" %>
+        <% @last_card_to_guess = Card.find(@last_card_round.card_id) if @last_card_round != nil %>
+        <h1><%= @last_card_to_guess.content if @last_card_to_guess != nil%></h1>
+      </div>
     <% end %>
     <% if current_user == @player_order[@game_state.turn_counter] %>
 
@@ -31,7 +38,7 @@
 
 <% if current_user == @player_order[@game_state.turn_counter] %>
   <script>
-    let timeLeft = 5;
+    let timeLeft = 30;
     function showNextButton() {
       document.getElementById('next-button').classList.remove('hidden');
     }
