@@ -40,10 +40,7 @@ class GamesController < ApplicationController
     # for clarity these should be named @team_one_users
     @team_one = @game.users.where(team: team_one_id)
     @team_two = @game.users.where(team: team_two_id) unless @game.users.second.nil?
-    # for clarity these should be named @team_one as in the #create method
-    @team_one_obj = Team.create!(name: 1, game_id: @game.id)
-    @team_two_obj = Team.create!(name: 2, game_id: @game.id)
-    # -
+
     @game_state = GamesStatus.find_by(game_id: @game.id)
     team1 = []
     team2 = []
@@ -182,6 +179,7 @@ class GamesController < ApplicationController
 
     case @game_status.turn_status
     when 'player_selected'
+      @game.update(player_turn_point: 0)
       @game_status.update(turn_status: 'player_plays')
     when 'player_plays'
       @game_status.update(turn_status: 'player_score')
