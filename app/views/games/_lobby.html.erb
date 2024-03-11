@@ -1,5 +1,8 @@
-<div class="container">
-  <div class="lobby-wrapper">
+<div class="container" data-controller="show-rules">
+<div class="rules-wrapper hidden" data-show-rules-target="rules">
+    <%= render partial: 'game_rules' %>
+  </div>
+  <div class="lobby-wrapper" data-show-rules-target="wrapper">
     <div class="lobby-team-text">
     <h1>Team one</h1>
     <h1>Team two</h1>
@@ -13,6 +16,10 @@
         </div>
       </div>
       <div class="lobby-buttons">
+        <%= link_to 'Ready Up', update_path(game_id: @game.id), class: 'btn btn-red'%>
+        <%= link_to "Rules", "#", class: 'btn btn-yellow'%>
+        <%= link_to 'Ready Up', update_path(game_id: @game.id), class: 'btn btn-red'%>
+        <%= link_to "Rules", "#", class: 'btn btn-yellow'%>
         <%= link_to 'Ready Up', update_path(game_id: @game.id), class: 'btn btn-red', data: {turbo: false}%>
         <%= link_to "Rules", "#" ,class: 'btn btn-yellow', data: {turbo: false}%>
       </div>

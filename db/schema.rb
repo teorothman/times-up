@@ -97,17 +97,24 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_08_114556) do
     t.index ["game_id"], name: "index_rounds_on_game_id"
   end
 
+  create_table "rules", force: :cascade do |t|
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title"
+  end
+
   create_table "teams", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "game_id"
+    t.integer "game_id"
     t.index ["game_id"], name: "index_teams_on_game_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "username"
-    t.bigint "game_id", null: false
+    t.integer "game_id", null: false
     t.boolean "is_creator"
     t.bigint "team_id", null: false
     t.integer "points_round_1", default: 0
