@@ -53,8 +53,8 @@ class GamesController < ApplicationController
     @round2 = Round.find_by(round_number: 2, game_id: @game.id)
     @round3 = Round.find_by(round_number: 3, game_id: @game.id)
     @cards_round1 = RoundCard.where(round_id: @round1.id)
-    @cards_round2 = RoundCard.where(round_id: @round1.id)
-    @cards_round3 = RoundCard.where(round_id: @round1.id)
+    @cards_round2 = RoundCard.where(round_id: @round2.id)
+    @cards_round3 = RoundCard.where(round_id: @round3.id)
 
     redirect_to new_game_user_card_path(@game, current_user.id) if @game_state.status == 'cards'
 
@@ -134,23 +134,21 @@ class GamesController < ApplicationController
     when 'player_plays'
       @game_status.update(turn_status: 'player_score')
     when 'player_score'
-      if @cards_round3_playable.count.zero?
+      if @cards_round3_playable.count.zero? && @game_status.status == "round3_play"
         @game_status.update(turn_counter: @game_status.turn_counter + 1)
         @game_status.update(turn_counter: 0) if @game_status.turn_counter > @player_order.count - 1
-        @game_status.update(turn_status: 'player_selected')
         @game_status.update(status: 'round3_results')
-
-      elsif @cards_round2_playable.count.zero?
+        @game_status.update(turn_status: 'player_selected')
+      elsif @cards_round2_playable.count.zero? && @game_status.status == "round2_play"
         @game_status.update(turn_counter: @game_status.turn_counter + 1)
         @game_status.update(turn_counter: 0) if @game_status.turn_counter > @player_order.count - 1
-        @game_status.update(turn_status: 'player_selected')
         @game_status.update(status: 'round2_results')
-
-      elsif @cards_round1_playable.count.zero?
+        @game_status.update(turn_status: 'player_selected')
+      elsif @cards_round1_playable.count.zero? && @game_status.status == "round1_play"
         @game_status.update(turn_counter: @game_status.turn_counter + 1)
         @game_status.update(turn_counter: 0) if @game_status.turn_counter > @player_order.count - 1
-        @game_status.update(turn_status: 'player_selected')
         @game_status.update(status: 'round1_results')
+        @game_status.update(turn_status: 'player_selected')
 
       else
         @game_status.update(turn_counter: @game_status.turn_counter + 1)
