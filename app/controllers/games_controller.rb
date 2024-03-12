@@ -203,6 +203,10 @@ class GamesController < ApplicationController
     redirect_to game_path(@game), notice: 'Time´s up! Moving to score.'
   end
 
+  def show_qr
+    render partial: 'new_modal'
+  end
+
   private
 
   def current_user
