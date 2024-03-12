@@ -4,10 +4,6 @@ class CardsController < ApplicationController
 
   def new
     @card = Card.new
-    @examples = [ "The Mona Lisa", "Eiffel Tower", "Shrek", "Cleopatra", "The Beatles", "Harry Potter", "Mount Everest", "Albert Einstein",
-      "The Sphinx", "Leonardo da Vinci", "Marilyn Monroe", "Titanic", "Pikachu", "Statue of Liberty", "Michael Jackson", "Sherlock Holmes", "The Colosseum", "Elvis Presley", "Star Wars", "Napoleon Bonaparte", "Spider-Man", "The Hobbit", "Big Ben",
-      "The Godfather", "Machu Picchu", "Julius Caesar", "Batman", "Stonehenge", "Jurassic Park", "King Arthur", "Charlie Chaplin", "The Roman Empire", "James Bond", "The Grand Canyon", "Mozart", "Steve Jobs",
-    ].sample(3)
     redirect_to '#' if current_user.cards.count > 5
   end
 
