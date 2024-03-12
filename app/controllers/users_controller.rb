@@ -13,7 +13,6 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.game = @game
 
-    # wip 🟢
     @avatar = Avatar.find(@user.avatar_id)
     file = URI.open(@avatar.photo.url)
     @user.photo.attach(io: file, filename: "avatar#{@user.id}.png", content_type: "image/png")
@@ -31,7 +30,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect_to game_path(@game)
     else
-        render 'new', status: :unprocessable_entity
+      render 'new', status: :unprocessable_entity
     end
   end
 
