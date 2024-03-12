@@ -3,11 +3,11 @@
   <h1>Cards entered <%= current_user.cards.count %>/5</h1>
     <%= simple_form_for [@game, @user, @card] do |form| %>
       <div class="field">
-        <%= form.input :content, input_html: { autofocus: 'true', class: "game-code-input", required: true, id: 'word-input' }, placeholder: "Write here...", label: false %>
+        <%= form.input :content, input_html: { autofocus: 'true', class: "game-code-input", required: true }, placeholder: "Write here...", label: false %>
       </div>
       <div>
         <p>Some examples:</p>
-        <p>“<%= @examples.join('”, “') %>”</p>
+        <p>“<%= [ "The Mona Lisa", "Eiffel Tower", "Shrek", "Cleopatra", "The Beatles", "Harry Potter", "Mount Everest", "Albert Einstein", "The Sphinx", "Leonardo da Vinci", "Marilyn Monroe", "Titanic", "Pikachu", "Statue of Liberty", "Michael Jackson", "Sherlock Holmes", "The Colosseum", "Elvis Presley", "Star Wars", "Napoleon Bonaparte", "Spider-Man", "The Hobbit", "Big Ben", "The Godfather", "Machu Picchu", "Julius Caesar", "Batman", "Stonehenge", "Jurassic Park", "King Arthur", "Charlie Chaplin", "The Roman Empire", "James Bond", "The Grand Canyon", "Mozart", "Steve Jobs"].sample(3).join('”, “') %>”</p>
       </div>
       <div>
         <%= form.button :submit, "Enter a word", class: "btn btn-red", id: 'submit-button' %>
@@ -15,7 +15,9 @@
     <% end %>
   </div>
 </div>
-<script type="text/javascript">
+
+
+<%# <script type="text/javascript">
   document.addEventListener('turbo:load', () => {
   const input = document.getElementById('word-input');
   const submitButton = document.getElementById('submit-button');
@@ -31,14 +33,12 @@
     }
   });
   });
-</script>
-<% if params[:button_disabled] %>
-<script type="text/javascript">
+</script> %>
+<%# <script type="text/javascript">
   window.addEventListener('DOMContentLoaded', (event) => {
     const submitButton = document.getElementById('submit-button');
     if (submitButton) {
       submitButton.disabled = true;
     }
   });
-</script>
-<% end %>
+</script> %>
