@@ -1,5 +1,6 @@
 <div>
-  <%= image_tag("avatar_#{rand(1..16)}.png", class: 'avatar-rounded'), %>
+  <% a = Avatar.find(user.avatar_id) %>
+  <%= cl_image_tag(a.photo.key, class: "avatar-rounded") %>
   <p><%= user.username %></p>
   <%if user.game.games_status.status == 'lobby' && user.is_ready == true %>
     <div class="black">

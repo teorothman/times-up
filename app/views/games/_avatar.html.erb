@@ -1,4 +1,5 @@
 <div>
-  <%= image_tag("avatar_#{rand(1..16)}.png", class: 'avatar-rounded' ) %>
+  <% a = Avatar.find(user.avatar_id) %>
+  <%= cl_image_tag(a.photo.key, class: "avatar-rounded") %>
   <p><%= user.username %></p>
 </div>
