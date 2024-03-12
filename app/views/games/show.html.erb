@@ -1,3 +1,4 @@
+<div data-controller="game" data-game-game-id-value="<%= @game.id %>" data-game-target="container">
 <% if @game_state.status == 'round1_play' %>
   <%= render @game_state.turn_status, game_state: @game_state, player_order: @player_order, game: @game, cards_round1: @cards_round1, cards_round2: @cards_round2, cards_round3: @cards_round3, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable%>
 <% elsif @game_state.status == 'round2_play' %>
@@ -9,3 +10,4 @@
 <% else %>
   <%= render @game_state.status, game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules %>
 <% end %>
+</div>
