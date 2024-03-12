@@ -14,7 +14,10 @@
       <h1> Team <%= current_user.team.name %></h1>
       <h1><%= player_order[game_state.turn_counter].username %></h1>
     </div>
-    <%= image_tag ('avatar_1.png'), class: 'avatar-rounded-big' %>
+
+      <% a = Avatar.find(current_user.avatar_id) %>
+      <%= cl_image_tag(a.photo.key, class: 'avatar-rounded-big') %>
+
     <% if current_user == player_order[game_state.turn_counter] %>
     <%= link_to 'Play', play_path(game_id: game.id), class: 'btn btn-red', data: {turbo: false} %>
     <%else %>

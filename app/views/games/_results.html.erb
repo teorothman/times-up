@@ -25,7 +25,8 @@
           <h1><%= game.mvp_1.username %></h1>
           <p><%= game.mvp_1.total_points %> points</p>
         </div>
-          <%= image_tag "teo_avatar.png", class: "avatar-rounded" %>
+          <% a = Avatar.find(game.mvp_1.avatar_id) %>
+          <%= cl_image_tag(a.photo.key, class: "avatar-rounded") %>
       </div>
     <% else %>
       <div class="mvp-text">
@@ -34,7 +35,9 @@
           <h1><%= game.mvp_2.username %></h1>
           <p><%= game.mvp_2.total_points %> points</p>
         </div>
-        <%= image_tag "teo_avatar.png", class: "avatar-rounded" %>
+        <% a = Avatar.find(game.mvp_2.avatar_id) %>
+        <%= cl_image_tag(a.photo.key, class: "avatar-rounded") %>
+
     </div>
       <% end %>
 
