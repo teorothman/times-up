@@ -9,8 +9,6 @@ Round.destroy_all
 Avatar.destroy_all
 Rule.destroy_all
 
-
-
 puts "Creating 1 game"
 game = Game.create! code: 123456, url: "https://www.instagram.com/p/y-al3LtwsQ/", is_default: true
 
@@ -188,7 +186,6 @@ end
 #   "The Wizard of Oz",
 #   "Steve Jobs",
 # ]
-
 
 # times_up_guess_list.each do |word|
 #   card = Card.new(

@@ -18,3 +18,21 @@
 i{
   color: $beige;
 }
+
+.copytext-div{
+  position: relative;
+  margin: 10px auto;
+  width: max-content;
+
+}
+#copied-text{
+  margin-left: 8px;
+  position: absolute;
+  right: -50px;
+  top: 8px;
+  background-color: $red;
+  padding: 4px;
+  margin: -5px;
+  border-radius: 5px;
+  transition: 0.5s;
+}

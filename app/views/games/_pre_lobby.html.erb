@@ -1,7 +1,10 @@
 <div class="container">
-  <div class="pre-lobby-top-text">
+  <div class="pre-lobby-top-text" data-controller="clipboard" data-clipboard-target="div">
     <h1>Code to join: </h1>
-    <h1><%= game.id %> <i class="fa-solid fa-copy"></i></h1>
+    <div class="copytext-div">
+    <h1 data-clipboard-target="gamecode" id="gamecode"><%= game.id %> <i class="fa-solid fa-copy" data-action="click->clipboard#copy" ></i></h1>
+    <p id="copied-text" data-clipboard-target="copied" class="hidden">Copied!</p>
+    </div>
     <p class="link">Show QR</p>
   </div>
   <div class="player-grid" id="pre-lobby-grid">
