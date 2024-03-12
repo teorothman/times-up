@@ -9,6 +9,7 @@ class User < ApplicationRecord
 
   validates :username, presence: true, uniqueness: {scope: :game,
     message: "Oops! Username taken"}
-  validates :photo, uniqueness: {scope: :game,
-    message: "Oops! Avatar taken!"}
+  # UNDOING photo.attach to User
+  # validates :photo, uniqueness: {scope: :game,
+  #   message: "Oops! Avatar taken!"}
 end
