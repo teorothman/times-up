@@ -52,8 +52,6 @@ class GamesController < ApplicationController
     @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
     @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
     @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
-
-
   end
 
   def perform_join
@@ -75,22 +73,17 @@ class GamesController < ApplicationController
       @game_status.update(status: 'lobby')
       GameChannel.broadcast_to(
         @game,
-        html: render_to_string( partial: @game_status.status, locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules } )
+        html: render_to_string( partial: @game_status.status, locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules }),
+        partial: "lobby"
       )
     when 'lobby'
       current_user.update(is_ready: true)
       GameChannel.broadcast_to(
         @game,
-        html: render_to_string( partial: "@game_status.status", locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules } ),
+        html: render_to_string( partial: @game_status.status, locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules } ),
+        partial: "lobby"
       )
-      # READY CHECKER:
       !User.where(game_id: @game.id, is_ready: false).exists? ? @game_status.update(status: 'cards') : ''
-    when 'cards'
-      @game_status.update(status: 'round1_play')
-      GameChannel.broadcast_to(
-        @game,
-        html: render_to_string( partial: @game_status.status, locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules } )
-      )
     when 'round1_play'
       @game_status.update(status: 'round1_results')
     when 'round1_results'
