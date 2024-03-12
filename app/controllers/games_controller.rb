@@ -53,6 +53,7 @@ class GamesController < ApplicationController
     @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
     @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
 
+
   end
 
   def perform_join
@@ -66,33 +67,45 @@ class GamesController < ApplicationController
 
   def update
     @game = Game.find(params[:game_id])
-    game_status = @game.games_status
-    case game_status.status
+    @game_status = @game.games_status
+    @rules = Rule.all
+    @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
+    case @game_status.status
     when 'pre_lobby'
-      game_status.update(status: 'lobby')
+      @game_status.update(status: 'lobby')
+      GameChannel.broadcast_to(
+        @game,
+        html: render_to_string( partial: @game_status.status, locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules } )
+      )
     when 'lobby'
       current_user.update(is_ready: true)
+      GameChannel.broadcast_to(
+        @game,
+        html: render_to_string( partial: "@game_status.status", locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules } ),
+      )
       # READY CHECKER:
-      !User.where(game_id: @game.id, is_ready: false).exists? ? game_status.update(status: 'cards') : ''
+      !User.where(game_id: @game.id, is_ready: false).exists? ? @game_status.update(status: 'cards') : ''
     when 'cards'
-      game_status.update(status: 'round1_play')
+      @game_status.update(status: 'round1_play')
+      GameChannel.broadcast_to(
+        @game,
+        html: render_to_string( partial: @game_status.status, locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules } )
+      )
     when 'round1_play'
-      game_status.update(status: 'round1_results')
+      @game_status.update(status: 'round1_results')
     when 'round1_results'
-      game_status.update(status: 'round2_play')
+      @game_status.update(status: 'round2_play')
     when 'round2_play'
-      game_status.update(status: 'round2_results')
+      @game_status.update(status: 'round2_results')
     when 'round2_results'
-      game_status.update(status: 'round3_play')
+      @game_status.update(status: 'round3_play')
     when 'round3_play'
-      game_status.update(status: 'round3_results')
+      @game_status.update(status: 'round3_results')
     when 'round3_results'
-      game_status.update(status: 'results')
+      @game_status.update(status: 'results')
     when 'results'
-      game_status.update(status: 'play_again')
+      @game_status.update(status: 'play_again')
     end
-    # delete redirect useless AFTER BROADCAST IMPLEMENTATION
-    redirect_to game_path(@game)
   end
 
   def play
