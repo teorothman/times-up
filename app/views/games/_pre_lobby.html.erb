@@ -1,10 +1,11 @@
-<div class="container">
+<div class="container" data-controller="show-partial">
   <div class="pre-lobby-top-text">
     <h1>Code to join: </h1>
     <h1><%= game.id %> <i class="fa-solid fa-copy"></i></h1>
-    <p class="link">Show QR</p>
+    <%= button_tag "Show QR", data: { action: "click->show-partial#showPartial" }, class: "btn-red", id: "show-qr-btn" %>
+    <div data-show-partial-target="container"></div>
   </div>
-  <div class="player-grid" id="pre-lobby-grid">
+  <div class="player-grid" id="pre-lobby-grid" data-show-partial-target="grid">
   <% users.each do |user| %>
     <div>
       <%= image_tag("avatar_#{rand(1..16)}.png", class: 'avatar-rounded') %>
@@ -19,6 +20,5 @@
     <% else %>
       <h1>Waiting for more<br> players to join...</h1>
     <% end %>
-</div>
   </div>
 </div>

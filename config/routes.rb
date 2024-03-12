@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   get 'about', to: 'about_us#index'
 
+  get 'show_qr', to: 'games#show_qr'
+
   get 'play', to: 'games#play'
   get 'ready', to: 'games#ready'
   get 'update', to: 'games#update'
