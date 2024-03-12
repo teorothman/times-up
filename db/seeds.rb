@@ -59,8 +59,9 @@ user = User.new(
   points_round_2: 0,
   points_round_3: 0
 )
-avatar = avatar_arr.sample
-user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
+# UNDO user.photo.attach
+# avatar = avatar_arr.sample
+# user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
 user.save!
 
 puts "Creating 4 joiners for team 2..."
@@ -75,8 +76,9 @@ puts "Creating 4 joiners for team 2..."
     points_round_2: 0,
     points_round_3: 0
   )
-  avatar = avatar_arr.sample
-  user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
+  # UNDO user.photo.attach
+  # avatar = avatar_arr.sample
+  # user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
   user.save
 end
 
@@ -91,9 +93,9 @@ puts "Creating 3 joiners for team 1..."
     points_round_2: 0,
     points_round_3: 0
   )
-  # Select random img from avatar array seems to need File.open to open img from variable
-  avatar = avatar_arr.sample
-  user.photo.attach(io: File.open(avatar_cat), filename: "#{user.username}.png", content_type: "image/png")
+  # UNDO user.photo.attach
+  # avatar = avatar_arr.sample
+  # user.photo.attach(io: File.open(avatar_cat), filename: "#{user.username}.png", content_type: "image/png")
   user.save
 end
 
@@ -107,8 +109,9 @@ user = User.new(
   points_round_2: 0,
   points_round_3: 0
 )
-avatar = avatar_arr.sample
-user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
+# UNDO user.photo.attach
+# avatar = avatar_arr.sample
+# user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
 user.save!
 
 puts "Creating 3 joiners for team 1..."
@@ -122,9 +125,9 @@ puts "Creating 3 joiners for team 1..."
     points_round_2: 0,
     points_round_3: 0
   )
-  # Select random img from avatar array seems to need File.open to open img from variable
-  avatar = avatar_arr.sample
-  user.photo.attach(io: File.open(avatar_cat), filename: "#{user.username}.png", content_type: "image/png")
+  # UNDO user.photo.attach
+  # avatar = avatar_arr.sample
+  # user.photo.attach(io: File.open(avatar_cat), filename: "#{user.username}.png", content_type: "image/png")
   user.save
 end
 
@@ -140,8 +143,9 @@ puts "Creating 4 joiners for team 2..."
     points_round_2: 0,
     points_round_3: 0
   )
-  avatar = avatar_arr.sample
-  user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
+  # UNDO user.photo.attach
+  # avatar = avatar_arr.sample
+  # user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
   user.save
 end
 

@@ -5,8 +5,11 @@ class User < ApplicationRecord
   has_many :cards, dependent: :destroy
   belongs_to :avatar, optional: true
 
-  has_one_attached :photo
+  # UNDOING photo.attach to User
+  # has_one_attached :photo
 
   validates :username, presence: true, uniqueness: {scope: :game,
-    message: "Oops! Another player has taken this name already!"}
+    message: "Oops! Username taken"}
+# validates :photo, uniqueness: {scope: :game,
+#   message: "Oops! Avatar taken!"}
 end

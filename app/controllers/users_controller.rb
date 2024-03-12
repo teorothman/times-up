@@ -17,10 +17,10 @@ class UsersController < ApplicationController
     @user.game = @game
     @users = @game.users
 
-    # wip 🟢
-    @avatar = Avatar.find(@user.avatar_id)
-    file = URI.open(@avatar.photo.url)
-    @user.photo.attach(io: file, filename: "avatar#{@user.id}.png", content_type: "image/png")
+    # UNDOING photo.attach to User
+    # @avatar = Avatar.find(@user.avatar_id)
+    # file = URI.open(@avatar.photo.url)
+    # @user.photo.attach(io: file, filename: "avatar#{@user.id}.png", content_type: "image/png")
 
     if User.where(game_id: @game.id).count.zero?
       @user.is_creator = true
