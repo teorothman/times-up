@@ -67,7 +67,11 @@ class GamesController < ApplicationController
     @game = Game.find(params[:game_id])
     @game_status = @game.games_status
     @rules = Rule.all
-    @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
+
+    # @player_order = GamesSatuts.find
+
+    # 🔴 🔴 changed player_order to be only created after card_submission
+    # @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
     case @game_status.status
     when 'pre_lobby'
       @game_status.update(status: 'lobby')
