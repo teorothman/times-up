@@ -125,13 +125,38 @@ class GamesController < ApplicationController
     team2 = []
     @team_one.each{|player| team1 << player}
     @team_two.each{|player| team2 << player} unless @team_two.nil?
-    
+    @player = player_order[@games_status.turn_counter]
+    raise
+
     case @game_status.turn_status
     when 'player_selected'
       @game.update(player_turn_point: 0)
       @game_status.update(turn_status: 'player_plays')
+      GameChannel.broadcast_to(
+        @game,
+        html: render_to_string( partial: "games/player_plays", locals: { game: @game, users: @game.users, game_state: @game_status, player_order: player_order, rules: @rules, current_user: current_user} ),
+        partial: "player_plays",
+        excluded_user_id: @player.id
+      )
+      PlayerChannel.broadcast_to(
+        @player,
+        html: render_to_string( partial: "games/player_plays_playing", locals: { game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable } ),
+        partial: "player_plays_playing"
+      )
+      head :ok
     when 'player_plays'
       @game_status.update(turn_status: 'player_score')
+      GameChannel.broadcast_to(
+        @game,
+        html: render_to_string( partial: "games/player_score", locals: { game: @game, users: @game.users, game_state: @game_status, player_order: player_order, rules: @rules, current_user: current_user} ),
+        partial: "player_score",
+        excluded_user_id: @player.id
+      )
+      PlayerChannel.broadcast_to(
+        @player,
+        html: render_to_string( partial: "games/player_score_playing", locals: { game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable } ),
+        partial: "player_score_playing"
+      )
     when 'player_score'
       if @cards_round3_playable.count.zero? && @game_status.status == "round3_play"
         @game_status.update(turn_counter: @game_status.turn_counter + 1)
@@ -155,7 +180,6 @@ class GamesController < ApplicationController
         @game_status.update(turn_status: 'player_selected')
       end
     end
-    redirect_to game_path(@game)
   end
 
   def guess_card

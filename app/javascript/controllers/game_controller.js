@@ -11,11 +11,6 @@ export default class extends Controller {
       { channel: 'GameChannel', id: this.gameIdValue },
       {
         received: data => {
-          console.log(data.partial === "avatar");
-          console.log(data.user);
-          console.log(data.user !== this.userIdValue);
-
-
           if (data.partial === "avatar") {
             document.getElementById("pre-lobby-grid").insertAdjacentHTML("beforeend", data.html);
           } else if (data.partial === "lobby") {
@@ -23,6 +18,9 @@ export default class extends Controller {
             window.location.reload(true);
           } else if (data.partial === "player_selected") {
             this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "player_plays" && data.excluded_user_id !== this.userIdValue) {
+            this.containerTarget.innerHTML = data.html;
+            console.log("this is non-player broadcast");
           }
         }
       }
@@ -32,17 +30,14 @@ export default class extends Controller {
       { channel: 'PlayerChannel', id: this.userIdValue },
       {
         received: data => {
-          console.log(data.message);
           if (data.partial === "player_selected_playing") {
             this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "player_plays_playing") {
+            this.containerTarget.innerHTML = data.html;
+            console.log("this is player broadcast");
           }
         }
       }
     );
-  }
-
-  // created to identify who is asigned first
-  get playerOrder() {
-    return JSON.parse(this.data.get("playerOrder"));
   }
 }
