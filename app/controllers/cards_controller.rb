@@ -16,6 +16,8 @@ class CardsController < ApplicationController
     @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
     @player = @player_order[@games_status.turn_counter]
 
+    # @isFirstPlayer = this.playerOrder[0].id
+
     if @card.save
       RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 1).id, card_id: @card.id)
       RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 2).id, card_id: @card.id)
@@ -33,8 +35,8 @@ class CardsController < ApplicationController
           )
           PlayerChannel.broadcast_to(
             @player,
-            # html: render_to_string( partial: "games/player_selected_playing", locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
-            # partial: "player_selected_playing",
+            html: render_to_string( partial: "games/player_selected_playing", locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
+            partial: "player_selected_playing",
             message: "hello"
           )
           redirect_to game_path(@game)
