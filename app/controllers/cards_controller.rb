@@ -21,7 +21,7 @@ class CardsController < ApplicationController
     if @card.save
       RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 1).id, card_id: @card.id)
       RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 2).id, card_id: @card.id)
-      RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 3).id, card_id: @card.
+      RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 3).id, card_id: @card.id)
 
       if current_user.cards.count < 5
         redirect_to new_game_user_card_path(@game, @user)
