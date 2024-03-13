@@ -18,9 +18,19 @@ export default class extends Controller {
             window.location.reload(true);
           } else if (data.partial === "player_selected") {
             this.containerTarget.innerHTML = data.html;
-          } else if (data.partial === "player_plays" && data.excluded_user_id !== this.userIdValue) {
+          } else if (data.partial === "player_plays") {
             this.containerTarget.innerHTML = data.html;
             console.log("this is non-player broadcast");
+          } else if (data.partial === "player_score") {
+            this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "round1_results") {
+            this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "round2_results") {
+            this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "round3_results") {
+            this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "results") {
+            this.containerTarget.innerHTML = data.html;
           }
         }
       }
@@ -35,6 +45,8 @@ export default class extends Controller {
           } else if (data.partial === "player_plays_playing") {
             this.containerTarget.innerHTML = data.html;
             console.log("this is player broadcast");
+          } else if (data.partial === "player_score_playing") {
+            this.containerTarget.innerHTML = data.html;
           }
         }
       }
