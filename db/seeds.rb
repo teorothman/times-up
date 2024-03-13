@@ -11,12 +11,12 @@ Rule.destroy_all
 
 
 
-puts "Creating 1 game"
-game = Game.create! code: 123456, url: "https://www.instagram.com/p/y-al3LtwsQ/", is_default: true
+# puts "Creating 1 game"
+# game = Game.create! code: 123456, url: "https://www.instagram.com/p/y-al3LtwsQ/", is_default: true
 
-puts "Creating 2 teams"
-Team.create! name: 1, game_id: game.id
-Team.create! name: 2, game_id: game.id
+# puts "Creating 2 teams"
+# Team.create! name: 1, game_id: game.id
+# Team.create! name: 2, game_id: game.id
 
 # AVATAR SEEDS TO KEEP FOR PRODUCTION > DISPLAY Avatar.all
 puts "Loading images for avatars..."
@@ -49,105 +49,105 @@ avatar_arr.each do |img|
   avatar.save!
 end
 
-puts "Creating 1 creator for team 1..."
-user = User.new(
-  username: Faker::Name.first_name,
-  game_id: Game.first.id,
-  is_creator: true,
-  team_id: Team.find_by(name: 1).id,
-  points_round_1: 0,
-  points_round_2: 0,
-  points_round_3: 0
-)
-# UNDO user.photo.attach
-# avatar = avatar_arr.sample
-# user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
-user.save!
+# puts "Creating 1 creator for team 1..."
+# user = User.new(
+#   username: Faker::Name.first_name,
+#   game_id: Game.first.id,
+#   is_creator: true,
+#   team_id: Team.find_by(name: 1).id,
+#   points_round_1: 0,
+#   points_round_2: 0,
+#   points_round_3: 0
+# )
+# # UNDO user.photo.attach
+# # avatar = avatar_arr.sample
+# # user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
+# user.save!
 
-puts "Creating 4 joiners for team 2..."
-4.times do
-  # avatar = select random img from avatar range
-  user = User.new(
-    username: Faker::Name.first_name,
-    game_id: Game.first.id,
-    is_creator: false,
-    team_id: Team.find_by(name: 2).id,
-    points_round_1: 0,
-    points_round_2: 0,
-    points_round_3: 0
-  )
-  # UNDO user.photo.attach
-  # avatar = avatar_arr.sample
-  # user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
-  user.save
-end
+# puts "Creating 4 joiners for team 2..."
+# 4.times do
+#   # avatar = select random img from avatar range
+#   user = User.new(
+#     username: Faker::Name.first_name,
+#     game_id: Game.first.id,
+#     is_creator: false,
+#     team_id: Team.find_by(name: 2).id,
+#     points_round_1: 0,
+#     points_round_2: 0,
+#     points_round_3: 0
+#   )
+#   # UNDO user.photo.attach
+#   # avatar = avatar_arr.sample
+#   # user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
+#   user.save
+# end
 
-puts "Creating 3 joiners for team 1..."
-3.times do
-  user = User.new(
-    username: Faker::Name.first_name,
-    game_id: Game.first.id,
-    is_creator: false,
-    team_id: Team.find_by(name: 1).id,
-    points_round_1: 0,
-    points_round_2: 0,
-    points_round_3: 0
-  )
-  # UNDO user.photo.attach
-  # avatar = avatar_arr.sample
-  # user.photo.attach(io: File.open(avatar_cat), filename: "#{user.username}.png", content_type: "image/png")
-  user.save
-end
+# puts "Creating 3 joiners for team 1..."
+# 3.times do
+#   user = User.new(
+#     username: Faker::Name.first_name,
+#     game_id: Game.first.id,
+#     is_creator: false,
+#     team_id: Team.find_by(name: 1).id,
+#     points_round_1: 0,
+#     points_round_2: 0,
+#     points_round_3: 0
+#   )
+#   # UNDO user.photo.attach
+#   # avatar = avatar_arr.sample
+#   # user.photo.attach(io: File.open(avatar_cat), filename: "#{user.username}.png", content_type: "image/png")
+#   user.save
+# end
 
-puts "Creating 1 creator for team 1..."
-user = User.new(
-  username: Faker::Name.first_name,
-  game_id: Game.first.id,
-  is_creator: true,
-  team_id: Team.find_by(name: 1).id,
-  points_round_1: 0,
-  points_round_2: 0,
-  points_round_3: 0
-)
-# UNDO user.photo.attach
-# avatar = avatar_arr.sample
-# user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
-user.save!
+# puts "Creating 1 creator for team 1..."
+# user = User.new(
+#   username: Faker::Name.first_name,
+#   game_id: Game.first.id,
+#   is_creator: true,
+#   team_id: Team.find_by(name: 1).id,
+#   points_round_1: 0,
+#   points_round_2: 0,
+#   points_round_3: 0
+# )
+# # UNDO user.photo.attach
+# # avatar = avatar_arr.sample
+# # user.photo.attach(io: avatar, filename: "#{user.username}.png", content_type: "image/png")
+# user.save!
 
-puts "Creating 3 joiners for team 1..."
-3.times do
-  user = User.new(
-    username: Faker::Name.first_name,
-    game_id: Game.first.id,
-    is_creator: false,
-    team_id: Team.find_by(name: 1).id,
-    points_round_1: 0,
-    points_round_2: 0,
-    points_round_3: 0
-  )
-  # UNDO user.photo.attach
-  # avatar = avatar_arr.sample
-  # user.photo.attach(io: File.open(avatar_cat), filename: "#{user.username}.png", content_type: "image/png")
-  user.save
-end
+# puts "Creating 3 joiners for team 1..."
+# 3.times do
+#   user = User.new(
+#     username: Faker::Name.first_name,
+#     game_id: Game.first.id,
+#     is_creator: false,
+#     team_id: Team.find_by(name: 1).id,
+#     points_round_1: 0,
+#     points_round_2: 0,
+#     points_round_3: 0
+#   )
+#   # UNDO user.photo.attach
+#   # avatar = avatar_arr.sample
+#   # user.photo.attach(io: File.open(avatar_cat), filename: "#{user.username}.png", content_type: "image/png")
+#   user.save
+# end
 
-puts "Creating 4 joiners for team 2..."
-4.times do
-  # avatar = select random img from avatar range
-  user = User.new(
-    username: Faker::Name.first_name,
-    game_id: Game.first.id,
-    is_creator: false,
-    team_id: Team.find_by(name: 2).id,
-    points_round_1: 0,
-    points_round_2: 0,
-    points_round_3: 0
-  )
-  # UNDO user.photo.attach
-  # avatar = avatar_arr.sample
-  # user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
-  user.save
-end
+# puts "Creating 4 joiners for team 2..."
+# 4.times do
+#   # avatar = select random img from avatar range
+#   user = User.new(
+#     username: Faker::Name.first_name,
+#     game_id: Game.first.id,
+#     is_creator: false,
+#     team_id: Team.find_by(name: 2).id,
+#     points_round_1: 0,
+#     points_round_2: 0,
+#     points_round_3: 0
+#   )
+#   # UNDO user.photo.attach
+#   # avatar = avatar_arr.sample
+#   # user.photo.attach(io: File.open(avatar), filename: "#{user.username}.png", content_type: "image/png")
+#   user.save
+# end
 
 # puts "Creating 40 cards"
 # times_up_guess_list = [
