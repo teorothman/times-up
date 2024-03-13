@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   patch 'play', to: 'games#play'
   get 'ready', to: 'games#ready'
-  get 'update', to: 'games#update'
+  patch 'update', to: 'games#update'
 
   get 'state_check', to: 'games#update_state'
 
