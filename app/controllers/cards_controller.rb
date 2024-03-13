@@ -13,7 +13,6 @@ class CardsController < ApplicationController
     @game = Game.find(params[:game_id])
     @games_status.update(status: "loading")
 
-    @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
     @player = @player_order[@games_status.turn_counter]
 
     # @isFirstPlayer = this.playerOrder[0].id
@@ -22,10 +21,19 @@ class CardsController < ApplicationController
       RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 1).id, card_id: @card.id)
       RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 2).id, card_id: @card.id)
       RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 3).id, card_id: @card.id)
+
+      # 🟢 🟢 🟢 make the first submited cards GUY the first to PLAY
+
       if current_user.cards.count < 5
         redirect_to new_game_user_card_path(@game, @user)
       else
         if check_all_users_submitted
+          team_last_submission = current_user.team
+          if team_last_submission.name == "1"
+            @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
+          else
+            @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
+          end
           @games_status.update(status: "round1_play")
           GameChannel.broadcast_to(
             @game,
