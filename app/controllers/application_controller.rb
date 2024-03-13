@@ -10,9 +10,9 @@ class ApplicationController < ActionController::Base
 
   def player_order
     if @games_status.team1_starting == true
-      @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
+      @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
     else
-      @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
+      @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
     end
   end
 

@@ -1,6 +1,6 @@
 <div class="center-wrapper">
   <div class="top-wrapper">
-    
+
     <% if GamesStatus.find_by(game_id: game.id) == 'round1_play' || GamesStatus.find_by(game_id: game.id) == 'round1_results' %>
       <h1>Round 1</h1>
     <% elsif GamesStatus.find_by(game_id: game.id) == 'round2_play' || GamesStatus.find_by(game_id: game.id) == 'round2_results' %>
@@ -10,11 +10,16 @@
     <% else %>
     <% end %>
 
+    <%# creating new variable to make it work %>
+
+    <% player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten %>
+
+
     <h1> Team <%= player_order[GamesStatus.find_by(game_id: game.id).turn_counter].team.name %></h1>
     <h1><%= player_order[GamesStatus.find_by(game_id: game.id).turn_counter].username %></h1>
     <% a = Avatar.find(player_order[GamesStatus.find_by(game_id: game.id).turn_counter].avatar_id) %>
     <%= cl_image_tag(a.photo.key, class: 'avatar-rounded-big') %>
-  
+
   </div>
   <p>Wait for chosen player to get ready...</p>
 </div>
