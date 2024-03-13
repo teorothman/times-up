@@ -7,7 +7,7 @@
       <h3 class="rule-text"><%= Rule.all.first.content %></h3>
       <div class="btn-wrapper">
       <div class="btn-rules">
-        <%= button_tag data: { name: "rule-1", action: "click->show-rules#next" } do %>
+        <%= button_tag class:"btn-red", data: { name: "rule-1", action: "click->show-rules#next" } do %>
           <i class="fa-solid fa-right-long"></i>
           <h3>NEXT</h3>
         <% end %>
