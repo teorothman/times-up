@@ -6,5 +6,8 @@
   <div class="logo-container-spin">
     <%= image_tag 'logo.png', alt: 'Logo', class:"logo-spin" %>
   </div>
+  <% if @continue%>
+    <%= link_to 'Start the game', update_path(game_id: game.id), class: 'btn btn-red', data: {turbo_method: :get }%>
+  <% end %>
   </div>
 </div>

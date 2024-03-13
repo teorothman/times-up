@@ -18,20 +18,6 @@ class GamesController < ApplicationController
     redirect_to new_game_user_path(@game)
   end
 
-  def join
-  end
-
-  def update_state
-    @game = Game.find(params[:id])
-    @game_state = GamesStatus.find_by(game_id: @game.id)
-    case @game_state.status
-    when "pre_lobby"
-      @game_state.status = "lobby"
-    end
-    render :show
-  end
-
-
   def show
     #NECCESSARY INSTANCE VARIABLES
     @game = Game.find(params[:id])
@@ -39,6 +25,7 @@ class GamesController < ApplicationController
 
     @game_state = GamesStatus.find_by(game_id: @game.id)
     @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
+    @player = @player_order[@game_state.turn_counter]
     @round1 = Round.find_by(round_number: 1, game_id: @game.id)
     @round2 = Round.find_by(round_number: 2, game_id: @game.id)
     @round3 = Round.find_by(round_number: 3, game_id: @game.id)
@@ -52,6 +39,23 @@ class GamesController < ApplicationController
     @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
     @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
     @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
+
+    if Card.joins(user: :game).where(users: {game_id: @game.id}).count >= @game.users.count * 5 && @game_state.status == 'loading'
+      @continue = "continue"
+      GameChannel.broadcast_to(
+        @game,
+        html: render_to_string( partial: "games/player_selected", locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
+        partial: "player_selected",
+        user: @player.id
+      )
+    elsif @game_state.status == 'loading'
+      PlayerChannel.broadcast_to(
+        @player,
+        html: render_to_string( partial: "games/player_selected_playing", locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
+        partial: "player_selected_playing",
+        message: "hello"
+      )
+    end
   end
 
   def perform_join
@@ -68,6 +72,7 @@ class GamesController < ApplicationController
     @game_status = @game.games_status
     @rules = Rule.all
     @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
+    @player = @player_order[@game_status.turn_counter]
     case @game_status.status
     when 'pre_lobby'
       @game_status.update(status: 'lobby')
@@ -84,6 +89,19 @@ class GamesController < ApplicationController
         partial: "lobby"
       )
       !User.where(game_id: @game.id, is_ready: false).exists? ? @game_status.update(status: 'cards') : ''
+    when 'loading'
+      @game_status.update(status: "round1_playing")
+      unless current_user == @player
+        GameChannel.broadcast_to(
+          @game,
+          html: render_to_string( partial: @game_status.turn_status, locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules } ),
+          partial: "player_selected"
+        )
+      end
+      PlayerChannel.broadcast_to(
+        @player,
+        html: render_to_string(partial: "player_selected_playing", locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules })
+      )
     when 'round1_play'
       @game_status.update(status: 'round1_results')
     when 'round1_results'

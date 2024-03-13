@@ -10,6 +10,8 @@ class User < ApplicationRecord
 
   validates :username, presence: true, uniqueness: {scope: :game,
     message: "Oops! Username taken"}
-# validates :photo, uniqueness: {scope: :game,
-#   message: "Oops! Avatar taken!"}
+
+    validates :avatar_id, presence: true, uniqueness: {scope: :game, message: "Oops! Avatar taken!"}
+
+    validates :avatar_id, presence: { message: "You need to choose an avatar!" }
 end

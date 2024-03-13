@@ -27,24 +27,7 @@ class CardsController < ApplicationController
       if current_user.cards.count < 5
         redirect_to new_game_user_card_path(@game, @user)
       else
-        if check_all_users_submitted
-          @games_status.update(status: "round1_play")
-          GameChannel.broadcast_to(
-            @game,
-            html: render_to_string( partial: "games/player_selected", locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
-            partial: "player_selected",
-            user: @player.id
-          )
-          PlayerChannel.broadcast_to(
-            @player,
-            # html: render_to_string( partial: "games/player_selected_playing", locals: { game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
-            # partial: "player_selected_playing",
-            message: "hello"
-          )
-          redirect_to game_path(@game)
-        else
-          redirect_to game_path(@game)
-        end
+        redirect_to game_path(@game)
       end
     else
       render :new
