@@ -1,5 +1,7 @@
 class GamesController < ApplicationController
+  #tbd if needed ot be mention here
   helper_method :current_user
+  helper_method :player_order
 
   def index
   end
@@ -38,7 +40,6 @@ class GamesController < ApplicationController
     @users = @game.users
 
     @game_state = GamesStatus.find_by(game_id: @game.id)
-    @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
     @round1 = Round.find_by(round_number: 1, game_id: @game.id)
     @round2 = Round.find_by(round_number: 2, game_id: @game.id)
     @round3 = Round.find_by(round_number: 3, game_id: @game.id)
@@ -67,7 +68,6 @@ class GamesController < ApplicationController
     @game = Game.find(params[:game_id])
     @game_status = @game.games_status
     @rules = Rule.all
-    @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
     case @game_status.status
     when 'pre_lobby'
       @game_status.update(status: 'lobby')
@@ -119,8 +119,7 @@ class GamesController < ApplicationController
     team2 = []
     @team_one.each{|player| team1 << player}
     @team_two.each{|player| team2 << player} unless @team_two.nil?
-    @player_order = team1.zip(team2).flatten
-
+    
     case @game_status.turn_status
     when 'player_selected'
       @game.update(player_turn_point: 0)
@@ -212,4 +211,10 @@ class GamesController < ApplicationController
   def current_user
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
   end
+
+
+  #  🟢 tbd if needed
+  # def player
+  #   @player = @player_order[@games_status.turn_counter]
+  # end
 end
