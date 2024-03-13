@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_11_135031) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_13_092507) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -74,6 +74,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_135031) do
     t.boolean "card_skipped", default: false
     t.integer "current_player"
     t.integer "turn_counter", default: 0
+    t.boolean "team1_starting", default: false
     t.index ["game_id"], name: "index_games_statuses_on_game_id"
   end
 
