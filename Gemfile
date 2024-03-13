@@ -79,3 +79,5 @@ gem 'pg'
 #gem to view app on phone
 gem 'ngrok-tunnel'
 gem 'ngrok', '~> 1.6', '>= 1.6.1'
+
+gem "redis"

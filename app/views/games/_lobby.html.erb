@@ -16,8 +16,8 @@
         </div>
       </div>
       <div class="lobby-buttons">
-        <%= link_to 'Ready Up', update_path(game_id: game.id), class: 'btn btn-red', data: {turbo_method: :get}%>
-        <%= link_to "Rules", "#" ,class: 'btn btn-yellow', data: {turbo: false, action: "click->show-rules#show"}%>
+        <%= button_to 'Ready Up', update_path(game_id: game.id), method: :patch, class: 'btn btn-red', data: { turbo: true } %>
+        <%= link_to "Rules", "#" ,class: 'btn btn-yellow', data: {turbo: false, action: "click->show-rules#show", show_rules_target: "rulesbutton"}%>
       </div>
   </div>
 </div>

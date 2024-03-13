@@ -11,17 +11,25 @@ export default class extends Controller {
       { channel: 'GameChannel', id: this.gameIdValue },
       {
         received: data => {
-          console.log(data.partial === "avatar");
-          console.log(data.user);
-          console.log(data.user !== this.userIdValue);
-
-
           if (data.partial === "avatar") {
             document.getElementById("pre-lobby-grid").insertAdjacentHTML("beforeend", data.html);
           } else if (data.partial === "lobby") {
             this.containerTarget.innerHTML = data.html;
             window.location.reload(true);
           } else if (data.partial === "player_selected") {
+            this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "player_plays") {
+            this.containerTarget.innerHTML = data.html;
+            console.log("this is non-player broadcast");
+          } else if (data.partial === "player_score") {
+            this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "round1_results") {
+            this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "round2_results") {
+            this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "round3_results") {
+            this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "results") {
             this.containerTarget.innerHTML = data.html;
           }
         }
@@ -32,17 +40,16 @@ export default class extends Controller {
       { channel: 'PlayerChannel', id: this.userIdValue },
       {
         received: data => {
-          console.log(data.message);
           if (data.partial === "player_selected_playing") {
+            this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "player_plays_playing") {
+            this.containerTarget.innerHTML = data.html;
+            console.log("this is player broadcast");
+          } else if (data.partial === "player_score_playing") {
             this.containerTarget.innerHTML = data.html;
           }
         }
       }
     );
-  }
-
-  // created to identify who is asigned first
-  get playerOrder() {
-    return JSON.parse(this.data.get("playerOrder"));
   }
 }

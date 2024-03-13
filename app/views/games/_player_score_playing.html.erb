@@ -13,6 +13,7 @@
       <h1><i class="fa-solid fa-trophy fa-2xl"></i></h1>
     </div>
     <div class="player-score-wrapper">
+      <%= button_to 'Next player', play_path(game_id: game.id), method: :patch, class: 'btn btn-red', data: { turbo: true } %>
     </div>
   </div>
 </div>

@@ -8,11 +8,4 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
   end
 
-  def player_order
-    if @games_status.team1_starting == true
-      @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
-    else
-      @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
-    end
-  end
 end
