@@ -15,5 +15,4 @@ class ApplicationController < ActionController::Base
       @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
     end
   end
-
 end
