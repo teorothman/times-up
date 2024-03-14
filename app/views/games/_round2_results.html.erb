@@ -18,6 +18,5 @@
         <%= render partial: 'player_grid', collection: game.teams.second.users, as: :user %>
       </div>
     </div>
-     <%= button_to 'Start Round 3', update_path(game_id: game.id), method: :patch, class: 'btn btn-red', data: { turbo: true } %>
   </div>
 </div>
