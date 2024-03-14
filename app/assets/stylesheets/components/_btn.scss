@@ -14,8 +14,11 @@
 
 button{
   border-radius: 8px;
-  min-width: 50vw;
-  max-width: 50vw;
+  width: 100%;
+}
+
+form{
+  width: 100%;
 }
 
 .qr-btn{
@@ -43,7 +46,6 @@ input{
 }
 
 .btn-center{
-  height: 80vh;
   display: flex;
   flex-direction: column;
   gap: 2vh;
