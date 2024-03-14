@@ -1,5 +1,4 @@
 .results-wrapper{
-  height: 96vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,7 +28,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-top: 10vh;
   a {
     margin-top: 2vh;
   }
@@ -38,5 +36,4 @@
 .red-title {
   color: #CE5A67;
   font-size: 1rem;
-  margin-top: -1vh;
 }
