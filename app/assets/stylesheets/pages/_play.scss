@@ -25,6 +25,7 @@
   align-items: center;
   height: 90vh;
   justify-content: space-around;
+  min-width: 100%;
   i {
     font-size:5rem;
   }
@@ -62,11 +63,32 @@
   display: none;
 }
 
-.width-wrapper{
+
+.width-wrapper {
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
   width: 70%;
   line-height: 2rem;
+}
+  
+.timer-container {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+}
+
+.timer {
+  background-color: $red;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  color: white;
 }
