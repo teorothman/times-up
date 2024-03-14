@@ -13,11 +13,6 @@ class CardsController < ApplicationController
     @game = Game.find(params[:game_id])
     @games_status.update(status: "loading")
 
-    # @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
-    # @player = @player_order[@games_status.turn_counter]
-
-    # @isFirstPlayer = this.playerOrder[0].id
-
     if @card.save
       RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 1).id, card_id: @card.id)
       RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 2).id, card_id: @card.id)

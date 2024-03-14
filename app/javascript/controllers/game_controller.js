@@ -4,7 +4,7 @@ import { createConsumer } from "@rails/actioncable";
 // Connects to data-controller="game"
 export default class extends Controller {
   static values = { gameId: Number, userId: Number };
-  static targets = ["container"];
+  static targets = ["container", "wordwrapper"];
 
   connect() {
     this.gameChannel = createConsumer().subscriptions.create(
@@ -20,6 +20,7 @@ export default class extends Controller {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "player_plays") {
             this.containerTarget.innerHTML = data.html;
+            this.initializeTimerNonPlayer();
           } else if (data.partial === "player_score") {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "round1_results") {
@@ -43,6 +44,11 @@ export default class extends Controller {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "player_plays_playing") {
             this.containerTarget.innerHTML = data.html;
+            this.initializeTimer();
+          } else if (data.partial === "player_score_playing") {
+            this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "card_playing") {
+            this.wordwrapperTarget.innerHTML = data.html;
           } else if (data.partial === "player_score_playing") {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "round1_results") {
@@ -51,9 +57,67 @@ export default class extends Controller {
             this.containerTarget.innerHTML = data.html;
           }else if (data.partial === "round3_results") {
             this.containerTarget.innerHTML = data.html;
+
           }
+          // else if (data.partial === "player_plays_playing_skipped") {
+          //   this.wordwrapperTarget.innerHTML = data.html;
+          // }
         }
       }
     );
+  }
+  showNextButton() {
+    document.getElementById('next-button').classList.remove('hidden');
+  }
+  hideButtons() {
+    document.querySelectorAll('.play-button').forEach(button => {
+      button.classList.add('hidden');
+    });
+  }
+  hideTimer() {
+  document.getElementById('timer-container').style.display = 'none';
+  }
+  initializeTimer() {
+    let timeLeft = 5;
+    const timerElement = document.getElementById('timer');
+
+    timerElement.innerText = timeLeft;
+
+    const updateTimer = () => {
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        this.showNextButton();
+        this.hideButtons();
+        this.hideTimer();
+      } else {
+        timerElement.innerText = timeLeft;
+        timeLeft -= 1;
+      }
+    };
+
+    updateTimer();
+
+    const countdown = setInterval(updateTimer, 1000);
+  }
+
+  initializeTimerNonPlayer() {
+    let timeLeft = 5;
+    const timerElement = document.getElementById('timer');
+
+    timerElement.innerText = timeLeft;
+
+    const updateTimer = () => {
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        this.hideTimer();
+      } else {
+        timerElement.innerText = timeLeft;
+        timeLeft -= 1;
+      }
+    };
+
+    updateTimer();
+
+    const countdown = setInterval(updateTimer, 1000);
   }
 }

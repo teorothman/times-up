@@ -1,55 +1,33 @@
-<div class="container">
-  <div class="word-wrapper">
+<div class="word-wrapper" data-game-target="wordwrapper">
 
-    <% if game_state.status == 'round1_play' || game_state.status == 'round1_results' %>
-      <h1>Round 1</h1>
-    <% elsif game_state.status == 'round2_play' || game_state.status == 'round2_results' %>
-      <h1>Round 2</h1>
-    <% elsif game_state.status == 'round3_play' || game_state.status == 'round3_results' %>
-      <h1>Round 3</h1>
-    <% else %>
-    <% end %>
+  <% if game_state.status == 'round1_play' || game_state.status == 'round1_results' %>
+    <h1>Round 1</h1>
+  <% elsif game_state.status == 'round2_play' || game_state.status == 'round2_results' %>
+    <h1>Round 2</h1>
+  <% elsif game_state.status == 'round3_play' || game_state.status == 'round3_results' %>
+    <h1>Round 3</h1>
+  <% else %>
+  <% end %>
 
-    <%card_round = cards_round1_playable.sample if game.games_status.status == "round1_play" %>
-    <%card_round = cards_round2_playable.sample if game.games_status.status == "round2_play" %>
-    <%card_round = cards_round3_playable.sample if game.games_status.status == "round3_play" %>
-    <%if card_round.nil? %>
-      <h1>Congrats, you guessed all the cards!</h1>
-      <h1><i class="fa-solid fa-trophy"></i></h1>
-      <%= button_to 'Next', play_path(game_id: game.id), method: :patch, class: 'btn btn-red', data: { turbo: true } %>
-    <% else %>
-    <h3>Speak out!</h3>
-    <div class="player-word-display">
-        <% card_to_guess = Card.find(card_round.card_id) %>
-        <h1><%= card_to_guess.content %></h1>
-    </div>
-        <%= button_to 'Correct', guess_card_game_path(id: game.id, card_round_id: card_round.id), method: :post, class: "btn btn-yellow correct play-button"%>
-        <% unless session[:has_skipped] %>
-        <%= button_to 'Skip', skip_card_game_path(id: game.id), method: :post, class:'btn btn-red play-button' %>
-        <% end %>
-        <%= button_to 'Next', play_path(game_id: game.id), method: :patch, class: 'btn btn-red hidden', id: 'next-button', data: { turbo: true } %>
-    <% end %>
+  <%card_round = cards_round1_playable.sample if game.games_status.status == "round1_play" %>
+  <%card_round = cards_round2_playable.sample if game.games_status.status == "round2_play" %>
+  <%card_round = cards_round3_playable.sample if game.games_status.status == "round3_play" %>
+  <%if card_round.nil? %>
+    <h1>Congrats, you guessed all the cards!</h1>
+    <h1><i class="fa-solid fa-trophy"></i></h1>
+    <%= button_to 'Next', play_path(game_id: game.id), method: :patch, class: 'btn btn-red', data: { turbo: true }, remote: true  %>
+  <% else %>
+  <h3>Speak out!</h3>
+  <div class="player-word-display">
+      <% card_to_guess = Card.find(card_round.card_id) %>
+      <h1><%= card_to_guess.content %></h1>
   </div>
+      <%= button_to 'Correct', guess_card_game_path(id: game.id, card_round_id: card_round.id), method: :patch, class: "btn btn-yellow correct play-button", data: { turbo: true }%>
+      <%# <%= button_to 'Skip', skip_card_game_path(id: game.id), method: :patch, class:'btn btn-red play-button', data: { turbo: true } %>
+      <%= button_to 'Next', play_path(game_id: game.id), method: :patch, class: 'btn btn-red hidden', id: 'next-button', data: { turbo: true } %>
+  <% end %>
 </div>
 
-<script>
-  let timeLeft = 5;
-  function showNextButton() {
-    document.getElementById('next-button').classList.remove('hidden');
-  }
-  function hideButtons() {
-    document.querySelectorAll('.play-button').forEach(button => {
-      button.classList.add('hidden');
-    });
-  }
-
-  const countdown = setInterval(() => {
-    if (timeLeft <= 0) {
-      clearInterval(countdown);
-      showNextButton();
-      hideButtons();
-    } else {
-      timeLeft -= 1;
-    }
-  }, 1000);
-</script>
+<div id="timer-container" class="timer-container">
+  <div id="timer" class="timer">5</div>
+</div>
