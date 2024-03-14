@@ -14,7 +14,10 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  gap: 10vw;
+  gap: 8vw;
+  h1 {
+    line-height: 1.8rem;
+  }
 }
 
 .choice-btn-center{
