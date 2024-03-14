@@ -43,8 +43,13 @@ export default class extends Controller {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "player_plays_playing") {
             this.containerTarget.innerHTML = data.html;
-            console.log("this is player broadcast");
           } else if (data.partial === "player_score_playing") {
+            this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "round1_results") {
+            this.containerTarget.innerHTML = data.html;
+          }else if (data.partial === "round2_results") {
+            this.containerTarget.innerHTML = data.html;
+          }else if (data.partial === "round3_results") {
             this.containerTarget.innerHTML = data.html;
           }
         }
