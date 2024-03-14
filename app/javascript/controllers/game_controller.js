@@ -20,7 +20,6 @@ export default class extends Controller {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "player_plays") {
             this.containerTarget.innerHTML = data.html;
-            console.log("this is non-player broadcast");
           } else if (data.partial === "player_score") {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "round1_results") {

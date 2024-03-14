@@ -1,6 +1,6 @@
 <div class="btn-center">
 <h1>Chose your game settings:</h1>
 <p>If you want to play with your own words, chose "Custom words", else chose "Default words"</p>
-  <%= link_to "Default word", games_path(is_default: true), data: {turbo_method: "post"}, class:"btn btn-yellow" %>
+  <%= button_to "Default word", games_path(is_default: true), data: {turbo_method: "post"}, class:"btn btn-yellow" %>
   <%= button_to "Custom words", games_path(is_default: false), data: {turbo_method: "post"}, class:"btn btn-yellow" %>
 </div>
