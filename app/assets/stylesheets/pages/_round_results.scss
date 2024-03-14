@@ -40,25 +40,3 @@
   font-size: 1rem;
   margin-top: -1vh;
 }
-
-
-.team-grid-container{
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-}
-
-.team-grid{
-  display: grid;
-  gap: 1vh;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  margin-right: 5vw;
-  min-width: 32vw;
-  margin-top: 3.5vh;
-}
-
-.team-grid:first-child{
-  border-right: 2px solid $red;
-  padding-right: 8vw;
-}
