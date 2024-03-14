@@ -1,14 +1,14 @@
 <div class="results-wrapper">
 
-    <h1>Round 3</h1>
+    <h1>Round 2</h1>
     <div class="round-result-top">
       <div class="team-points-box">
         <h1>Team 1</h1>
-        <h1 class="red-title"><%= game.round_3.points_team1 %> points</h1>
+        <h1 class="red-title"><%= game.round_2.points_team1 %> points</h1>
       </div>
       <div class="team-points-box">
         <h1>Team 2</h1>
-        <h1 class="red-title"><%= game.round_3.points_team2 %> points</h1>
+        <h1 class="red-title"><%= game.round_2.points_team2 %> points</h1>
       </div>
     </div>
 
@@ -21,6 +21,8 @@
         <%= render partial: 'player_grid', collection: game.teams.second.users, as: :user %>
       </div>
     </div>
+
     <div class="round-result-bottom">
+      <%= button_to 'Start Round 3', update_path(game_id: game.id), method: :patch, class: 'btn btn-red', data: { turbo: true } %>
     </div>
 </div>

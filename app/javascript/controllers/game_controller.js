@@ -49,6 +49,15 @@ export default class extends Controller {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "card_playing") {
             this.wordwrapperTarget.innerHTML = data.html;
+          } else if (data.partial === "player_score_playing") {
+            this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "round1_results") {
+            this.containerTarget.innerHTML = data.html;
+          }else if (data.partial === "round2_results") {
+            this.containerTarget.innerHTML = data.html;
+          }else if (data.partial === "round3_results") {
+            this.containerTarget.innerHTML = data.html;
+
           }
           // else if (data.partial === "player_plays_playing_skipped") {
           //   this.wordwrapperTarget.innerHTML = data.html;

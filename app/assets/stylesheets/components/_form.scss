@@ -1,7 +1,6 @@
 .form-input{
 height: 10vh;
 border-radius: 8px;
-width: 50vw;
 font-size: large;
 }
 
@@ -22,4 +21,9 @@ font-size: large;
   justify-content: center;
   align-items: center;
   height: 70vh;
+}
+
+.word-examples{
+  min-width: 50vw;
+  max-width: 50vw;
 }

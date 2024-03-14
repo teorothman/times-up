@@ -4,12 +4,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-style: normal;
+  outline: none;
+  border: none;
+  border-radius: 8px;
 }
 
+button{
+  border-radius: 8px;
+  min-width: 50vw;
+  max-width: 50vw;
+}
+
+.qr-btn{
+  background-color: transparent;
+  border: none;
+  margin-bottom: 1vh;
+}
 .btn-red{
   background-color: $red;
   color: $white;
@@ -40,17 +53,13 @@ input{
   margin-left: 10vw;
 }
 
-button{
-  outline: none;
-  border: none;
-  width: 100%;
-  padding-left: 10vw;
-  padding-right: 10vw;
-}
-
 .btn-qr {
   background-color: $red;
   color: $white;
   font-weight: bold;
   width: 25%;
+}
+
+.qr-img{
+  height: 48vh;
 }

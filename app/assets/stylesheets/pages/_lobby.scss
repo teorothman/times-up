@@ -1,6 +1,7 @@
 .team-grid-container{
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: row;
 }
 
@@ -9,13 +10,8 @@
   gap: 1vh;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
-  margin-right: 5vw;
-  min-width: 32vw;
-}
-
-.team-grid:first-child{
-  border-right: 1px solid $red;
-  padding-right: 6vw;
+  max-height: 50vh;
+  min-height: 50vh;
 }
 
 .lobby-team-text{
@@ -27,17 +23,15 @@
 }
 
 .lobby-wrapper{
-  margin-top: 15vh;
+  margin-top: 5vh;
 }
 
 .lobby-buttons{
  display: flex;
  flex-direction: column;
  height: 100%;
- width: 50%;
  justify-content: center;
  align-items: center;
- margin-left: 24vw;
  margin-top: 2vh;
  gap: 2vh;
 }

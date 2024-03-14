@@ -28,6 +28,7 @@
 @import 'pages/about_us';
 @import 'pages/play';
 @import 'pages/player_score';
+@import 'pages/round_results';
 @import 'pages/result';
 @import 'pages/new_user';
 @import 'pages/loading';
@@ -44,6 +45,7 @@ body{
   padding: 0;
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
+  overflow: hidden;
 }
 
 a{
@@ -52,4 +54,8 @@ a{
 
 .hidden{
   display: none;
+}
+
+button{
+  border: none;
 }

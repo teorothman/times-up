@@ -7,11 +7,20 @@ h1{
   color: $black;
 }
 
+h2{
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-style: normal;
+  font-family: 'Nunito', sans-serif;
+  font-optical-sizing: auto;
+  color: $red;
+}
+
 p{
   font-size: 0.75rem;
-  font-weight: 400;
+  font-weight: 500;
   font-family: 'Roboto', sans-serif;
   font-style: normal;
-  color: $black;
+  color: $grey;
 
 }

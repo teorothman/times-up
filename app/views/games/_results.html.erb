@@ -2,11 +2,11 @@
 <% pT2 = game.total_points_T2(game) %>
 <div class="result-wrapper">
     <div class="result-top-text">
-      <h1>The winner is...</h1>
+      <h1>The winner is</h1>
       <% if pT1 > pT2 %>
-        <h1>TEAM 1</h1>
+        <h2>Team 1</h2>
       <% else %>
-        <h1>TEAM 2</h1>
+        <h2>Team 2</h2>
       <% end %>
     </div>
 
@@ -42,10 +42,15 @@
       <% end %>
 
     <div class="result-bottom">
-      <h1>Score Sum Up</h1>
-        <p>Team 1 scored <%= game.total_points_T1(game) %> points</p>
-        <p>Team 2 scored <%= game.total_points_T2(game) %> points</p>
-      <%= link_to "Play again", root_path, class: 'btn btn-red', data: {turbo: false} %>
-    </div>
+       <div>
+        <h1>Score Sum Up</h1>
+      </div>
+      <div>
+        <p>Team 1 scored: <strong><%= game.total_points_T1(game) %> points</strong></p>
+        <p>Team 2 scored:<strong><%= game.total_points_T2(game) %> points</strong></p>
+      </div>
+      <div class="results-button">
+        <%= button_to "Play again", root_path, class: 'btn btn-red', data: {turbo: false} %>
+     </div>
   </div>
 </div>
