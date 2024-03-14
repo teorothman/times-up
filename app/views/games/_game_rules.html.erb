@@ -4,7 +4,7 @@
       <h1 class="rules-title"><%= Rule.all.first.title %></h1>
     </div>
     <div class="page-1 page-1-on-click">
-      <h3 class="rule-text"><%= Rule.all.first.content %></h3>
+      <p class="rule-text"><%= Rule.all.first.content %></p>
       <div class="btn-wrapper">
       <div class="btn-rules">
         <%= button_tag class:"btn-red", data: { name: "rule-1", action: "click->show-rules#next" } do %>
@@ -21,7 +21,7 @@
       <h1 class="rules-title"><%= Rule.all.second.title %></h1>
     </div>
     <div class="page-2 page-2-on-click">
-      <h3 class="rule-text"><%= Rule.all.second.content %></h3>
+      <p class="rule-text"><%= Rule.all.second.content %></p>
       <div class="btn-wrapper">
       <div class="btn-rules">
         <%= button_tag data: { name: "rule-2", action: "click->show-rules#back" } do %>
@@ -44,7 +44,7 @@
       <h1 class="rules-title"><%= Rule.all.third.title %></h1>
     </div>
     <div class="page-3 page-3-on-click">
-      <h3 class="rule-text"><%= Rule.all.third.content %></h3>
+      <p class="rule-text"><%= Rule.all.third.content %></p>
       <div class="btn-wrapper">
       <div class="btn-rules">
         <%= button_tag data: { name: "rule-3", action: "click->show-rules#back" } do %>
@@ -67,7 +67,7 @@
       <h1 class="rules-title"><%= Rule.all.last.title %></h1>
     </div>
     <div class="page-4 page-4-on-click">
-      <h3 class="rule-text"><%= Rule.all.last.content %></h3>
+      <p class="rule-text"><%= Rule.all.last.content %></p>
       <div class="btn-wrapper">
       <div class="btn-rules">
         <%= button_tag data: { name: "rule-4", action: "click->show-rules#back" } do %>
