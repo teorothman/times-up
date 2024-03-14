@@ -20,14 +20,16 @@ class Game < ApplicationRecord
   end
 
   def mvp_1
-    team_one_id = users.first.team_id
-    team_one_users = users.where(team: team_one_id)
+    team_one = self.teams.find_by(name: "1")
+    team_one_id = team_one.id
+    team_one_users = team_one.users.where(team: team_one_id)
     team_one_users.order(:total_points).first
   end
 
   def mvp_2
-    team_two_id = users.second.team_id unless users.second.nil?
-    team_two_users = users.where(team: team_two_id) unless users.second.nil?
+    team_two = self.teams.find_by(name: "2")
+    team_two_id = team_two.id
+    team_two_users = team_two.users.where(team: team_two_id)
     team_two_users.order(:total_points).first
   end
 
