@@ -270,10 +270,20 @@ class GamesController < ApplicationController
 
   def guess_card
     @game = Game.find(params[:id])
+    @game_state = @game.games_status
+    if @game_state.team1_starting == true
+      @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
+    else
+      @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
+    end
+    @player = @player_order[@game_state.turn_counter]
     @team_number = current_user.team.name.to_i
     @round1 = @game.rounds.find_by(round_number: 1)
     @round2 = @game.rounds.find_by(round_number: 2)
     @round3 = @game.rounds.find_by(round_number: 3)
+    @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
+    @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
+    @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
     if @game.games_status.status == 'round1_play'
       @round1.points_team1 += 1 if @team_number == 1
       @round1.points_team2 += 1 if @team_number == 2
@@ -296,18 +306,39 @@ class GamesController < ApplicationController
     @game.save
     card_round = RoundCard.find(params[:card_round_id])
     card_round.update!(is_guessed: true)
-    redirect_to game_path(@game)
+    PlayerChannel.broadcast_to(
+      @player,
+      html: render_to_string( partial: "card_playing", locals: {  game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable} ),
+      partial: "card_playing",
+    )
   end
 
-  def skip_card
-    @game = Game.find(params[:id])
-    unless session[:has_skipped]
-      session[:has_skipped] = true
-      redirect_to game_path(@game)
-    else
-      redirect_to game_path(@game), alert: "You can only skip once!"
-    end
-  end
+  # def skip_card
+  #   @game = Game.find(params[:id])
+  #   @game_state = @game.games_status
+  #   if @game_state.team1_starting == true
+  #     @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
+  #   else
+  #     @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
+  #   end
+  #   @player = @player_order[@game_state.turn_counter]
+  #   card_round = RoundCard.find(params[:card_round_id])
+  #   @round1 = @game.rounds.find_by(round_number: 1)
+  #   @round2 = @game.rounds.find_by(round_number: 2)
+  #   @round3 = @game.rounds.find_by(round_number: 3)
+  #   @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
+  #   @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
+  #   @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
+  #   @cards_round1_playable.delete(card_round) if @cards_round1_playable.count > 1
+  #   @cards_round2_playable.delete(card_round) if @cards_round1_playable.count > 1
+  #   @cards_round3_playable.delete(card_round) if @cards_round1_playable.count > 1
+
+  #   PlayerChannel.broadcast_to(
+  #     @player,
+  #     html: render_to_string( partial: "player_plays_playing_skipped", locals: {  game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable} ),
+  #     partial: "player_plays_playing_skipped",
+  #   )
+  # end
 
   def update_turn_status_to_player_score
     @game = Game.find(params[:id])
