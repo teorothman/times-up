@@ -14,11 +14,13 @@
     <%card_round = cards_round2_playable.sample if game.games_status.status == "round2_play" %>
     <%card_round = cards_round3_playable.sample if game.games_status.status == "round3_play" %>
     <%if card_round.nil? %>
-      <h1>Congrats, you guessed all the cards!</h1>
+    <div class="width-wrapper">
+      <h5>Congrats, you guessed all the cards!</h5>
+    </div>
       <h1><i class="fa-solid fa-trophy"></i></h1>
       <%= button_to 'Next', play_path(game_id: game.id), method: :patch, class: 'btn btn-red', data: { turbo: true } %>
     <% else %>
-    <h3>Speak out!</h3>
+    <h4>Speak out!</h4>
     <div class="player-word-display">
         <% card_to_guess = Card.find(card_round.card_id) %>
         <h1><%= card_to_guess.content %></h1>
