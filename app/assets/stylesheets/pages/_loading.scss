@@ -13,22 +13,22 @@
 
 @keyframes spinAndResize {
   0%, 100% {
-    transform: rotate(0deg) scale(0.7); /* Start and end with no rotation and original size */
+    transform: scale(0.7); /* Start and end with no rotation and original size */
   }
   25% {
-    transform: rotate(90deg) scale(0.3); /* Quarter spin and scale down */
+    transform: scale(0.3); /* Quarter spin and scale down */
   }
   50% {
-    transform: rotate(180deg) scale(0.7); /* Half spin and back to original size */
+    transform: scale(0.7); /* Half spin and back to original size */
   }
   75% {
-    transform: rotate(270deg) scale(0.3); /* Three-quarter spin and scale down */
+    transform: scale(0.3); /* Three-quarter spin and scale down */
   }
   to {
-    transform: rotate(360deg) scale(0.7); /* Full spin and back to original size */
+    transform: scale(0.7); /* Full spin and back to original size */
   }
 }
 
 .logo-container-spin .logo-spin {
-  animation: spinAndResize 5s linear infinite;
+  animation: spinAndResize 10s linear infinite;
 }

@@ -57,11 +57,9 @@ export default class extends Controller {
             this.containerTarget.innerHTML = data.html;
           }else if (data.partial === "round3_results") {
             this.containerTarget.innerHTML = data.html;
-
+          } else if (data.partial === "player_plays_playing_skipped") {
+            this.wordwrapperTarget.innerHTML = data.html;
           }
-          // else if (data.partial === "player_plays_playing_skipped") {
-          //   this.wordwrapperTarget.innerHTML = data.html;
-          // }
         }
       }
     );
@@ -78,7 +76,7 @@ export default class extends Controller {
   document.getElementById('timer-container').style.display = 'none';
   }
   initializeTimer() {
-    let timeLeft = 5;
+    let timeLeft = 30;
     const timerElement = document.getElementById('timer');
 
     timerElement.innerText = timeLeft;
@@ -101,7 +99,7 @@ export default class extends Controller {
   }
 
   initializeTimerNonPlayer() {
-    let timeLeft = 5;
+    let timeLeft = 30;
     const timerElement = document.getElementById('timer');
 
     timerElement.innerText = timeLeft;

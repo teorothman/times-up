@@ -22,7 +22,9 @@ Rails.application.routes.draw do
   get 'state_check', to: 'games#update_state'
 
   patch '/games/:id/guess_card', to: 'games#guess_card', as: 'guess_card_game'
+  patch '/games/:id/guess_card_skipped', to: 'games#guess_card_skipped', as: 'guess_card_skipped_game'
   patch '/games/:id/skip_card', to: 'games#skip_card', as: 'skip_card_game'
+
   get '/games/:id/update_turn_status_to_player_score', to: 'games#update_turn_status_to_player_score', as: 'update_turn_status_to_player_score'
 
 
