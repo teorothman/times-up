@@ -4,7 +4,7 @@ class CardsController < ApplicationController
 
   def new
     @card = Card.new
-    redirect_to '#' if current_user.cards.count > 5
+    redirect_to '#' if current_user.cards.count > 2
   end
 
   def create
@@ -18,7 +18,7 @@ class CardsController < ApplicationController
       RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 2).id, card_id: @card.id)
       RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 3).id, card_id: @card.id)
 
-      if current_user.cards.count < 5
+      if current_user.cards.count < 2
         redirect_to new_game_user_card_path(@game, @user)
       else
         if check_all_users_submitted
@@ -71,7 +71,7 @@ class CardsController < ApplicationController
   end
 
   def check_all_users_submitted
-    total_cards_needed = @game.users.count * 5
+    total_cards_needed = @game.users.count * 2
     Card.joins(user: :game).where(users: {game_id: @game.id}).count >= total_cards_needed
   end
 end
