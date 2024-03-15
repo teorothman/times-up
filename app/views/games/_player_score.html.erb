@@ -1,4 +1,4 @@
-<% player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten %>
+<%# <% player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten %>
 <div class="index-wrapper">
   <div class="center-wrapper">
     <div>
@@ -10,7 +10,7 @@
       <h1> <%= player.username.capitalize %> <br> scored <%= game.player_turn_point %> points!</h1>
     </div>
     <div>
-      <h1><i class="fa-solid fa-trophy fa-2xl"></i></h1>
+      <h1><i class="fa-solid fa-trophy"></i></h1>
     </div>
     <div class="player-score-wrapper">
     </div>
