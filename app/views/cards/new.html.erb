@@ -1,6 +1,6 @@
 <div class="container">
   <div class="form-wrapper">
-  <h1>Cards entered <%= current_user.cards.count %>/5</h1>
+  <h1>Cards entered <%= current_user.cards.count %>/2</h1>
     <%= simple_form_for [@game, @user, @card] do |form| %>
       <div class="field">
         <%= form.input :content, input_html: { autofocus: 'true', class: "game-code-input", required: true }, placeholder: "Write here...", label: false %>

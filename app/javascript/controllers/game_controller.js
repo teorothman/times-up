@@ -76,7 +76,7 @@ export default class extends Controller {
   document.getElementById('timer-container').style.display = 'none';
   }
   initializeTimer() {
-    let timeLeft = 30;
+    let timeLeft = 10;
     const timerElement = document.getElementById('timer');
 
     timerElement.innerText = timeLeft;
@@ -99,7 +99,7 @@ export default class extends Controller {
   }
 
   initializeTimerNonPlayer() {
-    let timeLeft = 30;
+    let timeLeft = 10;
     const timerElement = document.getElementById('timer');
 
     timerElement.innerText = timeLeft;
