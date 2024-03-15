@@ -3,7 +3,7 @@
     <div>
       <h1>Time's Up</h1>
 
-      <% a = Avatar.find(current_user.avatar_id) %>
+      <% a = Avatar.find(player.avatar_id) %>
       <%= cl_image_tag(a.photo.key, class: 'avatar-rounded-big') %>
 
       <h1> <%= player.username.capitalize %> <br> scored <%= game.player_turn_point %> points!</h1>
