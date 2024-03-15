@@ -4,7 +4,7 @@ import { createConsumer } from "@rails/actioncable";
 // Connects to data-controller="game"
 export default class extends Controller {
   static values = { gameId: Number, userId: Number };
-  static targets = ["container", "wordwrapper"];
+  static targets = ["container"];
 
   connect() {
     this.gameChannel = createConsumer().subscriptions.create(
@@ -48,7 +48,9 @@ export default class extends Controller {
           } else if (data.partial === "player_score_playing") {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "card_playing") {
-            this.wordwrapperTarget.innerHTML = data.html;
+            document.querySelector(".word-wrapper").innerHTML = data.html;
+            // this.wordwrapperTarget.innerHTML = data.html;
+            console.log(data);
           } else if (data.partial === "player_score_playing") {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "round1_results") {
@@ -58,23 +60,31 @@ export default class extends Controller {
           }else if (data.partial === "round3_results") {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "player_plays_playing_skipped") {
-            this.wordwrapperTarget.innerHTML = data.html;
+            // this.wordwrapperTarget.innerHTML = data.html;
+            document.querySelector(".word-wrapper").innerHTML = data.html;
           }
         }
       }
     );
   }
   showNextButton() {
+    if (document.getElementById('next-button') != null) {
     document.getElementById('next-button').classList.remove('hidden');
+    }
   }
+
   hideButtons() {
-    document.querySelectorAll('.play-button').forEach(button => {
+    if (document.querySelectorAll('.play-button') != null) {
+      document.querySelectorAll('.play-button').forEach(button => {
       button.classList.add('hidden');
-    });
+    })}
   }
+
   hideTimer() {
+  if (document.getElementById('timer-container') != null) {
   document.getElementById('timer-container').style.display = 'none';
-  }
+  }}
+
   initializeTimer() {
     let timeLeft = 10;
     const timerElement = document.getElementById('timer');

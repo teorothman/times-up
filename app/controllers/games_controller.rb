@@ -282,9 +282,7 @@ class GamesController < ApplicationController
     @round1 = @game.rounds.find_by(round_number: 1)
     @round2 = @game.rounds.find_by(round_number: 2)
     @round3 = @game.rounds.find_by(round_number: 3)
-    @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
-    @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
-    @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
+
     if @game.games_status.status == 'round1_play'
       @round1.points_team1 += 1 if @team_number == 1
       @round1.points_team2 += 1 if @team_number == 2
@@ -307,11 +305,15 @@ class GamesController < ApplicationController
     @game.save
     card_round = RoundCard.find(params[:card_round_id])
     card_round.update!(is_guessed: true)
+    @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
+    @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
+    @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
     PlayerChannel.broadcast_to(
       @player,
-      html: render_to_string( partial: "card_playing", locals: {  game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable} ),
+      html: render_to_string( partial: "card_playing", locals: {game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable} ),
       partial: "card_playing",
     )
+    head :ok
   end
 
   def guess_card_skipped
