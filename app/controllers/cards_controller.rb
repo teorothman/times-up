@@ -1,75 +1,75 @@
 class CardsController < ApplicationController
-  before_action :set_card_count, only: [:new, :create]
-  before_action :set_game_and_user
+#   before_action :set_card_count, only: [:new, :create]
+#   before_action :set_game_and_user
 
-  def new
-    @card = Card.new
-    redirect_to '#' if current_user.cards.count > 2
-  end
+#   def new
+#     @card = Card.new
+#     redirect_to '#' if current_user.cards.count > 2
+#   end
 
-  def create
-    @card = @user.cards.new(card_params)
-    @games_status = GamesStatus.find_by(game_id: @game.id)
-    @game = Game.find(params[:game_id])
-    @games_status.update(status: "loading")
+#   def create
+#     @card = @user.cards.new(card_params)
+#     @games_status = GamesStatus.find_by(game_id: @game.id)
+#     @game = Game.find(params[:game_id])
+#     @games_status.update(status: "loading")
 
-    if @card.save
-      RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 1).id, card_id: @card.id)
-      RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 2).id, card_id: @card.id)
-      RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 3).id, card_id: @card.id)
+#     if @card.save
+#       RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 1).id, card_id: @card.id)
+#       RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 2).id, card_id: @card.id)
+#       RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 3).id, card_id: @card.id)
 
-      if current_user.cards.count < 2
-        redirect_to new_game_user_card_path(@game, @user)
-      else
-        if check_all_users_submitted
-          # 🟢fixing player_order never starts with last guy SUBMITTING CARD
-          @games_status.update(team1_starting: true) if current_user.team.name == "2"
+#       if current_user.cards.count < 2
+#         redirect_to new_game_user_card_path(@game, @user)
+#       else
+#         if check_all_users_submitted
+#           # 🟢fixing player_order never starts with last guy SUBMITTING CARD
+#           @games_status.update(team1_starting: true) if current_user.team.name == "2"
 
-          if @games_status.team1_starting == true
-            @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
-          else
-            @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
-          end
-          @player = @player_order[@games_status.turn_counter]
+#           if @games_status.team1_starting == true
+#             @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
+#           else
+#             @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
+#           end
+#           @player = @player_order[@games_status.turn_counter]
 
-          @games_status.update(status: "round1_play")
-          GameChannel.broadcast_to(
-            @game,
-            html: render_to_string( partial: "games/player_selected", locals: {player: @player, game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
-            partial: "player_selected"
-          )
-          PlayerChannel.broadcast_to(
-            @player,
-            html: render_to_string( partial: "games/player_selected_playing", locals: {player: @player, game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
-            partial: "player_selected_playing"
-          )
-          redirect_to game_path(@game)
-        else
-          redirect_to game_path(@game)
-        end
-      end
-    else
-      render :new
-    end
-  end
+#           @games_status.update(status: "round1_play")
+#           GameChannel.broadcast_to(
+#             @game,
+#             html: render_to_string( partial: "games/player_selected", locals: {player: @player, game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
+#             partial: "player_selected"
+#           )
+#           PlayerChannel.broadcast_to(
+#             @player,
+#             html: render_to_string( partial: "games/player_selected_playing", locals: {player: @player, game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
+#             partial: "player_selected_playing"
+#           )
+#           redirect_to game_path(@game)
+#         else
+#           redirect_to game_path(@game)
+#         end
+#       end
+#     else
+#       render :new
+#     end
+#   end
 
-  private
+#   private
 
-  def set_card_count
-    session[:card_count] ||= 1
-  end
+#   def set_card_count
+#     session[:card_count] ||= 1
+#   end
 
-  def card_params
-    params.require(:card).permit(:content)
-  end
+#   def card_params
+#     params.require(:card).permit(:content)
+#   end
 
-  def set_game_and_user
-    @game = Game.find(params[:game_id])
-    @user = User.find(params[:user_id])
-  end
+#   def set_game_and_user
+#     @game = Game.find(params[:game_id])
+#     @user = User.find(params[:user_id])
+#   end
 
-  def check_all_users_submitted
-    total_cards_needed = @game.users.count * 2
-    Card.joins(user: :game).where(users: {game_id: @game.id}).count >= total_cards_needed
-  end
+#   def check_all_users_submitted
+#     total_cards_needed = @game.users.count * 2
+#     Card.joins(user: :game).where(users: {game_id: @game.id}).count >= total_cards_needed
+#   end
 end
