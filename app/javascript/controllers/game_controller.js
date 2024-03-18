@@ -4,7 +4,7 @@ import { createConsumer } from "@rails/actioncable";
 // Connects to data-controller="game"
 export default class extends Controller {
   static values = { gameId: Number, userId: Number };
-  static targets = ["container"];
+  static targets = ["container", "user"];
 
   connect() {
     this.gameChannel = createConsumer().subscriptions.create(
@@ -18,9 +18,11 @@ export default class extends Controller {
             window.location.reload(true);
           } else if (data.partial === "player_selected") {
             this.containerTarget.innerHTML = data.html;
-          } else if (data.partial === "player_plays") {
-            this.containerTarget.innerHTML = data.html;
-            this.initializeTimerNonPlayer();
+          } else if (data.action === 'user_ready') {
+            console.log('User ready action received:', data);
+            this.updateUserReadyState(data.user_id, data.is_ready);
+          } else if (data.action === 'reload_to_card') {
+            window.location.reload(true);
           } else if (data.partial === "player_score") {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "round1_results") {
@@ -128,4 +130,29 @@ export default class extends Controller {
 
     const countdown = setInterval(updateTimer, 1000);
   }
+
+  updateUserReadyState(userId, isReady) {
+    console.log(`Attempting to update user ${userId} ready state to ${isReady}`);
+    const userElement = document.querySelector(`[data-user-id='${userId}']`);
+    console.log('User Element:', userElement);
+
+    if (!userElement) {
+      console.log(`User element not found for ID: ${userId}`);
+      return;
+    }
+    if (!userElement) return;
+
+    let tickElement = userElement.querySelector('.black');
+
+    if (isReady) {
+        tickElement = document.createElement('div');
+        tickElement.classList.add('black');
+        tickElement.innerHTML = '<p><i class="fa-solid fa-check"></i></p>';
+        userElement.appendChild(tickElement);
+        console.log('Tick added for user:', userId);
+      } else if (!isReady && tickElement) {
+        tickElement.remove();
+        console.log('Tick removed for user:', userId)
+      }
+    }
 }
