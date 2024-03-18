@@ -16,13 +16,16 @@ export default class extends Controller {
           } else if (data.partial === "lobby") {
             this.containerTarget.innerHTML = data.html;
             window.location.reload(true);
-          } else if (data.partial === "player_selected") {
-            this.containerTarget.innerHTML = data.html;
           } else if (data.action === 'user_ready') {
             console.log('User ready action received:', data);
             this.updateUserReadyState(data.user_id, data.is_ready);
           } else if (data.partial === 'cards') {
             this.containerTarget.innerHTML = data.html;
+          } else if (data.partial === "player_selected") {
+            this.containerTarget.innerHTML = data.html;
+          }  else if (data.partial === "player_plays") {
+            this.containerTarget.innerHTML = data.html;
+            this.initializeTimer();
           } else if (data.partial === "player_score") {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "round1_results") {
@@ -110,26 +113,6 @@ export default class extends Controller {
     const countdown = setInterval(updateTimer, 1000);
   }
 
-  initializeTimerNonPlayer() {
-    let timeLeft = 10;
-    const timerElement = document.getElementById('timer');
-
-    timerElement.innerText = timeLeft;
-
-    const updateTimer = () => {
-      if (timeLeft <= 0) {
-        clearInterval(countdown);
-        this.hideTimer();
-      } else {
-        timerElement.innerText = timeLeft;
-        timeLeft -= 1;
-      }
-    };
-
-    updateTimer();
-
-    const countdown = setInterval(updateTimer, 1000);
-  }
 
   updateUserReadyState(userId, isReady) {
     console.log(`Attempting to update user ${userId} ready state to ${isReady}`);
