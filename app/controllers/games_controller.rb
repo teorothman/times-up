@@ -377,6 +377,7 @@ class GamesController < ApplicationController
 
   def set_game_status
     @game_status = GamesStatus.find_by(game_id: @game.id)
+  end
 
   def set_card_count
     session[:card_count] ||= 1
@@ -389,7 +390,6 @@ class GamesController < ApplicationController
   def check_all_users_submitted
     total_cards_needed = @game.users.count * 2
     Card.joins(user: :game).where(users: {game_id: @game.id}).count >= total_cards_needed
-
   end
 
   def current_user
@@ -414,5 +414,4 @@ class GamesController < ApplicationController
   def set_player
     @player = @player_order[@game_status.turn_counter]
   end
-
 end
