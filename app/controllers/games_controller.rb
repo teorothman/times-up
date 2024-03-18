@@ -97,10 +97,23 @@ class GamesController < ApplicationController
       current_user.update(is_ready: true)
       GameChannel.broadcast_to(
         @game,
-        html: render_to_string( partial: @game_status.status, locals: { game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules } ),
-        partial: "lobby"
+        {
+          user_id: current_user.id,
+          is_ready: true,
+          action: 'user_ready'
+        }
       )
-      !User.where(game_id: @game.id, is_ready: false).exists? ? @game_status.update(status: 'cards') : ''
+      if !User.where(game_id: @game.id, is_ready: false).exists?
+        @game_status.update(status: 'cards')
+        GameChannel.broadcast_to(
+          @game,
+          {
+            action: 'reload_to_card'
+          }
+        )
+      else
+        ''
+      end
     when 'round1_play'
       @game_status.update(status: 'round1_results')
     when 'round1_results'
