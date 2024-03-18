@@ -15,9 +15,9 @@ Rails.application.routes.draw do
 
   get 'show_qr', to: 'games#show_qr'
 
-  patch 'play', to: 'games#play'
+  patch 'play/:id', to: 'games#play', as: 'play'
   get 'ready', to: 'games#ready'
-  patch 'update', to: 'games#update'
+  patch 'update/:id', to: 'games#update', as: 'update'
 
   get 'state_check', to: 'games#update_state'
 

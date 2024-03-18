@@ -4,7 +4,6 @@ class Game < ApplicationRecord
   has_one :games_status, dependent: :destroy
   has_many :teams, dependent: :destroy
 
-  # WIP LAURA --> adding points/team in DB
   def total_points_T1(game)
     game.rounds.pluck(:points_team1).compact.sum
   end
