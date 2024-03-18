@@ -9,10 +9,9 @@
     <% else %>
     <% end %>
 
-    <%# ATTENTION calling de table name games_statuses %>
-    <%card_round = cards_round1_playable.sample if game.games_statuses.status == "round1_play" %>
-    <%card_round = cards_round2_playable.sample if game.games_statuses.status == "round2_play" %>
-    <%card_round = cards_round3_playable.sample if game.games_statuses.status == "round3_play" %>
+    <%card_round = cards_round1_playable.sample if game_status.status == "round1_play" %>
+    <%card_round = cards_round2_playable.sample if game_status.status == "round2_play" %>
+    <%card_round = cards_round3_playable.sample if game_status.status == "round3_play" %>
     <%if card_round.nil? %>
     <div class="width-wrapper">
       <h5>Congrats, you guessed all the cards!</h5>
