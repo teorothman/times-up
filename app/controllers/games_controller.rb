@@ -1,4 +1,10 @@
 class GamesController < ApplicationController
+  before_action :cards_rounds_playable, only: [:skip_card, :guess_card, :guess_card_skipped, :play, :show]
+  before_action :set_game, only: [:show, :update, :play, :guess_card, :update_state, :skip_card, :guess_card_skipped]
+  before_action :set_game_status, only: [:show, :update, :update_state, :play, :guess_card, :guess_card_skipped, :skip_card, :update_turn_status_to_player_score]
+  before_action :set_player_order, only: [:show, :update, :play, :guess_card, :guess_card_skipped, :skip_card]
+  before_action :set_player, only: [:show, :update, :play, :guess_card, :guess_card_skipped, :skip_card]
+
   def index
   end
 
@@ -21,22 +27,12 @@ class GamesController < ApplicationController
   end
 
   def update_state
-    @game = Game.find(params[:id])
-    @game_status = GamesStatus.find_by(game_id: @game.id)
-    case @game_status.status
-    when "pre_lobby"
-      @game_status.status = "lobby"
-    end
+    @game_status.update(status: 'lobby') if @game_status.status == 'pre_lobby'
     render :show
   end
 
-
   def show
-    #NECCESSARY INSTANCE VARIABLES
-    @game = Game.find(params[:id])
     @users = @game.users
-
-    @game_status = GamesStatus.find_by(game_id: @game.id)
     @round1 = Round.find_by(round_number: 1, game_id: @game.id)
     @round2 = Round.find_by(round_number: 2, game_id: @game.id)
     @round3 = Round.find_by(round_number: 3, game_id: @game.id)
@@ -44,19 +40,7 @@ class GamesController < ApplicationController
     @cards_round2 = RoundCard.where(round_id: @round2.id)
     @cards_round3 = RoundCard.where(round_id: @round3.id)
 
-    # Returns cards per round that are not guessed yet (either skipped or unused)
-    @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
-    @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
-    @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
-
-    @game = Game.find(params[:id])
-    @game_status = @game.games_status
-    if @game_status.team1_starting == true
-      @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
-    else
-      @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
-    end
-    @player = @player_order[@game_status.turn_counter]
+    redirect_to new_game_user_card_path(@game, current_user.id) if @game_status.status == 'cards'
 
   end
 
@@ -70,15 +54,7 @@ class GamesController < ApplicationController
   end
 
   def update
-    @game = Game.find(params[:game_id])
-    @game_status = @game.games_status
     @rules = Rule.all
-    if @game_status.team1_starting == true
-      @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
-    else
-      @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
-    end
-    @player = @player_order[@game_status.turn_counter]
 
     case @game_status.status
     when 'pre_lobby'
@@ -99,6 +75,7 @@ class GamesController < ApplicationController
           is_ready: true,
           action: 'user_ready'
         })
+
       !User.where(game_id: @game.id, is_ready: false).exists? ? @game_status.update(status: 'cards') : ""
     when 'cards'
       GameChannel.broadcast_to(
@@ -155,27 +132,14 @@ class GamesController < ApplicationController
   end
 
   def play
-    @game = Game.find(params[:game_id])
-    @game_status = @game.games_status
     @round1 = Round.find_by(round_number: 1, game_id: @game.id)
     @round2 = Round.find_by(round_number: 2, game_id: @game.id)
     @round3 = Round.find_by(round_number: 3, game_id: @game.id)
-    @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
-    @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
-    @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
     team_one_id = @game.users.first.team_id
     team_two_id = @game.users.second.team_id unless @game.users.second.nil?
     # for clarity these should be named @team_one_users
     @team_one = @game.users.where(team: team_one_id)
     @team_two = @game.users.where(team: team_two_id) unless @game.users.second.nil?
-
-    @game = Game.find(params[:game_id])
-    if @game_status.team1_starting == true
-      @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
-    else
-      @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
-    end
-    @player = @player_order[@game_status.turn_counter]
 
     case @game_status.turn_status
     when 'player_selected'
@@ -276,18 +240,7 @@ class GamesController < ApplicationController
   end
 
   def guess_card
-    @game = Game.find(params[:id])
-    @game_status = @game.games_status
-    if @game_status.team1_starting == true
-      @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
-    else
-      @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
-    end
-    @player = @player_order[@game_status.turn_counter]
     @team_number = current_user.team.name.to_i
-    @round1 = @game.rounds.find_by(round_number: 1)
-    @round2 = @game.rounds.find_by(round_number: 2)
-    @round3 = @game.rounds.find_by(round_number: 3)
     if @game.games_status.status == 'round1_play'
       @round1.points_team1 += 1 if @team_number == 1
       @round1.points_team2 += 1 if @team_number == 2
@@ -310,10 +263,6 @@ class GamesController < ApplicationController
     @game.save
     card_round = RoundCard.find(params[:card_round_id])
     card_round.update!(is_guessed: true)
-    @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
-    @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
-    @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
-
     PlayerChannel.broadcast_to(
       @player,
       html: render_to_string( partial: "card_playing", locals: {game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable} ),
@@ -323,21 +272,8 @@ class GamesController < ApplicationController
   end
 
   def guess_card_skipped
-    @game = Game.find(params[:id])
-    @game_status = @game.games_status
-    if @game_status.team1_starting == true
-      @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
-    else
-      @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
-    end
-    @player = @player_order[@game_status.turn_counter]
     @team_number = current_user.team.name.to_i
-    @round1 = @game.rounds.find_by(round_number: 1)
-    @round2 = @game.rounds.find_by(round_number: 2)
-    @round3 = @game.rounds.find_by(round_number: 3)
-    @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
-    @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
-    @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
+
     if @game.games_status.status == 'round1_play'
       @round1.points_team1 += 1 if @team_number == 1
       @round1.points_team2 += 1 if @team_number == 2
@@ -368,35 +304,18 @@ class GamesController < ApplicationController
   end
 
   def skip_card
-    @game = Game.find(params[:id])
-    @game_status = @game.games_status
-    if @game_status.team1_starting == true
-      @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
-    else
-      @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
-    end
-    @player = @player_order[@game_status.turn_counter]
     card_round = RoundCard.find(params[:card_round_id])
-    @round1 = @game.rounds.find_by(round_number: 1)
-    @round2 = @game.rounds.find_by(round_number: 2)
-    @round3 = @game.rounds.find_by(round_number: 3)
-    @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
-    @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
-    @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
+
 
     PlayerChannel.broadcast_to(
       @player,
-      html: render_to_string( partial: "player_plays_playing_skipped", locals: {game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable} ),
+      html: render_to_string(partial: "player_plays_playing_skipped", locals: {game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable} ),
       partial: "player_plays_playing_skipped",
     )
   end
 
   def update_turn_status_to_player_score
-    @game = Game.find(params[:id])
-    @game_status = @game.games_status
-
     @game_status.update(turn_status: 'player_score')
-
     redirect_to game_path(@game), notice: "Time's up! Moving to score."
   end
 
@@ -452,6 +371,13 @@ class GamesController < ApplicationController
 
   private
 
+  def set_game
+    @game = Game.find(params[:id])
+  end
+
+  def set_game_status
+    @game_status = GamesStatus.find_by(game_id: @game.id)
+
   def set_card_count
     session[:card_count] ||= 1
   end
@@ -463,9 +389,30 @@ class GamesController < ApplicationController
   def check_all_users_submitted
     total_cards_needed = @game.users.count * 2
     Card.joins(user: :game).where(users: {game_id: @game.id}).count >= total_cards_needed
+
   end
 
   def current_user
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
   end
+
+  def set_player_order
+    @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten if @game_status.team1_starting
+    @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten unless @game_status.team1_starting
+  end
+
+  def cards_rounds_playable
+    @game ||= Game.find(params[:id])
+    @round1 = @game.rounds.find_by(round_number: 1)
+    @round2 = @game.rounds.find_by(round_number: 2)
+    @round3 = @game.rounds.find_by(round_number: 3)
+    @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
+    @cards_round2_playable = RoundCard.where(round_id: @round2.id).where(is_guessed: false)
+    @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
+  end
+
+  def set_player
+    @player = @player_order[@game_status.turn_counter]
+  end
+
 end
