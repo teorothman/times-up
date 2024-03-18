@@ -1,7 +1,7 @@
 <div class="container" data-controller="card-creation">
   <div class="form-wrapper">
   <h1>Cards entered <%= current_user.cards.count %>/2</h1>
-    <%= simple_form_for url: create_card_game_path(@game), method: :patch, html: { data: { action: "submit->card-creation#createCard" } } do |form| %>
+    <%= simple_form_for :card, url: create_card_game_path(@game), method: :patch, html: { data: { action: "submit->card-creation#createCard" } } do |form| %>
       <div class="field">
         <%= form.input :content, input_html: { autofocus: 'true', class: "game-code-input", required: true }, placeholder: "Write here...", label: false %>
       </div>
