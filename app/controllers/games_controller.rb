@@ -41,6 +41,7 @@ class GamesController < ApplicationController
     @cards_round3 = RoundCard.where(round_id: @round3.id)
 
     redirect_to new_game_user_card_path(@game, current_user.id) if @game_status.status == 'cards'
+
   end
 
   def perform_join
@@ -75,17 +76,14 @@ class GamesController < ApplicationController
           action: 'user_ready'
         })
 
-      if !User.where(game_id: @game.id, is_ready: false).exists?
-        @game_status.update(status: 'cards')
-        GameChannel.broadcast_to(
-          @game,
-          {
-            action: 'reload_to_card'
-          }
-        )
-      else
-        ''
-      end
+      !User.where(game_id: @game.id, is_ready: false).exists? ? @game_status.update(status: 'cards') : ""
+    when 'cards'
+      GameChannel.broadcast_to(
+        @game,
+        {
+          html: render_to_string(partial: @game_status.status, locals: { game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules }),
+          partial: "cards",
+        })
     when 'round1_play'
       @game_status.update(status: 'round1_results')
     when 'round1_results'
@@ -326,6 +324,52 @@ class GamesController < ApplicationController
     render partial: 'new_modal'
   end
 
+  # CARDS
+
+  def create_card
+    @game = Game.find(params[:id])
+    @user = current_user
+    @card = @user.cards.new(card_params)
+    @games_status = GamesStatus.find_by(game_id: @game.id)
+
+    if @card.save
+      RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 1).id, card_id: @card.id)
+      RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 2).id, card_id: @card.id)
+      RoundCard.create(round_id: Game.last.rounds.find_by(round_number: 3).id, card_id: @card.id)
+
+      if current_user.cards.count < 2
+        redirect_to game_path(@game, @user)
+      else
+        if check_all_users_submitted
+          @games_status.update(team1_starting: true) if current_user.team.name == "2"
+          if @games_status.team1_starting == true
+            @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
+          else
+            @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
+          end
+          @player = @player_order[@games_status.turn_counter]
+
+          @games_status.update(status: "round1_play")
+          GameChannel.broadcast_to(
+            @game,
+            html: render_to_string( partial: "player_selected", locals: {player: @player, game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
+            partial: "player_selected"
+          )
+          PlayerChannel.broadcast_to(
+            @player,
+            html: render_to_string( partial: "player_selected_playing", locals: {player: @player, game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
+            partial: "player_selected_playing"
+          )
+          redirect_to game_path(@game)
+        else
+          redirect_to game_path(@game, loading: true)
+        end
+      end
+    else
+      render :new
+    end
+  end
+
   private
 
   def set_game
@@ -334,6 +378,19 @@ class GamesController < ApplicationController
 
   def set_game_status
     @game_status = GamesStatus.find_by(game_id: @game.id)
+
+  def set_card_count
+    session[:card_count] ||= 1
+  end
+
+  def card_params
+    params.require(:card).permit(:content)
+  end
+
+  def check_all_users_submitted
+    total_cards_needed = @game.users.count * 2
+    Card.joins(user: :game).where(users: {game_id: @game.id}).count >= total_cards_needed
+
   end
 
   def current_user

@@ -21,8 +21,8 @@ export default class extends Controller {
           } else if (data.action === 'user_ready') {
             console.log('User ready action received:', data);
             this.updateUserReadyState(data.user_id, data.is_ready);
-          } else if (data.action === 'reload_to_card') {
-            window.location.reload(true);
+          } else if (data.partial === 'cards') {
+            this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "player_score") {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "round1_results") {

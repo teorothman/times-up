@@ -27,6 +27,11 @@ Rails.application.routes.draw do
 
   get '/games/:id/update_turn_status_to_player_score', to: 'games#update_turn_status_to_player_score', as: 'update_turn_status_to_player_score'
 
+  resources :games do
+    member do
+      patch :create_card
+    end
+  end
 
   resources :games, only: [:index, :show, :new, :create, :update] do
     resources :users, only: [:new, :create] do
