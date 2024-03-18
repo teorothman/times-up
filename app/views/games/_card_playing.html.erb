@@ -1,17 +1,18 @@
 <div class="word-wrapper">
 
-    <% if game_state.status == 'round1_play' || game_state.status == 'round1_results' %>
+    <% if game_status.status == 'round1_play' || game_status.status == 'round1_results' %>
       <h1>Round 1</h1>
-    <% elsif game_state.status == 'round2_play' || game_state.status == 'round2_results' %>
+    <% elsif game_status.status == 'round2_play' || game_status.status == 'round2_results' %>
       <h1>Round 2</h1>
-    <% elsif game_state.status == 'round3_play' || game_state.status == 'round3_results' %>
+    <% elsif game_status.status == 'round3_play' || game_status.status == 'round3_results' %>
       <h1>Round 3</h1>
     <% else %>
     <% end %>
 
-    <%card_round = cards_round1_playable.sample if game.games_status.status == "round1_play" %>
-    <%card_round = cards_round2_playable.sample if game.games_status.status == "round2_play" %>
-    <%card_round = cards_round3_playable.sample if game.games_status.status == "round3_play" %>
+    <%# ATTENTION calling de table name games_statuses %>
+    <%card_round = cards_round1_playable.sample if game.games_statuses.status == "round1_play" %>
+    <%card_round = cards_round2_playable.sample if game.games_statuses.status == "round2_play" %>
+    <%card_round = cards_round3_playable.sample if game.games_statuses.status == "round3_play" %>
     <%if card_round.nil? %>
     <div class="width-wrapper">
       <h5>Congrats, you guessed all the cards!</h5>
