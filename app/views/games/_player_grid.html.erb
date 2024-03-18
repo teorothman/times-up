@@ -1,4 +1,4 @@
-<div id="<%=user.id%>">
+<div id="user-<%= user.id %>" data-controller="lobby" data-user-id="<%= user.id %>" data-lobby-target="user">
   <% a = Avatar.find(user.avatar_id) %>
   <%= cl_image_tag(a.photo.key, class: "avatar-rounded") %>
   <p><%= user.username %></p>
