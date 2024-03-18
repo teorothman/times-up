@@ -1,9 +1,4 @@
 class GamesController < ApplicationController
-  #tbd if needed ot be mention here
-  helper_method :current_user
-  before_action :set_card_count, only: [:new, :create]
-
-
   def index
   end
 
@@ -11,12 +6,13 @@ class GamesController < ApplicationController
     @game = Game.new(params[:id])
     @game.is_default = params[:is_default] == 'true'
     @game.save
-    @game_state = GamesStatus.create(game_id: @game.id)
+    @game_status = GamesStatus.create(game_id: @game.id)
     @team_one = Team.create!(name: 1, game_id: @game.id)
     @team_two = Team.create!(name: 2, game_id: @game.id)
     @round_one = Round.create!(game_id: @game.id, round_number: 1)
     @round_two = Round.create!(game_id: @game.id, round_number: 2)
     @round_three = Round.create!(game_id: @game.id, round_number: 3)
+    # move Rules to seed as donde w avatars
     @rules = Rule.all
     redirect_to new_game_user_path(@game)
   end
@@ -26,10 +22,10 @@ class GamesController < ApplicationController
 
   def update_state
     @game = Game.find(params[:id])
-    @game_state = GamesStatus.find_by(game_id: @game.id)
-    case @game_state.status
+    @game_status = GamesStatus.find_by(game_id: @game.id)
+    case @game_status.status
     when "pre_lobby"
-      @game_state.status = "lobby"
+      @game_status.status = "lobby"
     end
     render :show
   end
@@ -40,7 +36,7 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     @users = @game.users
 
-    @game_state = GamesStatus.find_by(game_id: @game.id)
+    @game_status = GamesStatus.find_by(game_id: @game.id)
     @round1 = Round.find_by(round_number: 1, game_id: @game.id)
     @round2 = Round.find_by(round_number: 2, game_id: @game.id)
     @round3 = Round.find_by(round_number: 3, game_id: @game.id)
@@ -48,7 +44,7 @@ class GamesController < ApplicationController
     @cards_round2 = RoundCard.where(round_id: @round2.id)
     @cards_round3 = RoundCard.where(round_id: @round3.id)
 
-    redirect_to new_game_user_card_path(@game, current_user.id) if @game_state.status == 'cards'
+    redirect_to new_game_user_card_path(@game, current_user.id) if @game_status.status == 'cards'
 
     # Returns cards per round that are not guessed yet (either skipped or unused)
     @cards_round1_playable = RoundCard.where(round_id: @round1.id).where(is_guessed: false)
@@ -57,12 +53,12 @@ class GamesController < ApplicationController
 
     @game = Game.find(params[:id])
     @game_status = @game.games_status
-    if @game_state.team1_starting == true
+    if @game_status.team1_starting == true
       @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
     else
       @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
     end
-    @player = @player_order[@game_state.turn_counter]
+    @player = @player_order[@game_status.turn_counter]
 
   end
 
@@ -91,7 +87,7 @@ class GamesController < ApplicationController
       @game_status.update(status: 'lobby')
       GameChannel.broadcast_to(
         @game,
-        html: render_to_string( partial: @game_status.status, locals: { game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules }),
+        html: render_to_string( partial: @game_status.status, locals: { game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules }),
         partial: "lobby"
       )
     when 'lobby'
@@ -99,11 +95,12 @@ class GamesController < ApplicationController
       GameChannel.broadcast_to(
         @game,
         {
+          html: render_to_string(partial: @game_status.status, locals: { game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules }),
+          partial: "lobby",
           user_id: current_user.id,
           is_ready: true,
           action: 'user_ready'
-        }
-      )
+        })
       if !User.where(game_id: @game.id, is_ready: false).exists?
         @game_status.update(status: 'cards')
         GameChannel.broadcast_to(
@@ -121,12 +118,12 @@ class GamesController < ApplicationController
       @game_status.update(status: 'round2_play')
       GameChannel.broadcast_to(
         @game,
-        html: render_to_string( partial: "games/player_selected", locals: { game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, player: @player} ),
+        html: render_to_string( partial: "games/player_selected", locals: { game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, player: @player} ),
         partial: "player_selected",
       )
       PlayerChannel.broadcast_to(
         @player,
-        html: render_to_string( partial: "games/player_selected_playing", locals: { game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, player: @player} ),
+        html: render_to_string( partial: "games/player_selected_playing", locals: { game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, player: @player} ),
         partial: "player_selected_playing",
       )
     when 'round2_play'
@@ -135,12 +132,12 @@ class GamesController < ApplicationController
       @game_status.update(status: 'round3_play')
       GameChannel.broadcast_to(
         @game,
-        html: render_to_string( partial: "games/player_selected", locals: { game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, player: @player} ),
+        html: render_to_string( partial: "games/player_selected", locals: { game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, player: @player} ),
         partial: "player_selected",
       )
       PlayerChannel.broadcast_to(
         @player,
-        html: render_to_string( partial: "games/player_selected_playing", locals: { game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, player: @player} ),
+        html: render_to_string( partial: "games/player_selected_playing", locals: { game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, player: @player} ),
         partial: "player_selected_playing",
       )
     when 'round3_play'
@@ -149,14 +146,14 @@ class GamesController < ApplicationController
       @game_status.update(status: 'results')
       GameChannel.broadcast_to(
         @game,
-        html: render_to_string( partial: "games/results", locals: { game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, player: @player} ),
+        html: render_to_string( partial: "games/results", locals: { game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, player: @player} ),
         partial: "results",
       )
     when 'results'
       @game_status.update(status: 'play_again')
       GameChannel.broadcast_to(
         @game,
-        html: render_to_string( partial: "games/results", locals: { game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, player: @player} ),
+        html: render_to_string( partial: "games/results", locals: { game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, player: @player} ),
         partial: "results",
       )
     end
@@ -191,36 +188,36 @@ class GamesController < ApplicationController
       @game_status.update(turn_status: 'player_plays')
       GameChannel.broadcast_to(
         @game,
-        html: render_to_string( partial: "games/player_plays", locals: { player: @player, game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user} ),
+        html: render_to_string( partial: "games/player_plays", locals: { player: @player, game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user} ),
         partial: "player_plays"
       )
       PlayerChannel.broadcast_to(
         @player,
-        html: render_to_string( partial: "games/player_plays_playing", locals: { player: @player, game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable } ),
+        html: render_to_string( partial: "games/player_plays_playing", locals: { player: @player, game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable } ),
         partial: "player_plays_playing"
       )
     when 'player_plays'
       @game_status.update(turn_status: 'player_score')
       GameChannel.broadcast_to(
         @game,
-        html: render_to_string( partial: "player_score", locals: { player: @player, game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user} ),
+        html: render_to_string( partial: "player_score", locals: { player: @player, game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user} ),
         partial: "player_score"
       )
       PlayerChannel.broadcast_to(
         @player,
-        html: render_to_string( partial: "player_score_playing", locals: { player: @player, game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable } ),
+        html: render_to_string( partial: "player_score_playing", locals: { player: @player, game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable } ),
         partial: "player_score_playing"
       )
     when 'player_score'
       if @cards_round3_playable.count.zero? && @game_status.status == "round3_play"
         GameChannel.broadcast_to(
           @game,
-          html: render_to_string( partial: "games/round3_results", locals: { player: @player, game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
+          html: render_to_string( partial: "games/round3_results", locals: { player: @player, game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user} ),
           partial: "round3_results",
         )
         PlayerChannel.broadcast_to(
           @player,
-          html: render_to_string( partial: "games/round3_results_playing", locals: { player: @player, game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable } ),
+          html: render_to_string( partial: "games/round3_results_playing", locals: { player: @player, game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable } ),
           partial: "round3_results"
         )
         @game_status.update(turn_counter: @game_status.turn_counter + 1)
@@ -238,23 +235,23 @@ class GamesController < ApplicationController
         @player = @player_order[@game_status.turn_counter]
         GameChannel.broadcast_to(
           @game,
-          html: render_to_string( partial: "games/round2_results", locals: { player: @player, game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
+          html: render_to_string( partial: "games/round2_results", locals: { player: @player, game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user} ),
           partial: "round2_results",
         )
         PlayerChannel.broadcast_to(
           @player,
-          html: render_to_string( partial: "games/round2_results_playing", locals: { player: @player, game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable } ),
+          html: render_to_string( partial: "games/round2_results_playing", locals: { player: @player, game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable } ),
           partial: "round2_results"
         )
       elsif @cards_round1_playable.count.zero? && @game_status.status == "round1_play"
         GameChannel.broadcast_to(
           @game,
-          html: render_to_string( partial: "games/round1_results", locals: { player: @player, game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
+          html: render_to_string( partial: "games/round1_results", locals: { player: @player, game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user} ),
           partial: "round1_results",
         )
         PlayerChannel.broadcast_to(
           @player,
-          html: render_to_string( partial: "games/round1_results_playing", locals: { player: @player, game: @game, users: @game.users, game_state: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable } ),
+          html: render_to_string( partial: "games/round1_results_playing", locals: { player: @player, game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable } ),
           partial: "round1_results"
         )
         @game_status.update(turn_counter: @game_status.turn_counter + 1)
@@ -271,12 +268,12 @@ class GamesController < ApplicationController
         @player = @player_order[@game_status.turn_counter]
         GameChannel.broadcast_to(
           @game,
-          html: render_to_string( partial: "games/player_selected", locals: { player: @player, game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
+          html: render_to_string( partial: "games/player_selected", locals: { player: @player, game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user} ),
           partial: "player_selected",
         )
         PlayerChannel.broadcast_to(
           @player,
-          html: render_to_string( partial: "games/player_selected_playing", locals: { player: @player, game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user} ),
+          html: render_to_string( partial: "games/player_selected_playing", locals: { player: @player, game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user} ),
           partial: "player_selected_playing",
         )
       end
@@ -285,13 +282,13 @@ class GamesController < ApplicationController
 
   def guess_card
     @game = Game.find(params[:id])
-    @game_state = @game.games_status
-    if @game_state.team1_starting == true
+    @game_status = @game.games_status
+    if @game_status.team1_starting == true
       @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
     else
       @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
     end
-    @player = @player_order[@game_state.turn_counter]
+    @player = @player_order[@game_status.turn_counter]
     @team_number = current_user.team.name.to_i
     @round1 = @game.rounds.find_by(round_number: 1)
     @round2 = @game.rounds.find_by(round_number: 2)
@@ -324,7 +321,7 @@ class GamesController < ApplicationController
     @cards_round3_playable = RoundCard.where(round_id: @round3.id).where(is_guessed: false)
     PlayerChannel.broadcast_to(
       @player,
-      html: render_to_string( partial: "card_playing", locals: {game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable} ),
+      html: render_to_string( partial: "card_playing", locals: {game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable} ),
       partial: "card_playing",
     )
     head :ok
@@ -332,13 +329,13 @@ class GamesController < ApplicationController
 
   def guess_card_skipped
     @game = Game.find(params[:id])
-    @game_state = @game.games_status
-    if @game_state.team1_starting == true
+    @game_status = @game.games_status
+    if @game_status.team1_starting == true
       @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
     else
       @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
     end
-    @player = @player_order[@game_state.turn_counter]
+    @player = @player_order[@game_status.turn_counter]
     @team_number = current_user.team.name.to_i
     @round1 = @game.rounds.find_by(round_number: 1)
     @round2 = @game.rounds.find_by(round_number: 2)
@@ -370,20 +367,20 @@ class GamesController < ApplicationController
     card_round.update!(is_guessed: true)
     PlayerChannel.broadcast_to(
       @player,
-      html: render_to_string( partial: "player_plays_playing_skipped", locals: {  game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable} ),
+      html: render_to_string( partial: "player_plays_playing_skipped", locals: {  game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable} ),
       partial: "player_plays_playing_skipped",
     )
   end
 
   def skip_card
     @game = Game.find(params[:id])
-    @game_state = @game.games_status
-    if @game_state.team1_starting == true
+    @game_status = @game.games_status
+    if @game_status.team1_starting == true
       @player_order = @game.teams.first.users.to_a.zip(@game.teams.second.users).flatten
     else
       @player_order = @game.teams.second.users.to_a.zip(@game.teams.first.users).flatten
     end
-    @player = @player_order[@game_state.turn_counter]
+    @player = @player_order[@game_status.turn_counter]
     card_round = RoundCard.find(params[:card_round_id])
     @round1 = @game.rounds.find_by(round_number: 1)
     @round2 = @game.rounds.find_by(round_number: 2)
@@ -394,7 +391,7 @@ class GamesController < ApplicationController
 
     PlayerChannel.broadcast_to(
       @player,
-      html: render_to_string( partial: "player_plays_playing_skipped", locals: {game: @game, users: @game.users, game_state: @game_state, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable} ),
+      html: render_to_string( partial: "player_plays_playing_skipped", locals: {game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, current_user: current_user, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable} ),
       partial: "player_plays_playing_skipped",
     )
   end
@@ -405,7 +402,7 @@ class GamesController < ApplicationController
 
     @game_status.update(turn_status: 'player_score')
 
-    redirect_to game_path(@game), notice: 'Time´s up! Moving to score.'
+    redirect_to game_path(@game), notice: "Time's up! Moving to score."
   end
 
   def show_qr
