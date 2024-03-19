@@ -3,6 +3,10 @@
 <% if @game_status.status == 'round1_play'%>
   <% if @game_status.turn_status == 'player_plays' && current_user == @player_order[@game_status.turn_counter] %>
     <%= render "player_plays_playing", game_status: @game_status, player_order: @player_order, game: @game, cards_round1: @cards_round1, cards_round2: @cards_round2, cards_round3: @cards_round3, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable, player: @player %>
+  <% elsif @game_status.turn_status == 'player_selected' && current_user == @player_order[@game_status.turn_counter] %>
+    <%= render "player_selected_playing", game_status: @game_status, player_order: @player_order, game: @game, cards_round1: @cards_round1, cards_round2: @cards_round2, cards_round3: @cards_round3, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable, player: @player %>
+  <% elsif @game_status.turn_status == 'player_score' && current_user == @player_order[@game_status.turn_counter] %>
+    <%= render "player_score_playing", game_status: @game_status, player_order: @player_order, game: @game, cards_round1: @cards_round1, cards_round2: @cards_round2, cards_round3: @cards_round3, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable, player: @player %>
   <% else %>
     <%= render @game_status.turn_status, game_status: @game_status, player_order: @player_order, game: @game, cards_round1: @cards_round1, cards_round2: @cards_round2, cards_round3: @cards_round3, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable, player: @player %>
   <% end %>
@@ -10,6 +14,10 @@
 <% elsif @game_status.status == 'round2_play' %>
 <% if @game_status.turn_status == 'player_plays' && current_user == @player_order[@game_status.turn_counter] %>
     <%= render "player_plays_playing", game_status: @game_status, player_order: @player_order, game: @game, cards_round1: @cards_round1, cards_round2: @cards_round2, cards_round3: @cards_round3, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable, player: @player %>
+  <% elsif @game_status.turn_status == 'player_selected' && current_user == @player_order[@game_status.turn_counter] %>
+    <%= render "player_selected_playing", game_status: @game_status, player_order: @player_order, game: @game, cards_round1: @cards_round1, cards_round2: @cards_round2, cards_round3: @cards_round3, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable, player: @player %>
+  <% elsif @game_status.turn_status == 'player_score' && current_user == @player_order[@game_status.turn_counter] %>
+    <%= render "player_score_playing", game_status: @game_status, player_order: @player_order, game: @game, cards_round1: @cards_round1, cards_round2: @cards_round2, cards_round3: @cards_round3, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable, player: @player %>
   <% else %>
     <%= render @game_status.turn_status, game_status: @game_status, player_order: @player_order, game: @game, cards_round1: @cards_round1, cards_round2: @cards_round2, cards_round3: @cards_round3, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable, player: @player %>
   <% end %>
@@ -17,6 +25,10 @@
 <% elsif @game_status.status == 'round3_play' %>
   <% if @game_status.turn_status == 'player_plays' && current_user == @player_order[@game_status.turn_counter] %>
     <%= render "player_plays_playing", game_status: @game_status, player_order: @player_order, game: @game, cards_round1: @cards_round1, cards_round2: @cards_round2, cards_round3: @cards_round3, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable, player: @player %>
+  <% elsif @game_status.turn_status == 'player_selected' && current_user == @player_order[@game_status.turn_counter] %>
+    <%= render "player_selected_playing", game_status: @game_status, player_order: @player_order, game: @game, cards_round1: @cards_round1, cards_round2: @cards_round2, cards_round3: @cards_round3, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable, player: @player %>
+  <% elsif @game_status.turn_status == 'player_score' && current_user == @player_order[@game_status.turn_counter] %>
+    <%= render "player_score_playing", game_status: @game_status, player_order: @player_order, game: @game, cards_round1: @cards_round1, cards_round2: @cards_round2, cards_round3: @cards_round3, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable, player: @player %>
   <% else %>
     <%= render @game_status.turn_status, game_status: @game_status, player_order: @player_order, game: @game, cards_round1: @cards_round1, cards_round2: @cards_round2, cards_round3: @cards_round3, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable, player: @player %>
   <% end %>
@@ -27,7 +39,10 @@
   <% else %>
   <%= render "cards", game_status: @game_status, player_order: @player_order, game: @game, cards_round1: @cards_round1, cards_round2: @cards_round2, cards_round3: @cards_round3, cards_round1_playable: @cards_round1_playable, cards_round2_playable: @cards_round2_playable, cards_round3_playable: @cards_round3_playable, player: @player %>
   <% end %>
+
+<% elsif current_user == @player_order[@game_status.turn_counter] && ['round1_results', 'round2_results', 'round3_results'].include?(@game_status.status) %>
+  <%= render "#{@game_status.turn_status}_playing", game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, player: @player %>
 <% else %>
-  <%= render @game_status.status, game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, player: @player %>
+    <%= render @game_status.status, game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules, player: @player %>
 <% end %>
 </div>
