@@ -23,12 +23,13 @@
     <div class="player-word-display">
         <% card_to_guess = Card.find(card_round.card_id) %>
         <h1><%= card_to_guess.content %></h1>
-
   </div>
+  <div class="playing-bottom-wrapper">
       <%= button_to 'Correct', guess_card_game_path(id: game.id, card_round_id: card_round.id), method: :patch, class: "btn btn-yellow correct play-button", data: { turbo: true }%>
       <%= button_to 'Skip', skip_card_game_path(id: game.id, card_round_id: card_round.id), method: :patch, class:'btn btn-red play-button', data: { turbo: true }%>
       <%= button_to 'Next', play_path(id: game.id), method: :patch, class: 'btn btn-red hidden', id: 'next-button', data: { turbo: true } %>
-  <% end %>
+  </div>
+    <% end %>
 </div>
 
 <div id="timer-container" class="timer-container">
