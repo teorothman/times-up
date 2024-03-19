@@ -15,6 +15,8 @@
   </div>
   <% a = Avatar.find(player.avatar_id) %>
   <%= cl_image_tag(a.photo.key, class: 'avatar-rounded-big') %>
-  <%= button_to 'Play', play_path(id: game.id), method: :patch, class: 'btn btn-red', data: { turbo: true } %>
 
+  <div class="playing-bottom-wrapper">
+    <%= button_to 'Play', play_path(id: game.id), method: :patch, class: 'btn btn-red', data: { turbo: true } %>
+  </div>
 </div>

@@ -36,6 +36,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  align-items: center;
+  justify-content: center;
   a {
     margin-top: 2vh;
   }
@@ -51,8 +53,9 @@
 // button div is just to spread it evenly in regards to the other divs
 .results-button{
   display: flex;
-  width: 100%;
+  width: 70%;
 }
+
 
 .card-word-examples-wrapper{
   display: flex;
