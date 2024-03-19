@@ -40,8 +40,6 @@ class GamesController < ApplicationController
     @cards_round2 = RoundCard.where(round_id: @round2.id)
     @cards_round3 = RoundCard.where(round_id: @round3.id)
 
-    redirect_to new_game_user_card_path(@game, current_user.id) if @game_status.status == 'cards'
-
   end
 
   def perform_join
@@ -70,13 +68,20 @@ class GamesController < ApplicationController
         @game,
         {
           html: render_to_string(partial: @game_status.status, locals: { game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules }),
-          partial: "lobby",
           user_id: current_user.id,
           is_ready: true,
           action: 'user_ready'
         })
 
-      !User.where(game_id: @game.id, is_ready: false).exists? ? @game_status.update(status: 'cards') : ""
+      if !User.where(game_id: @game.id, is_ready: false).exists?
+        @game_status.update(status: 'cards')
+        GameChannel.broadcast_to(
+          @game,
+          {
+            html: render_to_string(partial: @game_status.status, locals: { game: @game, users: @game.users, game_status: @game_status, player_order: @player_order, rules: @rules }),
+            partial: "cards",
+          })
+      end
     when 'cards'
       GameChannel.broadcast_to(
         @game,
