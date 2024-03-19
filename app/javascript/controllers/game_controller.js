@@ -25,7 +25,9 @@ export default class extends Controller {
             this.containerTarget.innerHTML = data.html;
           }  else if (data.partial === "player_plays") {
             this.containerTarget.innerHTML = data.html;
-            this.initializeTimer();
+            setTimeout(() => {
+              this.initializeTimer();
+            }, 100);
           } else if (data.partial === "player_score") {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "round1_results") {
@@ -49,7 +51,9 @@ export default class extends Controller {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "player_plays_playing") {
             this.containerTarget.innerHTML = data.html;
-            this.initializeTimer();
+            setTimeout(() => {
+              this.initializeTimer();
+            }, 100);
           } else if (data.partial === "player_score_playing") {
             this.containerTarget.innerHTML = data.html;
           } else if (data.partial === "card_playing") {
@@ -93,6 +97,10 @@ export default class extends Controller {
   initializeTimer() {
     let timeLeft = 10;
     const timerElement = document.getElementById('timer');
+    if (!timerElement) {
+      console.error('Timer element not found');
+      return; // Sort de la fonction si l'élément timer n'est pas trouvé
+    }
 
     timerElement.innerText = timeLeft;
 

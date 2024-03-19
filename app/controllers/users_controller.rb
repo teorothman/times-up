@@ -36,7 +36,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       GameChannel.broadcast_to(
         @game,
-        html: render_to_string( partial: "games/avatar", locals: { user: @user } ),
+        html: render_to_string( partial: "games/avatar", locals: { user: @user }),
         partial: "avatar"
       )
       redirect_to game_path(@game)
