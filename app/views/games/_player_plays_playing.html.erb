@@ -17,7 +17,9 @@
       <h5>Congrats, you guessed all the cards!</h5>
     </div>
       <h1><i class="fa-solid fa-trophy"></i></h1>
+    <div class="playing-bottom-wrapper">
       <%= button_to 'Next', play_path(id: game.id), method: :patch, class: 'btn btn-red', data: { turbo: true } %>
+    </div>
     <% else %>
     <h4>Speak out!</h4>
     <div class="player-word-display">
