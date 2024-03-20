@@ -8,4 +8,5 @@
   text-align: center;
   flex-direction: column;
   height: 96vh;
+  padding-bottom: env(safe-area-inset-bottom);
 }
