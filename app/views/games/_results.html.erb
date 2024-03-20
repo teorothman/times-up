@@ -5,16 +5,19 @@
       <h1>The winner is</h1>
       <% if pT1 > pT2 %>
         <h2>Team 1</h2>
-      <% else %>
+      <% elsif pT1 < pT2 %>
         <h2>Team 2</h2>
+      <% else %>
+        <h2>It's a tie !</h2>
       <% end %>
     </div>
 
     <div class="result-players">
       <% if pT1 > pT2 %>
         <%= render partial: 'player_grid', collection: game.teams.first.users, as: :user %>
-      <% else %>
+      <% elsif pT1 < pT2 %>
           <%= render partial: 'player_grid', collection: game.teams.second.users, as: :user %>
+      <% else %>
       <% end %>
     </div>
 
@@ -28,7 +31,7 @@
           <% a = Avatar.find(game.mvp_1.avatar_id) %>
           <%= cl_image_tag(a.photo.key, class: "avatar-rounded") %>
       </div>
-    <% else %>
+    <% elsif pT1 < pT2 %>
       <div class="mvp-text">
         <div>
           <h1>Best player is...</h1>
@@ -37,8 +40,26 @@
         </div>
         <% a = Avatar.find(game.mvp_2.avatar_id) %>
         <%= cl_image_tag(a.photo.key, class: "avatar-rounded") %>
-
-    </div>
+      </div>
+      <% else %>
+      <div class="mvp-text" >
+        <div>
+          <h1>Best player in team 1 is...</h1>
+          <h1><%= game.mvp_1.username %></h1>
+          <p><%= game.mvp_1.total_points %> points</p>
+        </div>
+          <% a = Avatar.find(game.mvp_1.avatar_id) %>
+          <%= cl_image_tag(a.photo.key, class: "avatar-rounded") %>
+      </div>
+      <div class="mvp-text">
+        <div>
+          <h1>Best player is team 2 is...</h1>
+          <h1><%= game.mvp_2.username %></h1>
+          <p><%= game.mvp_2.total_points %> points</p>
+        </div>
+        <% a = Avatar.find(game.mvp_2.avatar_id) %>
+        <%= cl_image_tag(a.photo.key, class: "avatar-rounded") %>
+      </div>
       <% end %>
 
     <div class="result-bottom">

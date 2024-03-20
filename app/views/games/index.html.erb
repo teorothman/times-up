@@ -3,7 +3,7 @@
     <%= image_tag 'logo.png', alt: 'Logo', class:"logo" %>
   </div>
   <div>
-    <%= link_to 'Host a game', new_game_path , class: 'btn btn-red', data: {turbo: false} %>
+    <%= link_to "Host a game", games_path(is_default: true), data: {turbo_method: "post"}, class:"btn btn-yellow" %>
   </div>
 
   <div>

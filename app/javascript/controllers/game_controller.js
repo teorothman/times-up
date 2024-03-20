@@ -95,7 +95,7 @@ export default class extends Controller {
   }}
 
   initializeTimer() {
-    let timeLeft = 10;
+    let timeLeft = 20;
     const timerElement = document.getElementById('timer');
     if (!timerElement) {
       console.error('Timer element not found');
