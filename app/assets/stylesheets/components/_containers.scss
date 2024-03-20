@@ -2,11 +2,9 @@
   margin-left: 2vw;
   margin-right: 2vw;
   margin-top: 2vh;
-  margin-bottom: 2vh;
   display: flex;
   justify-content: center;
   text-align: center;
   flex-direction: column;
-  height: 96vh;
-  padding-bottom: env(safe-area-inset-bottom);
+  height: calc(100vh - env(safe-area-inset-bottom));
 }
